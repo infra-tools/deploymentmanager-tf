@@ -30,10 +30,6 @@ type Resource struct {
 	Properties interface{} `yaml:"properties"`
 }
 
-type Output struct {
-	Resource interface{} `hcl:"resource,block"`
-}
-
 func main() {
 	t := Top{}
 	err := yaml.Unmarshal([]byte(data), &t)
