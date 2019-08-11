@@ -17,7 +17,19 @@ resources:
 - name: test-vm
   type: compute.v1.instance
   properties:
+    networkInterfaces:
+    - name: Interface 0
+      network: https://www.googleapis.com/compute/v1/projects/test/global/networks/test-vpc
+      subnetwork: https://www.googleapis.com/compute/v1/projects/test/regions/northamerica-northeast1/subnetworks/shared-services-subnet
     canIpForward: true
+    metadata:
+      items:
+      - key: bitnami-base-password
+        value: redacted
+      - key: google-monitoring-enable
+        value: '0'
+      - key: google-logging-enable
+        value: '0'
 `
 
 type Top struct {
@@ -52,8 +64,11 @@ func main() {
 		log.Fatalf("error: %v", err)
 	}
 
-	yaml.Unmarshal(d, structType)
+	err2 := yaml.Unmarshal(d, structType)
 
+	if err2 != nil {
+		log.Fatalf("error: %v", err2)
+	}
 	f := hclwrite.NewEmptyFile()
 	test2 := gohcl.EncodeAsBlock(structType, "resource")
 
