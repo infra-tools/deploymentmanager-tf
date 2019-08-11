@@ -32,3 +32,7 @@ end
 - [ ] Function parsing(deployment manager func refs)
 - [ ] Using protobuf for GCP structs?
 - [ ] more...
+
+## Authors
+- [juliosueiras](https://github.com/juliosueiras)
+- [mccallry](https://github.com/juliosueiras)

@@ -3,63 +3,65 @@ package main
 import (
 	"fmt"
 	"log"
-
+	"strings"
+	//
 	"github.com/hashicorp/hcl2/gohcl"
 	"github.com/hashicorp/hcl2/hclwrite"
+	"github.com/juliosueiras/deploymentmanager-tf/schemas"
 	"gopkg.in/yaml.v2"
+	"reflect"
 )
 
 var data = `
-a: Easy!
-b:
-  label: test2
-  label2: test56
-  c: 2
-  d: [3, 4]
+resources:
+- name: test-vm
+  type: compute.v1.instance
+  properties:
+    canIpForward: true
 `
 
-// Note: struct fields must be public in order for unmarshal to
-// correctly populate the data.
-type T struct {
-	A string `hcl:"a"`
-	B struct {
-		Label    string `yaml:"label" hcl:",label"`
-		Label2   string `yaml:"label2" hcl:",label"`
-		RenamedC int    `yaml:"c" hcl:"c"`
-		D        []int  `yaml:",flow" hcl:"d"`
-	} `hcl:"resource,block"`
+type Top struct {
+	ResouceList []Resource `yaml:"resources"`
+}
+
+type Resource struct {
+	Name       string      `yaml:"name"`
+	Type       string      `yaml:"type"`
+	Properties interface{} `yaml:"properties"`
+}
+
+type Output struct {
+	Resource interface{} `hcl:"resource,block"`
 }
 
 func main() {
-	t := T{}
+	t := Top{}
 	err := yaml.Unmarshal([]byte(data), &t)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
 
-	fmt.Printf("--- t:\n%v\n\n", t)
+	mainType := strings.Split(t.ResouceList[0].Type, ".")[0]
+	tempType := schemas.BaseTypes[mainType][t.ResouceList[0].Type].Label
 
-	d, err := yaml.Marshal(&t)
+	structType := reflect.New(reflect.ValueOf(schemas.BaseTypes[mainType][t.ResouceList[0].Type].Type).Elem().Type()).Interface()
+
+	properties := t.ResouceList[0].Properties
+	properties.(map[interface{}]interface{})["type"] = tempType
+	properties.(map[interface{}]interface{})["name"] = t.ResouceList[0].Name
+
+	d, err := yaml.Marshal(&t.ResouceList[0].Properties)
+
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("--- t dump:\n%s\n\n", string(d))
 
-	m := make(map[interface{}]interface{})
-
-	err = yaml.Unmarshal([]byte(data), &m)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	fmt.Printf("--- m:\n%v\n\n", m)
-
-	d, err = yaml.Marshal(&m)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	fmt.Printf("--- d dump:\n%s\n\n", string(d))
+	yaml.Unmarshal(d, structType)
 
 	f := hclwrite.NewEmptyFile()
-	gohcl.EncodeIntoBody(&t, f.Body())
-	fmt.Printf("--- hcl dump:\n%s\n\n", string(f.Bytes()))
+	test2 := gohcl.EncodeAsBlock(structType, "resource")
+
+	f.Body().AppendBlock(test2)
+
+	fmt.Print(string(f.Bytes()))
 }
