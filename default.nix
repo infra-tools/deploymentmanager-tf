@@ -5,7 +5,7 @@ buildGoModule rec {
   version = "0.0.1";
   src = ./.;
 
-  modSha256 = "075hjxy2z0zf2gri44h4cq8khlqfigd66il76ayiipnbqvznf5qx"; 
+  modSha256 = "09x57vq395kqaj6w942g19xnggh5s89c8ml67vzphigpzclc35cf"; 
 
   goPackagePath = "github.com/juliosueiras/deploymentmanager-tf";
   subPackages = [ "." ];
