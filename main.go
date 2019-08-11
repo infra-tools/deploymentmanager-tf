@@ -13,6 +13,7 @@ var data = `
 a: Easy!
 b:
   label: test2
+  label2: test56
   c: 2
   d: [3, 4]
 `
@@ -22,10 +23,11 @@ b:
 type T struct {
 	A string `hcl:"a"`
 	B struct {
-		Label    string `yaml:"label" hcl:"test,label"`
+		Label    string `yaml:"label" hcl:",label"`
+		Label2   string `yaml:"label2" hcl:",label"`
 		RenamedC int    `yaml:"c" hcl:"c"`
 		D        []int  `yaml:",flow" hcl:"d"`
-	} `hcl:"b,block"`
+	} `hcl:"resource,block"`
 }
 
 func main() {
