@@ -1,0 +1,90 @@
+type_info:
+  documentationLink: https://cloud.google.com/appengine/docs/admin-api/
+  kind: deploymentmanager#typeInfo
+  name: apps.services.versions.instances
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Instance'
+      methodName: get
+      schemas:
+        Instance:
+          description: An Instance resource is the computing unit that App Engine
+            uses to automatically scale an application.
+          id: Instance
+          properties:
+            appEngineRelease:
+              description: App Engine release this instance is running on.@OutputOnly
+              type: string
+            availability:
+              description: Availability of the instance.@OutputOnly
+              enum:
+              - UNSPECIFIED
+              - RESIDENT
+              - DYNAMIC
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            averageLatency:
+              description: Average latency (ms) over the last minute.@OutputOnly
+              format: int32
+              type: integer
+            errors:
+              description: Number of errors since this instance was started.@OutputOnly
+              format: int32
+              type: integer
+            id:
+              description: 'Relative name of the instance within the version. Example:
+                instance-1.@OutputOnly'
+              type: string
+            memoryUsage:
+              description: Total memory in use (bytes).@OutputOnly
+              format: int64
+              type: string
+            name:
+              description: 'Full path to the Instance resource in the API. Example:
+                apps/myapp/services/default/versions/v1/instances/instance-1.@OutputOnly'
+              type: string
+            qps:
+              description: Average queries per second (QPS) over the last minute.@OutputOnly
+              format: float
+              type: number
+            requests:
+              description: Number of requests since this instance was started.@OutputOnly
+              format: int32
+              type: integer
+            startTime:
+              description: Time that this instance was started.@OutputOnly
+              format: google-datetime
+              type: string
+            vmDebugEnabled:
+              description: Whether this instance is in debug mode. Only applicable
+                for instances in App Engine flexible environment.@OutputOnly
+              type: boolean
+            vmId:
+              description: Virtual machine ID of this instance. Only applicable for
+                instances in App Engine flexible environment.@OutputOnly
+              type: string
+            vmIp:
+              description: The IP address of this instance. Only applicable for instances
+                in App Engine flexible environment.@OutputOnly
+              type: string
+            vmName:
+              description: Name of the virtual machine where this instance lives.
+                Only applicable for instances in App Engine flexible environment.@OutputOnly
+              type: string
+            vmStatus:
+              description: Status of the virtual machine where this instance lives.
+                Only applicable for instances in App Engine flexible environment.@OutputOnly
+              type: string
+            vmZoneName:
+              description: Zone where the virtual machine is located. Only applicable
+                for instances in App Engine flexible environment.@OutputOnly
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/appengine-v1/types/apps.services.versions.instances?alt=json
+  title: App Engine Admin API

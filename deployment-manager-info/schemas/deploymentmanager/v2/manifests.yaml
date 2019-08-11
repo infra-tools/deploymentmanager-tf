@@ -1,0 +1,68 @@
+type_info:
+  documentationLink: https://cloud.google.com/deployment-manager/
+  kind: deploymentmanager#typeInfo
+  name: manifests
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Manifest'
+      methodName: get
+      schemas:
+        ConfigFile:
+          description: ''
+          id: ConfigFile
+          properties:
+            content:
+              description: The contents of the file.
+              type: string
+          type: object
+        ImportFile:
+          description: ''
+          id: ImportFile
+          properties:
+            content:
+              description: The contents of the file.
+              type: string
+            name:
+              description: The name of the file.
+              type: string
+          type: object
+        Manifest:
+          description: ''
+          id: Manifest
+          properties:
+            config:
+              $ref: '#/schemas/ConfigFile'
+              description: Output only. The YAML configuration for this manifest.
+            expandedConfig:
+              description: Output only. The fully-expanded configuration file, including
+                any templates and references.
+              type: string
+            id:
+              format: uint64
+              type: string
+            imports:
+              description: Output only. The imported files for this manifest.
+              items:
+                $ref: '#/schemas/ImportFile'
+              type: array
+            insertTime:
+              description: Output only. Creation timestamp in RFC3339 text format.
+              type: string
+            layout:
+              description: Output only. The YAML layout for this manifest.
+              type: string
+            name:
+              description: |-
+                Output only.
+
+                The name of the manifest.
+              type: string
+            selfLink:
+              description: Output only. Self link for the manifest.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/deploymentmanager-v2/types/manifests?alt=json
+  title: Google Cloud Deployment Manager API

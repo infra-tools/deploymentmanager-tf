@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/container-engine/
+  kind: deploymentmanager#typeInfo
+  name: projects.aggregated.usableSubnetworks
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/container-v1beta1/types/projects.aggregated.usableSubnetworks?alt=json
+  title: Kubernetes Engine API

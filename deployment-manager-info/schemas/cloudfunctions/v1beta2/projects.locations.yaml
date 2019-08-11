@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/functions
+  kind: deploymentmanager#typeInfo
+  name: projects.locations
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/cloudfunctions-v1beta2/types/projects.locations?alt=json
+  title: Cloud Functions API

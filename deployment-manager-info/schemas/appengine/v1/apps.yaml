@@ -1,0 +1,314 @@
+type_info:
+  documentationLink: https://cloud.google.com/appengine/docs/admin-api/
+  kind: deploymentmanager#typeInfo
+  name: apps
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          authDomain:
+            description: Google Apps authentication domain that controls which users
+              can access this application.Defaults to open access for any Google Account.
+            type: string
+          defaultCookieExpiration:
+            description: Cookie expiration policy for this application.
+            format: google-duration
+            type: string
+          dispatchRules:
+            description: HTTP path dispatch rules for requests to the application
+              that do not explicitly target a service or version. Rules are order-dependent.
+              Up to 20 dispatch rules can be supported.
+            items:
+              $ref: '#/schemas/UrlDispatchRule'
+            type: array
+          featureSettings:
+            $ref: '#/schemas/FeatureSettings'
+            description: The feature specific settings to be used in the application.
+          gcrDomain:
+            description: The Google Container Registry domain used for storing managed
+              build docker images for this application.
+            type: string
+          iap:
+            $ref: '#/schemas/IdentityAwareProxy'
+          id:
+            description: 'Identifier of the Application resource. This identifier
+              is equivalent to the project ID of the Google Cloud Platform project
+              where you want to deploy your application. Example: myapp.'
+            type: string
+          locationId:
+            description: Location from which this application runs. Application instances
+              run out of the data centers in the specified location, which is also
+              where all of the application's end user content is stored.Defaults to
+              us-central.View the list of supported locations (https://cloud.google.com/appengine/docs/locations).
+            type: string
+          servingStatus:
+            description: Serving status of this application.
+            enum:
+            - UNSPECIFIED
+            - SERVING
+            - USER_DISABLED
+            - SYSTEM_DISABLED
+            enumDescriptions:
+            - Serving status is unspecified.
+            - Application is serving.
+            - Application has been disabled by the user.
+            - Application has been disabled by the system.
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        Application:
+          description: An Application resource contains the top-level configuration
+            of an App Engine application.
+          id: Application
+          properties:
+            authDomain:
+              description: Google Apps authentication domain that controls which users
+                can access this application.Defaults to open access for any Google
+                Account.
+              type: string
+            defaultCookieExpiration:
+              description: Cookie expiration policy for this application.
+              format: google-duration
+              type: string
+            dispatchRules:
+              description: HTTP path dispatch rules for requests to the application
+                that do not explicitly target a service or version. Rules are order-dependent.
+                Up to 20 dispatch rules can be supported.
+              items:
+                $ref: '#/schemas/UrlDispatchRule'
+              type: array
+            featureSettings:
+              $ref: '#/schemas/FeatureSettings'
+              description: The feature specific settings to be used in the application.
+            gcrDomain:
+              description: The Google Container Registry domain used for storing managed
+                build docker images for this application.
+              type: string
+            iap:
+              $ref: '#/schemas/IdentityAwareProxy'
+            id:
+              description: 'Identifier of the Application resource. This identifier
+                is equivalent to the project ID of the Google Cloud Platform project
+                where you want to deploy your application. Example: myapp.'
+              type: string
+            locationId:
+              description: Location from which this application runs. Application
+                instances run out of the data centers in the specified location, which
+                is also where all of the application's end user content is stored.Defaults
+                to us-central.View the list of supported locations (https://cloud.google.com/appengine/docs/locations).
+              type: string
+            servingStatus:
+              description: Serving status of this application.
+              enum:
+              - UNSPECIFIED
+              - SERVING
+              - USER_DISABLED
+              - SYSTEM_DISABLED
+              enumDescriptions:
+              - Serving status is unspecified.
+              - Application is serving.
+              - Application has been disabled by the user.
+              - Application has been disabled by the system.
+              type: string
+          type: object
+        FeatureSettings:
+          description: The feature specific settings to be used in the application.
+            These define behaviors that are user configurable.
+          id: FeatureSettings
+          properties:
+            splitHealthChecks:
+              description: Boolean value indicating if split health checks should
+                be used instead of the legacy health checks. At an app.yaml level,
+                this means defaulting to 'readiness_check' and 'liveness_check' values
+                instead of 'health_check' ones. Once the legacy 'health_check' behavior
+                is deprecated, and this value is always true, this setting can be
+                removed.
+              type: boolean
+            useContainerOptimizedOs:
+              description: If true, use Container-Optimized OS (https://cloud.google.com/container-optimized-os/)
+                base image for VMs, rather than a base Debian image.
+              type: boolean
+          type: object
+        IdentityAwareProxy:
+          description: Identity-Aware Proxy
+          id: IdentityAwareProxy
+          properties:
+            enabled:
+              description: Whether the serving infrastructure will authenticate and
+                authorize all incoming requests.If true, the oauth2_client_id and
+                oauth2_client_secret fields must be non-empty.
+              type: boolean
+            oauth2ClientId:
+              description: OAuth2 client ID to use for the authentication flow.
+              type: string
+            oauth2ClientSecret:
+              description: OAuth2 client secret to use for the authentication flow.For
+                security reasons, this value cannot be retrieved via the API. Instead,
+                the SHA-256 hash of the value is returned in the oauth2_client_secret_sha256
+                field.@InputOnly
+              type: string
+          type: object
+        UrlDispatchRule:
+          description: Rules to match an HTTP request and dispatch that request to
+            a service.
+          id: UrlDispatchRule
+          properties:
+            domain:
+              description: 'Domain name to match against. The wildcard "*" is supported
+                if specified before a period: "*.".Defaults to matching all domains:
+                "*".'
+              type: string
+            path:
+              description: Pathname within the host. Must start with a "/". A single
+                "*" can be included at the end of the path.The sum of the lengths
+                of the domain and path may not exceed 100 characters.
+              type: string
+            service:
+              description: 'Resource ID of a service in this application that should
+                serve the matched request. The service must already exist. Example:
+                default.'
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Application'
+      methodName: get
+      schemas:
+        Application:
+          description: An Application resource contains the top-level configuration
+            of an App Engine application.
+          id: Application
+          properties:
+            authDomain:
+              description: Google Apps authentication domain that controls which users
+                can access this application.Defaults to open access for any Google
+                Account.
+              type: string
+            codeBucket:
+              description: Google Cloud Storage bucket that can be used for storing
+                files associated with this application. This bucket is associated
+                with the application and can be used by the gcloud deployment commands.@OutputOnly
+              type: string
+            defaultBucket:
+              description: Google Cloud Storage bucket that can be used by this application
+                to store content.@OutputOnly
+              type: string
+            defaultCookieExpiration:
+              description: Cookie expiration policy for this application.
+              format: google-duration
+              type: string
+            defaultHostname:
+              description: Hostname used to reach this application, as resolved by
+                App Engine.@OutputOnly
+              type: string
+            dispatchRules:
+              description: HTTP path dispatch rules for requests to the application
+                that do not explicitly target a service or version. Rules are order-dependent.
+                Up to 20 dispatch rules can be supported.
+              items:
+                $ref: '#/schemas/UrlDispatchRule'
+              type: array
+            featureSettings:
+              $ref: '#/schemas/FeatureSettings'
+              description: The feature specific settings to be used in the application.
+            gcrDomain:
+              description: The Google Container Registry domain used for storing managed
+                build docker images for this application.
+              type: string
+            iap:
+              $ref: '#/schemas/IdentityAwareProxy'
+            id:
+              description: 'Identifier of the Application resource. This identifier
+                is equivalent to the project ID of the Google Cloud Platform project
+                where you want to deploy your application. Example: myapp.'
+              type: string
+            locationId:
+              description: Location from which this application runs. Application
+                instances run out of the data centers in the specified location, which
+                is also where all of the application's end user content is stored.Defaults
+                to us-central.View the list of supported locations (https://cloud.google.com/appengine/docs/locations).
+              type: string
+            name:
+              description: 'Full path to the Application resource in the API. Example:
+                apps/myapp.@OutputOnly'
+              type: string
+            servingStatus:
+              description: Serving status of this application.
+              enum:
+              - UNSPECIFIED
+              - SERVING
+              - USER_DISABLED
+              - SYSTEM_DISABLED
+              enumDescriptions:
+              - Serving status is unspecified.
+              - Application is serving.
+              - Application has been disabled by the user.
+              - Application has been disabled by the system.
+              type: string
+          type: object
+        FeatureSettings:
+          description: The feature specific settings to be used in the application.
+            These define behaviors that are user configurable.
+          id: FeatureSettings
+          properties:
+            splitHealthChecks:
+              description: Boolean value indicating if split health checks should
+                be used instead of the legacy health checks. At an app.yaml level,
+                this means defaulting to 'readiness_check' and 'liveness_check' values
+                instead of 'health_check' ones. Once the legacy 'health_check' behavior
+                is deprecated, and this value is always true, this setting can be
+                removed.
+              type: boolean
+            useContainerOptimizedOs:
+              description: If true, use Container-Optimized OS (https://cloud.google.com/container-optimized-os/)
+                base image for VMs, rather than a base Debian image.
+              type: boolean
+          type: object
+        IdentityAwareProxy:
+          description: Identity-Aware Proxy
+          id: IdentityAwareProxy
+          properties:
+            enabled:
+              description: Whether the serving infrastructure will authenticate and
+                authorize all incoming requests.If true, the oauth2_client_id and
+                oauth2_client_secret fields must be non-empty.
+              type: boolean
+            oauth2ClientId:
+              description: OAuth2 client ID to use for the authentication flow.
+              type: string
+            oauth2ClientSecret:
+              description: OAuth2 client secret to use for the authentication flow.For
+                security reasons, this value cannot be retrieved via the API. Instead,
+                the SHA-256 hash of the value is returned in the oauth2_client_secret_sha256
+                field.@InputOnly
+              type: string
+            oauth2ClientSecretSha256:
+              description: Hex-encoded SHA-256 hash of the client secret.@OutputOnly
+              type: string
+          type: object
+        UrlDispatchRule:
+          description: Rules to match an HTTP request and dispatch that request to
+            a service.
+          id: UrlDispatchRule
+          properties:
+            domain:
+              description: 'Domain name to match against. The wildcard "*" is supported
+                if specified before a period: "*.".Defaults to matching all domains:
+                "*".'
+              type: string
+            path:
+              description: Pathname within the host. Must start with a "/". A single
+                "*" can be included at the end of the path.The sum of the lengths
+                of the domain and path may not exceed 100 characters.
+              type: string
+            service:
+              description: 'Resource ID of a service in this application that should
+                serve the matched request. The service must already exist. Example:
+                default.'
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/appengine-v1/types/apps?alt=json
+  title: App Engine Admin API

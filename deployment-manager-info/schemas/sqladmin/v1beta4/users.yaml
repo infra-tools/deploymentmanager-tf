@@ -1,0 +1,77 @@
+type_info:
+  documentationLink: https://cloud.google.com/sql/docs/reference/latest
+  kind: deploymentmanager#typeInfo
+  name: users
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          etag:
+            description: This field is deprecated and will be removed from a future
+              version of the API.
+            type: string
+          host:
+            description: The host name from which the user can connect. For insert
+              operations, host defaults to an empty string. For update operations,
+              host is specified as part of the request URL. The host name cannot be
+              updated after insertion.
+            type: string
+          instance:
+            description: Database instance ID. This does not include the project ID.
+            location: path
+            required: true
+            type: string
+          kind:
+            default: sql#user
+            description: This is always sql#user.
+            type: string
+          name:
+            description: The name of the user in the Cloud SQL instance. Can be omitted
+              for update since it is already specified in the URL.
+            type: string
+          password:
+            description: The password for the user.
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        User:
+          description: A Cloud SQL user resource.
+          id: User
+          properties:
+            etag:
+              description: This field is deprecated and will be removed from a future
+                version of the API.
+              type: string
+            host:
+              description: The host name from which the user can connect. For insert
+                operations, host defaults to an empty string. For update operations,
+                host is specified as part of the request URL. The host name cannot
+                be updated after insertion.
+              type: string
+            instance:
+              description: The name of the Cloud SQL instance. This does not include
+                the project ID. Can be omitted for update since it is already specified
+                on the URL.
+              type: string
+            kind:
+              default: sql#user
+              description: This is always sql#user.
+              type: string
+            name:
+              description: The name of the user in the Cloud SQL instance. Can be
+                omitted for update since it is already specified in the URL.
+              type: string
+            password:
+              description: The password for the user.
+              type: string
+            project:
+              description: The project ID of the project containing the Cloud SQL
+                database. The Google apps domain is prefixed if applicable. Can be
+                omitted for update since it is already specified on the URL.
+              type: string
+          type: object
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/sqladmin-v1beta4/types/users?alt=json
+  title: Cloud SQL Admin API

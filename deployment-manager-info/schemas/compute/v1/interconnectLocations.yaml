@@ -1,0 +1,142 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: interconnectLocations
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/InterconnectLocation'
+      methodName: get
+      schemas:
+        InterconnectLocation:
+          description: Represents an InterconnectLocations resource. The InterconnectLocations
+            resource describes the locations where you can connect to Google's networks.
+            For more information, see  Colocation Facilities.
+          id: InterconnectLocation
+          properties:
+            address:
+              description: '[Output Only] The postal address of the Point of Presence,
+                each line in the address is separated by a newline character.'
+              type: string
+            availabilityZone:
+              description: '[Output Only] Availability zone for this InterconnectLocation.
+                Within a metropolitan area (metro), maintenance will not be simultaneously
+                scheduled in more than one availability zone. Example: "zone1" or
+                "zone2".'
+              type: string
+            city:
+              description: '[Output Only] Metropolitan area designator that indicates
+                which city an interconnect is located. For example: "Chicago, IL",
+                "Amsterdam, Netherlands".'
+              type: string
+            continent:
+              description: '[Output Only] Continent for this location.'
+              enum:
+              - AFRICA
+              - ASIA_PAC
+              - C_AFRICA
+              - C_ASIA_PAC
+              - C_EUROPE
+              - C_NORTH_AMERICA
+              - C_SOUTH_AMERICA
+              - EUROPE
+              - NORTH_AMERICA
+              - SOUTH_AMERICA
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            description:
+              description: '[Output Only] An optional description of the resource.'
+              type: string
+            facilityProvider:
+              description: '[Output Only] The name of the provider for this facility
+                (e.g., EQUINIX).'
+              type: string
+            facilityProviderFacilityId:
+              description: '[Output Only] A provider-assigned Identifier for this
+                facility (e.g., Ashburn-DC1).'
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#interconnectLocation
+              description: '[Output Only] Type of the resource. Always compute#interconnectLocation
+                for interconnect locations.'
+              type: string
+            name:
+              description: '[Output Only] Name of the resource.'
+              type: string
+            peeringdbFacilityId:
+              description: '[Output Only] The peeringdb identifier for this facility
+                (corresponding with a netfac type in peeringdb).'
+              type: string
+            regionInfos:
+              description: '[Output Only] A list of InterconnectLocation.RegionInfo
+                objects, that describe parameters pertaining to the relation between
+                this InterconnectLocation and various Google Cloud regions.'
+              items:
+                $ref: '#/schemas/InterconnectLocationRegionInfo'
+              type: array
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            status:
+              description: '[Output Only] The status of this InterconnectLocation.
+                If the status is AVAILABLE, new Interconnects may be provisioned in
+                this InterconnectLocation. Otherwise, no new Interconnects may be
+                provisioned.'
+              enum:
+              - AVAILABLE
+              - CLOSED
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        InterconnectLocationRegionInfo:
+          description: Information about any potential InterconnectAttachments between
+            an Interconnect at a specific InterconnectLocation, and a specific Cloud
+            Region.
+          id: InterconnectLocationRegionInfo
+          properties:
+            expectedRttMs:
+              description: Expected round-trip time in milliseconds, from this InterconnectLocation
+                to a VM in this region.
+              format: int64
+              type: string
+            locationPresence:
+              description: Identifies the network presence of this location.
+              enum:
+              - GLOBAL
+              - LOCAL_REGION
+              - LP_GLOBAL
+              - LP_LOCAL_REGION
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            region:
+              description: URL for the region of this location.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-v1/types/interconnectLocations?alt=json
+  title: Compute Engine API

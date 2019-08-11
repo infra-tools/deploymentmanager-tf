@@ -1,0 +1,237 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: globalOperations
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Operation'
+      methodName: get
+      schemas:
+        Operation:
+          description: An Operation resource, used to manage asynchronous API requests.
+            (== resource_for v1.globalOperations ==) (== resource_for beta.globalOperations
+            ==) (== resource_for v1.regionOperations ==) (== resource_for beta.regionOperations
+            ==) (== resource_for v1.zoneOperations ==) (== resource_for beta.zoneOperations
+            ==)
+          id: Operation
+          properties:
+            clientOperationId:
+              description: '[Output Only] The value of `requestId` if you provided
+                it in the request. Not present otherwise.'
+              type: string
+            creationTimestamp:
+              description: '[Deprecated] This field is deprecated.'
+              type: string
+            description:
+              description: '[Output Only] A textual description of the operation,
+                which is set when the operation is created.'
+              type: string
+            endTime:
+              description: '[Output Only] The time that this operation was completed.
+                This value is in RFC3339 text format.'
+              type: string
+            error:
+              description: '[Output Only] If errors are generated during processing
+                of the operation, this field will be populated.'
+              properties:
+                errors:
+                  description: '[Output Only] The array of errors encountered while
+                    processing this operation.'
+                  items:
+                    properties:
+                      code:
+                        description: '[Output Only] The error type identifier for
+                          this error.'
+                        type: string
+                      location:
+                        description: '[Output Only] Indicates the field in the request
+                          that caused the error. This property is optional.'
+                        type: string
+                      message:
+                        description: '[Output Only] An optional, human-readable error
+                          message.'
+                        type: string
+                    type: object
+                  type: array
+              type: object
+            httpErrorMessage:
+              description: '[Output Only] If the operation fails, this field contains
+                the HTTP error message that was returned, such as NOT FOUND.'
+              type: string
+            httpErrorStatusCode:
+              description: '[Output Only] If the operation fails, this field contains
+                the HTTP error status code that was returned. For example, a 404 means
+                the resource was not found.'
+              format: int32
+              type: integer
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            insertTime:
+              description: '[Output Only] The time that this operation was requested.
+                This value is in RFC3339 text format.'
+              type: string
+            kind:
+              default: compute#operation
+              description: '[Output Only] Type of the resource. Always compute#operation
+                for Operation resources.'
+              type: string
+            name:
+              description: '[Output Only] Name of the resource.'
+              type: string
+            operationType:
+              description: '[Output Only] The type of operation, such as insert, update,
+                or delete, and so on.'
+              type: string
+            progress:
+              description: '[Output Only] An optional progress indicator that ranges
+                from 0 to 100. There is no requirement that this be linear or support
+                any granularity of operations. This should not be used to guess when
+                the operation will be complete. This number should monotonically increase
+                as the operation progresses.'
+              format: int32
+              type: integer
+            region:
+              description: '[Output Only] The URL of the region where the operation
+                resides. Only available when performing regional operations. You must
+                specify this field as part of the HTTP request URL. It is not settable
+                as a field in the request body.'
+              type: string
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            startTime:
+              description: '[Output Only] The time that this operation was started
+                by the server. This value is in RFC3339 text format.'
+              type: string
+            status:
+              description: '[Output Only] The status of the operation, which can be
+                one of the following: PENDING, RUNNING, or DONE.'
+              enum:
+              - DONE
+              - PENDING
+              - RUNNING
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            statusMessage:
+              description: '[Output Only] An optional textual description of the current
+                status of the operation.'
+              type: string
+            targetId:
+              description: '[Output Only] The unique target ID, which identifies a
+                specific incarnation of the target resource.'
+              format: uint64
+              type: string
+            targetLink:
+              description: '[Output Only] The URL of the resource that the operation
+                modifies. For operations related to creating a snapshot, this points
+                to the persistent disk that the snapshot was created from.'
+              type: string
+            user:
+              description: '[Output Only] User who requested the operation, for example:
+                user@example.com.'
+              type: string
+            warnings:
+              description: '[Output Only] If warning messages are generated during
+                processing of the operation, this field will be populated.'
+              items:
+                properties:
+                  code:
+                    description: '[Output Only] A warning code, if applicable. For
+                      example, Compute Engine returns NO_RESULTS_ON_PAGE if there
+                      are no results in the response.'
+                    enum:
+                    - CLEANUP_FAILED
+                    - DEPRECATED_RESOURCE_USED
+                    - DEPRECATED_TYPE_USED
+                    - DISK_SIZE_LARGER_THAN_IMAGE_SIZE
+                    - EXPERIMENTAL_TYPE_USED
+                    - EXTERNAL_API_WARNING
+                    - FIELD_VALUE_OVERRIDEN
+                    - INJECTED_KERNELS_DEPRECATED
+                    - MISSING_TYPE_DEPENDENCY
+                    - NEXT_HOP_ADDRESS_NOT_ASSIGNED
+                    - NEXT_HOP_CANNOT_IP_FORWARD
+                    - NEXT_HOP_INSTANCE_NOT_FOUND
+                    - NEXT_HOP_INSTANCE_NOT_ON_NETWORK
+                    - NEXT_HOP_NOT_RUNNING
+                    - NOT_CRITICAL_ERROR
+                    - NO_RESULTS_ON_PAGE
+                    - REQUIRED_TOS_AGREEMENT
+                    - RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING
+                    - RESOURCE_NOT_DELETED
+                    - SCHEMA_VALIDATION_IGNORED
+                    - SINGLE_INSTANCE_PROPERTY_TEMPLATE
+                    - UNDECLARED_PROPERTIES
+                    - UNREACHABLE
+                    enumDescriptions:
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    - ''
+                    type: string
+                  data:
+                    description: |-
+                      [Output Only] Metadata about this warning in key: value format. For example:
+                      "data": [ { "key": "scope", "value": "zones/us-east1-d" }
+                    items:
+                      properties:
+                        key:
+                          description: '[Output Only] A key that provides more detail
+                            on the warning being returned. For example, for warnings
+                            where there are no results in a list request for a particular
+                            zone, this key might be scope and the key value might
+                            be the zone name. Other examples might be a key indicating
+                            a deprecated resource and a suggested replacement, or
+                            a warning about invalid network settings (for example,
+                            if an instance attempts to perform IP forwarding but is
+                            not enabled for IP forwarding).'
+                          type: string
+                        value:
+                          description: '[Output Only] A warning data value corresponding
+                            to the key.'
+                          type: string
+                      type: object
+                    type: array
+                  message:
+                    description: '[Output Only] A human-readable description of the
+                      warning code.'
+                    type: string
+                type: object
+              type: array
+            zone:
+              description: '[Output Only] The URL of the zone where the operation
+                resides. Only available when performing per-zone operations. You must
+                specify this field as part of the HTTP request URL. It is not settable
+                as a field in the request body.'
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-beta/types/globalOperations?alt=json
+  title: Compute Engine API

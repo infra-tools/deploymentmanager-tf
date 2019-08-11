@@ -1,0 +1,403 @@
+type_info:
+  documentationLink: https://cloud.google.com/access-context-manager/docs/reference/rest/
+  kind: deploymentmanager#typeInfo
+  name: accessPolicies.servicePerimeters
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          description:
+            description: |-
+              Description of the `ServicePerimeter` and its use. Does not affect
+              behavior.
+            type: string
+          name:
+            description: |-
+              Required. Resource name for the ServicePerimeter.  The `short_name`
+              component must begin with a letter and only include alphanumeric and '_'.
+              Format: `accessPolicies/{policy_id}/servicePerimeters/{short_name}`
+            type: string
+          parent:
+            description: |-
+              Required. Resource name for the access policy which owns this Service
+              Perimeter.
+
+              Format: `accessPolicies/{policy_id}`
+            location: path
+            pattern: ^accessPolicies/[^/]+$
+            required: true
+            type: string
+          perimeterType:
+            description: |-
+              Perimeter type indicator. A single project is
+              allowed to be a member of single regular perimeter, but multiple service
+              perimeter bridges. A project cannot be a included in a perimeter bridge
+              without being included in regular perimeter. For perimeter bridges,
+              restricted/unrestricted service lists as well as access lists must be
+              empty.
+            enum:
+            - PERIMETER_TYPE_REGULAR
+            - PERIMETER_TYPE_BRIDGE
+            enumDescriptions:
+            - Regular Perimeter.
+            - Perimeter Bridge.
+            type: string
+          status:
+            $ref: '#/schemas/ServicePerimeterConfig'
+            description: |-
+              Current ServicePerimeter configuration. Specifies sets of resources,
+              restricted/unrestricted services and access levels that determine perimeter
+              content and boundaries.
+          title:
+            description: Human readable title. Must be unique within the Policy.
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        BridgeServiceRestriction:
+          description: |-
+            Alpha. Specifies which services are granted access via this Bridge Service
+            Perimeter.
+          id: BridgeServiceRestriction
+          properties:
+            allowedServices:
+              description: |-
+                The list of APIs usable through the Bridge Perimeter. Must be empty
+                unless 'enable_restriction' is True.
+              items:
+                type: string
+              type: array
+            enableRestriction:
+              description: |-
+                Whether to restrict the set of APIs callable through the Bridge Service
+                Perimeter.
+              type: boolean
+          type: object
+        IngressServiceRestriction:
+          description: |-
+            Alpha. Specifies how Access Levels are to be used for accessing the Service
+            Perimeter.
+          id: IngressServiceRestriction
+          properties:
+            allowedServices:
+              description: |-
+                The list of APIs usable with a valid Access Level. Must be empty unless
+                'enable_restriction' is True.
+              items:
+                type: string
+              type: array
+            enableRestriction:
+              description: |-
+                Whether to restrict the set of APIs callable outside the Service
+                Perimeter via Access Levels.
+              type: boolean
+          type: object
+        ServicePerimeter:
+          description: |-
+            `ServicePerimeter` describes a set of GCP resources which can freely import
+            and export data amongst themselves, but not export outside of the
+            `ServicePerimeter`. If a request with a source within this `ServicePerimeter`
+            has a target outside of the `ServicePerimeter`, the request will be blocked.
+            Otherwise the request is allowed. There are two types of Service Perimeter -
+            Regular and Bridge. Regular Service Perimeters cannot overlap, a single GCP
+            project can only belong to a single regular Service Perimeter. Service
+            Perimeter Bridges can contain only GCP projects as members, a single GCP
+            project may belong to multiple Service Perimeter Bridges.
+          id: ServicePerimeter
+          properties:
+            description:
+              description: |-
+                Description of the `ServicePerimeter` and its use. Does not affect
+                behavior.
+              type: string
+            name:
+              description: |-
+                Required. Resource name for the ServicePerimeter.  The `short_name`
+                component must begin with a letter and only include alphanumeric and '_'.
+                Format: `accessPolicies/{policy_id}/servicePerimeters/{short_name}`
+              type: string
+            perimeterType:
+              description: |-
+                Perimeter type indicator. A single project is
+                allowed to be a member of single regular perimeter, but multiple service
+                perimeter bridges. A project cannot be a included in a perimeter bridge
+                without being included in regular perimeter. For perimeter bridges,
+                restricted/unrestricted service lists as well as access lists must be
+                empty.
+              enum:
+              - PERIMETER_TYPE_REGULAR
+              - PERIMETER_TYPE_BRIDGE
+              enumDescriptions:
+              - Regular Perimeter.
+              - Perimeter Bridge.
+              type: string
+            status:
+              $ref: '#/schemas/ServicePerimeterConfig'
+              description: |-
+                Current ServicePerimeter configuration. Specifies sets of resources,
+                restricted/unrestricted services and access levels that determine perimeter
+                content and boundaries.
+            title:
+              description: Human readable title. Must be unique within the Policy.
+              type: string
+          type: object
+        ServicePerimeterConfig:
+          description: |-
+            `ServicePerimeterConfig` specifies a set of GCP resources that describe
+            specific Service Perimeter configuration.
+          id: ServicePerimeterConfig
+          properties:
+            accessLevels:
+              description: |-
+                A list of `AccessLevel` resource names that allow resources within the
+                `ServicePerimeter` to be accessed from the internet. `AccessLevels` listed
+                must be in the same policy as this `ServicePerimeter`. Referencing a
+                nonexistent `AccessLevel` is a syntax error. If no `AccessLevel` names are
+                listed, resources within the perimeter can only be accessed via GCP calls
+                with request origins within the perimeter. Example:
+                `"accessPolicies/MY_POLICY/accessLevels/MY_LEVEL"`.
+                For Service Perimeter Bridge, must be empty.
+              items:
+                type: string
+              type: array
+            bridgeServiceRestriction:
+              $ref: '#/schemas/BridgeServiceRestriction'
+              description: |-
+                Alpha. Configuration for what services are accessible via the Bridge
+                Perimeter. Must be empty for non-Bridge Perimeters.
+            ingressServiceRestriction:
+              $ref: '#/schemas/IngressServiceRestriction'
+              description: Alpha. Configuration for which services may be used with
+                Access Levels.
+            resources:
+              description: |-
+                A list of GCP resources that are inside of the service perimeter.
+                Currently only projects are allowed. Format: `projects/{project_number}`
+              items:
+                type: string
+              type: array
+            restrictedServices:
+              description: |-
+                GCP services that are subject to the Service Perimeter restrictions. Must
+                contain a list of services. For example, if
+                `storage.googleapis.com` is specified, access to the storage buckets
+                inside the perimeter must meet the perimeter's access restrictions.
+              items:
+                type: string
+              type: array
+            unrestrictedServices:
+              description: |-
+                GCP services that are not subject to the Service Perimeter
+                restrictions. Deprecated. Must be set to a single wildcard "*".
+
+                The wildcard means that unless explicitly specified by
+                "restricted_services" list, any service is treated as unrestricted.
+              items:
+                type: string
+              type: array
+            vpcServiceRestriction:
+              $ref: '#/schemas/VpcServiceRestriction'
+              description: Alpha. Configuration for within Perimeter allowed APIs.
+          type: object
+        VpcServiceRestriction:
+          description: |-
+            Alpha. Specifies how APIs are allowed to communicate within the Service
+            Perimeter.
+          id: VpcServiceRestriction
+          properties:
+            allowedServices:
+              description: |-
+                The list of APIs usable within the Service Perimeter. Must be empty
+                unless 'enable_restriction' is True.
+              items:
+                type: string
+              type: array
+            enableRestriction:
+              description: |-
+                Whether to restrict API calls within the Service Perimeter to the list of
+                APIs specified in 'allowed_services'.
+              type: boolean
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/ServicePerimeter'
+      methodName: get
+      schemas:
+        BridgeServiceRestriction:
+          description: |-
+            Alpha. Specifies which services are granted access via this Bridge Service
+            Perimeter.
+          id: BridgeServiceRestriction
+          properties:
+            allowedServices:
+              description: |-
+                The list of APIs usable through the Bridge Perimeter. Must be empty
+                unless 'enable_restriction' is True.
+              items:
+                type: string
+              type: array
+            enableRestriction:
+              description: |-
+                Whether to restrict the set of APIs callable through the Bridge Service
+                Perimeter.
+              type: boolean
+          type: object
+        IngressServiceRestriction:
+          description: |-
+            Alpha. Specifies how Access Levels are to be used for accessing the Service
+            Perimeter.
+          id: IngressServiceRestriction
+          properties:
+            allowedServices:
+              description: |-
+                The list of APIs usable with a valid Access Level. Must be empty unless
+                'enable_restriction' is True.
+              items:
+                type: string
+              type: array
+            enableRestriction:
+              description: |-
+                Whether to restrict the set of APIs callable outside the Service
+                Perimeter via Access Levels.
+              type: boolean
+          type: object
+        ServicePerimeter:
+          description: |-
+            `ServicePerimeter` describes a set of GCP resources which can freely import
+            and export data amongst themselves, but not export outside of the
+            `ServicePerimeter`. If a request with a source within this `ServicePerimeter`
+            has a target outside of the `ServicePerimeter`, the request will be blocked.
+            Otherwise the request is allowed. There are two types of Service Perimeter -
+            Regular and Bridge. Regular Service Perimeters cannot overlap, a single GCP
+            project can only belong to a single regular Service Perimeter. Service
+            Perimeter Bridges can contain only GCP projects as members, a single GCP
+            project may belong to multiple Service Perimeter Bridges.
+          id: ServicePerimeter
+          properties:
+            createTime:
+              description: Output only. Time the `ServicePerimeter` was created in
+                UTC.
+              format: google-datetime
+              type: string
+            description:
+              description: |-
+                Description of the `ServicePerimeter` and its use. Does not affect
+                behavior.
+              type: string
+            name:
+              description: |-
+                Required. Resource name for the ServicePerimeter.  The `short_name`
+                component must begin with a letter and only include alphanumeric and '_'.
+                Format: `accessPolicies/{policy_id}/servicePerimeters/{short_name}`
+              type: string
+            perimeterType:
+              description: |-
+                Perimeter type indicator. A single project is
+                allowed to be a member of single regular perimeter, but multiple service
+                perimeter bridges. A project cannot be a included in a perimeter bridge
+                without being included in regular perimeter. For perimeter bridges,
+                restricted/unrestricted service lists as well as access lists must be
+                empty.
+              enum:
+              - PERIMETER_TYPE_REGULAR
+              - PERIMETER_TYPE_BRIDGE
+              enumDescriptions:
+              - Regular Perimeter.
+              - Perimeter Bridge.
+              type: string
+            status:
+              $ref: '#/schemas/ServicePerimeterConfig'
+              description: |-
+                Current ServicePerimeter configuration. Specifies sets of resources,
+                restricted/unrestricted services and access levels that determine perimeter
+                content and boundaries.
+            title:
+              description: Human readable title. Must be unique within the Policy.
+              type: string
+            updateTime:
+              description: Output only. Time the `ServicePerimeter` was updated in
+                UTC.
+              format: google-datetime
+              type: string
+          type: object
+        ServicePerimeterConfig:
+          description: |-
+            `ServicePerimeterConfig` specifies a set of GCP resources that describe
+            specific Service Perimeter configuration.
+          id: ServicePerimeterConfig
+          properties:
+            accessLevels:
+              description: |-
+                A list of `AccessLevel` resource names that allow resources within the
+                `ServicePerimeter` to be accessed from the internet. `AccessLevels` listed
+                must be in the same policy as this `ServicePerimeter`. Referencing a
+                nonexistent `AccessLevel` is a syntax error. If no `AccessLevel` names are
+                listed, resources within the perimeter can only be accessed via GCP calls
+                with request origins within the perimeter. Example:
+                `"accessPolicies/MY_POLICY/accessLevels/MY_LEVEL"`.
+                For Service Perimeter Bridge, must be empty.
+              items:
+                type: string
+              type: array
+            bridgeServiceRestriction:
+              $ref: '#/schemas/BridgeServiceRestriction'
+              description: |-
+                Alpha. Configuration for what services are accessible via the Bridge
+                Perimeter. Must be empty for non-Bridge Perimeters.
+            ingressServiceRestriction:
+              $ref: '#/schemas/IngressServiceRestriction'
+              description: Alpha. Configuration for which services may be used with
+                Access Levels.
+            resources:
+              description: |-
+                A list of GCP resources that are inside of the service perimeter.
+                Currently only projects are allowed. Format: `projects/{project_number}`
+              items:
+                type: string
+              type: array
+            restrictedServices:
+              description: |-
+                GCP services that are subject to the Service Perimeter restrictions. Must
+                contain a list of services. For example, if
+                `storage.googleapis.com` is specified, access to the storage buckets
+                inside the perimeter must meet the perimeter's access restrictions.
+              items:
+                type: string
+              type: array
+            unrestrictedServices:
+              description: |-
+                GCP services that are not subject to the Service Perimeter
+                restrictions. Deprecated. Must be set to a single wildcard "*".
+
+                The wildcard means that unless explicitly specified by
+                "restricted_services" list, any service is treated as unrestricted.
+              items:
+                type: string
+              type: array
+            vpcServiceRestriction:
+              $ref: '#/schemas/VpcServiceRestriction'
+              description: Alpha. Configuration for within Perimeter allowed APIs.
+          type: object
+        VpcServiceRestriction:
+          description: |-
+            Alpha. Specifies how APIs are allowed to communicate within the Service
+            Perimeter.
+          id: VpcServiceRestriction
+          properties:
+            allowedServices:
+              description: |-
+                The list of APIs usable within the Service Perimeter. Must be empty
+                unless 'enable_restriction' is True.
+              items:
+                type: string
+              type: array
+            enableRestriction:
+              description: |-
+                Whether to restrict API calls within the Service Perimeter to the list of
+                APIs specified in 'allowed_services'.
+              type: boolean
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/accesscontextmanager-v1beta/types/accessPolicies.servicePerimeters?alt=json
+  title: Access Context Manager API

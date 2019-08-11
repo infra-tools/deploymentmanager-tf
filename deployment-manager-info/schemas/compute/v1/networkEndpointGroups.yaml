@@ -1,0 +1,172 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: networkEndpointGroups
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          defaultPort:
+            description: The default port used if the port number is not specified
+              in the network endpoint.
+            format: int32
+            type: integer
+          description:
+            description: An optional description of this resource. Provide this property
+              when you create the resource.
+            type: string
+          name:
+            description: Name of the resource; provided by the client when the resource
+              is created. The name must be 1-63 characters long, and comply with RFC1035.
+              Specifically, the name must be 1-63 characters long and match the regular
+              expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
+              must be a lowercase letter, and all following characters must be a dash,
+              lowercase letter, or digit, except the last character, which cannot
+              be a dash.
+            type: string
+          network:
+            description: The URL of the network to which all network endpoints in
+              the NEG belong. Uses "default" project network if unspecified.
+            type: string
+          networkEndpointType:
+            description: Type of network endpoints in this network endpoint group.
+              Currently the only supported value is GCE_VM_IP_PORT.
+            enum:
+            - GCE_VM_IP_PORT
+            enumDescriptions:
+            - ''
+            type: string
+          requestId:
+            description: |-
+              An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+              For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+              The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+            location: query
+            type: string
+          subnetwork:
+            description: Optional URL of the subnetwork to which all network endpoints
+              in the NEG belong.
+            type: string
+          zone:
+            description: The name of the zone where you want to create the network
+              endpoint group. It should comply with RFC1035.
+            location: path
+            required: true
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        NetworkEndpointGroup:
+          description: Represents a collection of network endpoints.
+          id: NetworkEndpointGroup
+          properties:
+            defaultPort:
+              description: The default port used if the port number is not specified
+                in the network endpoint.
+              format: int32
+              type: integer
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            name:
+              description: Name of the resource; provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              type: string
+            network:
+              description: The URL of the network to which all network endpoints in
+                the NEG belong. Uses "default" project network if unspecified.
+              type: string
+            networkEndpointType:
+              description: Type of network endpoints in this network endpoint group.
+                Currently the only supported value is GCE_VM_IP_PORT.
+              enum:
+              - GCE_VM_IP_PORT
+              enumDescriptions:
+              - ''
+              type: string
+            subnetwork:
+              description: Optional URL of the subnetwork to which all network endpoints
+                in the NEG belong.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/NetworkEndpointGroup'
+      methodName: get
+      schemas:
+        NetworkEndpointGroup:
+          description: Represents a collection of network endpoints.
+          id: NetworkEndpointGroup
+          properties:
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            defaultPort:
+              description: The default port used if the port number is not specified
+                in the network endpoint.
+              format: int32
+              type: integer
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#networkEndpointGroup
+              description: '[Output Only] Type of the resource. Always compute#networkEndpointGroup
+                for network endpoint group.'
+              type: string
+            name:
+              description: Name of the resource; provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              type: string
+            network:
+              description: The URL of the network to which all network endpoints in
+                the NEG belong. Uses "default" project network if unspecified.
+              type: string
+            networkEndpointType:
+              description: Type of network endpoints in this network endpoint group.
+                Currently the only supported value is GCE_VM_IP_PORT.
+              enum:
+              - GCE_VM_IP_PORT
+              enumDescriptions:
+              - ''
+              type: string
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            size:
+              description: '[Output only] Number of network endpoints in the network
+                endpoint group.'
+              format: int32
+              type: integer
+            subnetwork:
+              description: Optional URL of the subnetwork to which all network endpoints
+                in the NEG belong.
+              type: string
+            zone:
+              description: '[Output Only] The URL of the zone where the network endpoint
+                group is located.'
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-v1/types/networkEndpointGroups?alt=json
+  title: Compute Engine API

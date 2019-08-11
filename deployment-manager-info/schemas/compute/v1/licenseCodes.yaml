@@ -1,0 +1,82 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: licenseCodes
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/LicenseCode'
+      methodName: get
+      schemas:
+        LicenseCode:
+          id: LicenseCode
+          properties:
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            description:
+              description: '[Output Only] Description of this License Code.'
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#licenseCode
+              description: '[Output Only] Type of resource. Always compute#licenseCode
+                for licenses.'
+              type: string
+            licenseAlias:
+              description: '[Output Only] URL and description aliases of Licenses
+                with the same License Code.'
+              items:
+                $ref: '#/schemas/LicenseCodeLicenseAlias'
+              type: array
+            name:
+              annotations:
+                required:
+                - compute.licenses.insert
+              description: '[Output Only] Name of the resource. The name is 1-20 characters
+                long and must be a valid 64 bit integer.'
+              pattern: '[0-9]{0,20}?'
+              type: string
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            state:
+              description: '[Output Only] Current state of this License Code.'
+              enum:
+              - DISABLED
+              - ENABLED
+              - RESTRICTED
+              - STATE_UNSPECIFIED
+              - TERMINATED
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            transferable:
+              description: '[Output Only] If true, the license will remain attached
+                when creating images or snapshots from disks. Otherwise, the license
+                is not transferred.'
+              type: boolean
+          type: object
+        LicenseCodeLicenseAlias:
+          id: LicenseCodeLicenseAlias
+          properties:
+            description:
+              description: '[Output Only] Description of this License Code.'
+              type: string
+            selfLink:
+              description: '[Output Only] URL of license corresponding to this License
+                Code.'
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-v1/types/licenseCodes?alt=json
+  title: Compute Engine API

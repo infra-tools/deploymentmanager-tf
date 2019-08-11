@@ -1,0 +1,1484 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: machineImages
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          description:
+            description: An optional description of this resource. Provide this property
+              when you create the resource.
+            type: string
+          machineImageEncryptionKey:
+            $ref: '#/schemas/CustomerEncryptionKey'
+            description: Encryption key to protect the machine image.
+          name:
+            annotations:
+              required:
+              - compute.machineImages.insert
+            description: Name of the resource; provided by the client when the resource
+              is created. The name must be 1-63 characters long, and comply with RFC1035.
+              Specifically, the name must be 1-63 characters long and match the regular
+              expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
+              must be a lowercase letter, and all following characters must be a dash,
+              lowercase letter, or digit, except the last character, which cannot
+              be a dash.
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            type: string
+          requestId:
+            description: |-
+              An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+              For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+              The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+            location: query
+            type: string
+          sourceInstance:
+            description: Required. Source instance that is used to create the machine
+              image from.
+            location: query
+            type: string
+          sourceInstanceProperties:
+            $ref: '#/schemas/SourceInstanceProperties'
+            description: Properties of source instance.
+          storageLocations:
+            description: GCS bucket storage location of the snapshot (regional or
+              multi-regional).
+            items:
+              type: string
+            type: array
+        type: object
+      methodName: insert
+      schemas:
+        AcceleratorConfig:
+          description: A specification of the type and number of accelerator cards
+            attached to the instance.
+          id: AcceleratorConfig
+          properties:
+            acceleratorCount:
+              description: The number of the guest accelerator cards exposed to this
+                instance.
+              format: int32
+              type: integer
+            acceleratorType:
+              description: 'Full or partial URL of the accelerator type resource to
+                attach to this instance. For example: projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
+                If you are creating an instance template, specify only the accelerator
+                name. See GPUs on Compute Engine for a full list of accelerator types.'
+              type: string
+          type: object
+        AccessConfig:
+          description: An access configuration attached to an instance's network interface.
+            Only one access config per instance is supported.
+          id: AccessConfig
+          properties:
+            name:
+              description: The name of this access configuration. The default and
+                recommended name is External NAT but you can use any arbitrary string
+                you would like. For example, My external IP or Network Access.
+              type: string
+            natIP:
+              description: An external IP address associated with this instance. Specify
+                an unused static external IP address available to the project or leave
+                this field undefined to use an IP from a shared ephemeral IP address
+                pool. If you specify a static external IP address, it must live in
+                the same region as the zone of the instance.
+              type: string
+            networkTier:
+              description: |-
+                This signifies the networking tier used for configuring this access configuration and can only take the following values: PREMIUM, STANDARD.
+
+                If an AccessConfig is specified without a valid external IP address, an ephemeral IP will be created with this networkTier.
+
+                If an AccessConfig with a valid external IP address is specified, it must match that of the networkTier associated with the Address resource owning that IP.
+              enum:
+              - PREMIUM
+              - SELECT
+              - STANDARD
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            publicPtrDomainName:
+              description: The DNS domain name for the public PTR record. This field
+                can only be set when the set_public_ptr field is enabled.
+              type: string
+            setPublicDns:
+              description: Specifies whether a public DNS ?A? record should be created
+                for the external IP address of this access configuration.
+              type: boolean
+            setPublicPtr:
+              description: Specifies whether a public DNS ?PTR? record should be created
+                to map the external IP address of the instance to a DNS domain name.
+              type: boolean
+            type:
+              default: ONE_TO_ONE_NAT
+              description: The type of configuration. The default and only option
+                is ONE_TO_ONE_NAT.
+              enum:
+              - ONE_TO_ONE_NAT
+              enumDescriptions:
+              - ''
+              type: string
+          type: object
+        AliasIpRange:
+          description: An alias IP range attached to an instance's network interface.
+          id: AliasIpRange
+          properties:
+            ipCidrRange:
+              description: The IP CIDR range represented by this alias IP range. This
+                IP CIDR range must belong to the specified subnetwork and cannot contain
+                IP addresses reserved by system or used by other network interfaces.
+                This range may be a single IP address (e.g. 10.2.3.4), a netmask (e.g.
+                /24) or a CIDR format string (e.g. 10.1.2.0/24).
+              type: string
+            subnetworkRangeName:
+              description: Optional subnetwork secondary range name specifying the
+                secondary range from which to allocate the IP CIDR range for this
+                alias IP range. If left unspecified, the primary range of the subnetwork
+                will be used.
+              type: string
+          type: object
+        AttachedDiskInitializeParams:
+          description: |-
+            [Input Only] Specifies the parameters for a new disk that will be created alongside the new instance. Use initialization parameters to create boot disks or local SSDs attached to the new instance.
+
+            This property is mutually exclusive with the source property; you can only define one or the other, but not both.
+          id: AttachedDiskInitializeParams
+          properties:
+            description:
+              description: An optional description. Provide this property when creating
+                the disk.
+              type: string
+            diskName:
+              description: Specifies the disk name. If not specified, the default
+                is to use the name of the instance. If the disk with the instance
+                name exists already in the given zone/region, a new name will be automatically
+                generated.
+              type: string
+            diskSizeGb:
+              description: Specifies the size of the disk in base-2 GB.
+              format: int64
+              type: string
+            diskType:
+              description: |-
+                Specifies the disk type to use to create the instance. If not specified, the default is pd-standard, specified using the full URL. For example:
+                https://www.googleapis.com/compute/v1/projects/project/zones/zone/diskTypes/pd-standard
+
+
+                Other values include pd-ssd and local-ssd. If you define this field, you can provide either the full or partial URL. For example, the following are valid values:  
+                - https://www.googleapis.com/compute/v1/projects/project/zones/zone/diskTypes/diskType 
+                - projects/project/zones/zone/diskTypes/diskType 
+                - zones/zone/diskTypes/diskType  Note that for InstanceTemplate, this is the name of the disk type, not URL.
+              type: string
+            guestOsFeatures:
+              description: |-
+                A list of features to enable on the guest operating system. Applicable only for bootable images. Read  Enabling guest operating system features to see a list of available options.
+
+                Guest OS features are applied by merging initializeParams.guestOsFeatures and disks.guestOsFeatures
+              items:
+                $ref: '#/schemas/GuestOsFeature'
+              type: array
+            labels:
+              additionalProperties:
+                type: string
+              description: Labels to apply to this disk. These can be later modified
+                by the disks.setLabels method. This field is only applicable for persistent
+                disks.
+              type: object
+            replicaZones:
+              description: URLs of the zones where the disk should be replicated to.
+                Only applicable for regional resources.
+              items:
+                type: string
+              type: array
+            resourcePolicies:
+              description: Resource policies applied to this disk for automatic snapshot
+                creations. Specified using the full or partial URL. For instance template,
+                specify only the resource policy name.
+              items:
+                type: string
+              type: array
+            sourceImage:
+              description: |-
+                The source image to create this disk. When creating a new instance, one of initializeParams.sourceImage or disks.source is required except for local SSD.
+
+                To create a disk with one of the public operating system images, specify the image by its family name. For example, specify family/debian-9 to use the latest Debian 9 image:
+                projects/debian-cloud/global/images/family/debian-9
+
+
+                Alternatively, use a specific version of a public operating system image:
+                projects/debian-cloud/global/images/debian-9-stretch-vYYYYMMDD
+
+
+                To create a disk with a custom image that you created, specify the image name in the following format:
+                global/images/my-custom-image
+
+
+                You can also specify a custom image by its image family, which returns the latest version of the image in that family. Replace the image name with family/family-name:
+                global/images/family/my-image-family
+
+
+                If the source image is deleted later, this field will not be set.
+              type: string
+            sourceImageEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: |-
+                The customer-supplied encryption key of the source image. Required if the source image is protected by a customer-supplied encryption key.
+
+                Instance templates do not store customer-supplied encryption keys, so you cannot create disks for instances in a managed instance group if the source images are encrypted with your own keys.
+            sourceSnapshot:
+              description: |-
+                The source snapshot to create this disk. When creating a new instance, one of initializeParams.sourceSnapshot or disks.source is required except for local SSD.
+
+                To create a disk with a snapshot that you created, specify the snapshot name in the following format:
+                global/snapshots/my-backup
+
+
+                If the source snapshot is deleted later, this field will not be set.
+              type: string
+            sourceSnapshotEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: The customer-supplied encryption key of the source snapshot.
+          type: object
+        CustomerEncryptionKey:
+          description: Represents a customer-supplied encryption key
+          id: CustomerEncryptionKey
+          properties:
+            kmsKeyName:
+              description: The name of the encryption key that is stored in Google
+                Cloud KMS.
+              type: string
+            kmsKeyServiceAccount:
+              type: string
+            rawKey:
+              description: Specifies a 256-bit customer-supplied encryption key, encoded
+                in RFC 4648 base64 to either encrypt or decrypt this resource.
+              type: string
+            rsaEncryptedKey:
+              description: |-
+                Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource.
+
+                The key must meet the following requirements before you can provide it to Compute Engine:  
+                - The key is wrapped using a RSA public key certificate provided by Google. 
+                - After being wrapped, the key must be encoded in RFC 4648 base64 encoding.  Gets the RSA public key certificate provided by Google at:
+                https://cloud-certs.storage.googleapis.com/google-cloud-csek-ingress.pem
+              type: string
+          type: object
+        GuestOsFeature:
+          description: Guest OS features.
+          id: GuestOsFeature
+          properties:
+            type:
+              description: The ID of a supported feature. Read  Enabling guest operating
+                system features to see a list of available options.
+              enum:
+              - FEATURE_TYPE_UNSPECIFIED
+              - GVNIC
+              - MULTI_IP_SUBNET
+              - SECURE_BOOT
+              - UEFI_COMPATIBLE
+              - VIRTIO_SCSI_MULTIQUEUE
+              - WINDOWS
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        MachineImage:
+          description: Machine image resource.
+          id: MachineImage
+          properties:
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            machineImageEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: Encryption key to protect the machine image.
+            name:
+              annotations:
+                required:
+                - compute.machineImages.insert
+              description: Name of the resource; provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            sourceInstance:
+              description: |-
+                The source instance used to create the machine image. You can provide this as a partial or full URL to the resource. For example, the following are valid values:  
+                - https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance 
+                - projects/project/zones/zone/instances/instance
+              type: string
+            sourceInstanceProperties:
+              $ref: '#/schemas/SourceInstanceProperties'
+              description: Properties of source instance.
+            storageLocations:
+              description: GCS bucket storage location of the snapshot (regional or
+                multi-regional).
+              items:
+                type: string
+              type: array
+          type: object
+        Metadata:
+          description: A metadata key/value entry.
+          id: Metadata
+          properties:
+            fingerprint:
+              description: |-
+                Specifies a fingerprint for this request, which is essentially a hash of the metadata's contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update metadata. You must always provide an up-to-date fingerprint hash in order to update or change metadata, otherwise the request will fail with error 412 conditionNotMet.
+
+                To see the latest fingerprint, make a get() request to retrieve the resource.
+              format: byte
+              type: string
+            items:
+              description: Array of key/value pairs. The total size of all keys and
+                values must be less than 512 KB.
+              items:
+                properties:
+                  key:
+                    annotations:
+                      required:
+                      - compute.instances.insert
+                      - compute.projects.setCommonInstanceMetadata
+                    description: 'Key for the metadata entry. Keys must conform to
+                      the following regexp: [a-zA-Z0-9-_]+, and be less than 128 bytes
+                      in length. This is reflected as part of a URL in the metadata
+                      server. Additionally, to avoid ambiguity, keys must not conflict
+                      with any other metadata keys for the project.'
+                    pattern: '[a-zA-Z0-9-_]{1,128}'
+                    type: string
+                  value:
+                    annotations:
+                      required:
+                      - compute.instances.insert
+                      - compute.projects.setCommonInstanceMetadata
+                    description: Value for the metadata entry. These are free-form
+                      strings, and only have meaning as interpreted by the image running
+                      in the instance. The only restriction placed on values is that
+                      their size must be less than or equal to 262144 bytes (256 KiB).
+                    type: string
+                type: object
+              type: array
+          type: object
+        NetworkInterface:
+          description: A network interface resource attached to an instance.
+          id: NetworkInterface
+          properties:
+            accessConfigs:
+              description: An array of configurations for this interface. Currently,
+                only one access config, ONE_TO_ONE_NAT, is supported. If there are
+                no accessConfigs specified, then this instance will have no external
+                internet access.
+              items:
+                $ref: '#/schemas/AccessConfig'
+              type: array
+            aliasIpRanges:
+              description: An array of alias IP ranges for this network interface.
+                Can only be specified for network interfaces on subnet-mode networks.
+              items:
+                $ref: '#/schemas/AliasIpRange'
+              type: array
+            fingerprint:
+              description: Fingerprint hash of contents stored in this network interface.
+                This field will be ignored when inserting an Instance or adding a
+                NetworkInterface. An up-to-date fingerprint must be provided in order
+                to update the NetworkInterface, otherwise the request will fail with
+                error 412 conditionNotMet.
+              format: byte
+              type: string
+            network:
+              description: |-
+                URL of the network resource for this instance. When creating an instance, if neither the network nor the subnetwork is specified, the default network global/networks/default is used; if the network is not specified but the subnetwork is specified, the network is inferred.
+
+                This field is optional when creating a firewall rule. If not specified when creating a firewall rule, the default network global/networks/default is used.
+
+                If you specify this property, you can specify the network as a full or partial URL. For example, the following are all valid URLs:  
+                - https://www.googleapis.com/compute/v1/projects/project/global/networks/network 
+                - projects/project/global/networks/network 
+                - global/networks/default
+              type: string
+            networkIP:
+              description: An IPv4 internal network address to assign to the instance
+                for this network interface. If not specified by the user, an unused
+                internal IP is assigned by the system.
+              type: string
+            subnetwork:
+              description: |-
+                The URL of the Subnetwork resource for this instance. If the network resource is in legacy mode, do not provide this property. If the network is in auto subnet mode, providing the subnetwork is optional. If the network is in custom subnet mode, then this field should be specified. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:  
+                - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork 
+                - regions/region/subnetworks/subnetwork
+              type: string
+          type: object
+        SavedAttachedDisk:
+          description: An instance-attached disk resource.
+          id: SavedAttachedDisk
+          properties:
+            autoDelete:
+              description: Specifies whether the disk will be auto-deleted when the
+                instance is deleted (but not when the disk is detached from the instance).
+              type: boolean
+            boot:
+              description: Indicates that this is a boot disk. The virtual machine
+                will use the first partition of the disk for its root filesystem.
+              type: boolean
+            deviceName:
+              description: |-
+                Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance.
+
+                If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disks-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks.
+              type: string
+            diskEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: |-
+                Encrypts or decrypts a disk using a customer-supplied encryption key.
+
+                If you are creating a new disk, this field encrypts the new disk using an encryption key that you provide. If you are attaching an existing disk that is already encrypted, this field decrypts the disk using the customer-supplied encryption key.
+
+                If you encrypt a disk using a customer-supplied key, you must provide the same key again when you attempt to use this resource at a later time. For example, you must provide the key when you create a snapshot or an image from the disk or when you attach the disk to a virtual machine instance.
+
+                If you do not provide an encryption key, then the disk will be encrypted using an automatically generated key and you do not need to provide a key to use the disk later.
+
+                Machine Images do not store customer-supplied encryption keys, so you cannot use your own keys to encrypt disks in a managed instance group.
+            diskSizeGb:
+              description: The size of the disk in base-2 GB. This supersedes disk_size_gb
+                in InitializeParams.
+              format: int64
+              type: string
+            guestOsFeatures:
+              description: A list of features to enable on the guest operating system.
+                Applicable only for bootable images. Read  Enabling guest operating
+                system features to see a list of available options.
+              items:
+                $ref: '#/schemas/GuestOsFeature'
+              type: array
+            initializeParams:
+              $ref: '#/schemas/AttachedDiskInitializeParams'
+              description: |-
+                [Input Only] Specifies the parameters for a new disk that will be created alongside the new instance. Use initialization parameters to create boot disks or local SSDs attached to the new instance.
+
+                This property is mutually exclusive with the source property; you can only define one or the other, but not both.
+            interface:
+              description: Specifies the disk interface to use for attaching this
+                disk, which is either SCSI or NVME. The default is SCSI. Persistent
+                disks must always use SCSI and the request will fail if you attempt
+                to attach a persistent disk in any other format than SCSI. Local SSDs
+                can use either NVME or SCSI. For performance characteristics of SCSI
+                over NVMe, see Local SSD performance.
+              enum:
+              - NVDIMM
+              - NVME
+              - SCSI
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            mode:
+              description: The mode in which to attach this disk, either READ_WRITE
+                or READ_ONLY. If not specified, the default is to attach the disk
+                in READ_WRITE mode.
+              enum:
+              - READ_ONLY
+              - READ_WRITE
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            savedState:
+              description: For LocalSSD disks on VM Instances in STOPPED or SUSPENDED
+                state, this field is set to PRESERVED if the LocalSSD data has been
+                saved to a persistent location by customer request. (see the discard_local_ssd
+                option on Stop/Suspend). Read-only in the api.
+              enum:
+              - DISK_SAVED_STATE_UNSPECIFIED
+              - PRESERVED
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            source:
+              description: |-
+                Specifies a valid partial or full URL to an existing Persistent Disk resource. When creating a new instance, one of initializeParams.sourceImage or disks.source is required except for local SSD.
+
+                If desired, you can also attach existing non-root persistent disks using this property. This field is only applicable for persistent disks.
+
+                Note that for sourceMachineImage, specify the disk name, not the URL for the disk.
+              type: string
+            type:
+              description: Specifies the type of the disk, either SCRATCH or PERSISTENT.
+                If not specified, the default is PERSISTENT.
+              enum:
+              - PERSISTENT
+              - SCRATCH
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        Scheduling:
+          description: Sets the scheduling options for an Instance.
+          id: Scheduling
+          properties:
+            automaticRestart:
+              description: |-
+                Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
+
+                By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
+              type: boolean
+            latencyTolerant:
+              description: Defines whether the instance is tolerant of higher cpu
+                latency. This can only be set during instance creation, or when the
+                instance is not currently running. It must not be set if the preemptible
+                option is also set.
+              type: boolean
+            minNodeCpus:
+              description: The minimum number of virtual CPUs this instance will consume
+                when running on a sole-tenant node.
+              format: int32
+              type: integer
+            nodeAffinities:
+              description: A set of node affinity and anti-affinity.
+              items:
+                $ref: '#/schemas/SchedulingNodeAffinity'
+              type: array
+            onHostMaintenance:
+              description: Defines the maintenance behavior for this instance. For
+                standard instances, the default behavior is MIGRATE. For preemptible
+                instances, the default and only possible behavior is TERMINATE. For
+                more information, see Setting Instance Scheduling Options.
+              enum:
+              - MIGRATE
+              - TERMINATE
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            preemptible:
+              description: Defines whether the instance is preemptible. This can only
+                be set during instance creation, it cannot be set or changed after
+                the instance has been created.
+              type: boolean
+          type: object
+        SchedulingNodeAffinity:
+          description: 'Node Affinity: the configuration of desired nodes onto which
+            this Instance could be scheduled.'
+          id: SchedulingNodeAffinity
+          properties:
+            key:
+              description: Corresponds to the label key of Node resource.
+              type: string
+            operator:
+              description: Defines the operation of node selection.
+              enum:
+              - IN
+              - NOT_IN
+              - OPERATOR_UNSPECIFIED
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            values:
+              description: Corresponds to the label values of Node resource.
+              items:
+                type: string
+              type: array
+          type: object
+        ServiceAccount:
+          description: A service account.
+          id: ServiceAccount
+          properties:
+            email:
+              description: Email address of the service account.
+              type: string
+            scopes:
+              description: The list of scopes to be made available for this service
+                account.
+              items:
+                type: string
+              type: array
+          type: object
+        SourceInstanceProperties:
+          description: ''
+          id: SourceInstanceProperties
+          properties:
+            canIpForward:
+              description: Enables instances created based on this machine image to
+                send packets with source IP addresses other than their own and receive
+                packets with destination IP addresses other than their own. If these
+                instances will be used as an IP gateway or it will be set as the next-hop
+                in a Route resource, specify true. If unsure, leave this set to false.
+                See the Enable IP forwarding documentation for more information.
+              type: boolean
+            deletionProtection:
+              description: Whether the instance created from the machine image should
+                be protected against deletion.
+              type: boolean
+            description:
+              description: An optional text description for the instances that are
+                created from this machine image.
+              type: string
+            disks:
+              description: An array of disks that are associated with the instances
+                that are created from this machine image.
+              items:
+                $ref: '#/schemas/SavedAttachedDisk'
+              type: array
+            guestAccelerators:
+              description: A list of guest accelerator cards' type and count to use
+                for instances created from the machine image.
+              items:
+                $ref: '#/schemas/AcceleratorConfig'
+              type: array
+            labels:
+              additionalProperties:
+                type: string
+              description: Labels to apply to instances that are created from this
+                machine image.
+              type: object
+            machineType:
+              annotations:
+                required:
+                - compute.machineImages.insert
+              description: The machine type to use for instances that are created
+                from this machine image.
+              type: string
+            metadata:
+              $ref: '#/schemas/Metadata'
+              description: The metadata key/value pairs to assign to instances that
+                are created from this machine image. These pairs can consist of custom
+                metadata or predefined keys. See Project and instance metadata for
+                more information.
+            minCpuPlatform:
+              description: 'Minimum cpu/platform to be used by this instance. The
+                instance may be scheduled on the specified or newer cpu/platform.
+                Applicable values are the friendly names of CPU platforms, such as
+                minCpuPlatform: "Intel Haswell" or minCpuPlatform: "Intel Sandy Bridge".
+                For more information, read Specifying a Minimum CPU Platform.'
+              type: string
+            networkInterfaces:
+              description: An array of network access configurations for this interface.
+              items:
+                $ref: '#/schemas/NetworkInterface'
+              type: array
+            scheduling:
+              $ref: '#/schemas/Scheduling'
+              description: Specifies the scheduling options for the instances that
+                are created from this machine image.
+            serviceAccounts:
+              description: A list of service accounts with specified scopes. Access
+                tokens for these service accounts are available to the instances that
+                are created from this machine image. Use metadata queries to obtain
+                the access tokens for these instances.
+              items:
+                $ref: '#/schemas/ServiceAccount'
+              type: array
+            tags:
+              $ref: '#/schemas/Tags'
+              description: A list of tags to apply to the instances that are created
+                from this machine image. The tags identify valid sources or targets
+                for network firewalls. The setTags method can modify this list of
+                tags. Each tag within the list must comply with RFC1035.
+          type: object
+        Tags:
+          description: A set of instance tags.
+          id: Tags
+          properties:
+            fingerprint:
+              description: |-
+                Specifies a fingerprint for this request, which is essentially a hash of the tags' contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update tags. You must always provide an up-to-date fingerprint hash in order to update or change tags.
+
+                To see the latest fingerprint, make get() request to the instance.
+              format: byte
+              type: string
+            items:
+              description: An array of tags. Each tag must be 1-63 characters long,
+                and comply with RFC1035.
+              items:
+                type: string
+              type: array
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/MachineImage'
+      methodName: get
+      schemas:
+        AcceleratorConfig:
+          description: A specification of the type and number of accelerator cards
+            attached to the instance.
+          id: AcceleratorConfig
+          properties:
+            acceleratorCount:
+              description: The number of the guest accelerator cards exposed to this
+                instance.
+              format: int32
+              type: integer
+            acceleratorType:
+              description: 'Full or partial URL of the accelerator type resource to
+                attach to this instance. For example: projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
+                If you are creating an instance template, specify only the accelerator
+                name. See GPUs on Compute Engine for a full list of accelerator types.'
+              type: string
+          type: object
+        AccessConfig:
+          description: An access configuration attached to an instance's network interface.
+            Only one access config per instance is supported.
+          id: AccessConfig
+          properties:
+            kind:
+              default: compute#accessConfig
+              description: '[Output Only] Type of the resource. Always compute#accessConfig
+                for access configs.'
+              type: string
+            name:
+              description: The name of this access configuration. The default and
+                recommended name is External NAT but you can use any arbitrary string
+                you would like. For example, My external IP or Network Access.
+              type: string
+            natIP:
+              description: An external IP address associated with this instance. Specify
+                an unused static external IP address available to the project or leave
+                this field undefined to use an IP from a shared ephemeral IP address
+                pool. If you specify a static external IP address, it must live in
+                the same region as the zone of the instance.
+              type: string
+            networkTier:
+              description: |-
+                This signifies the networking tier used for configuring this access configuration and can only take the following values: PREMIUM, STANDARD.
+
+                If an AccessConfig is specified without a valid external IP address, an ephemeral IP will be created with this networkTier.
+
+                If an AccessConfig with a valid external IP address is specified, it must match that of the networkTier associated with the Address resource owning that IP.
+              enum:
+              - PREMIUM
+              - SELECT
+              - STANDARD
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            publicDnsName:
+              description: '[Output Only] The public DNS domain name for the instance.'
+              type: string
+            publicPtrDomainName:
+              description: The DNS domain name for the public PTR record. This field
+                can only be set when the set_public_ptr field is enabled.
+              type: string
+            setPublicDns:
+              description: Specifies whether a public DNS ?A? record should be created
+                for the external IP address of this access configuration.
+              type: boolean
+            setPublicPtr:
+              description: Specifies whether a public DNS ?PTR? record should be created
+                to map the external IP address of the instance to a DNS domain name.
+              type: boolean
+            type:
+              default: ONE_TO_ONE_NAT
+              description: The type of configuration. The default and only option
+                is ONE_TO_ONE_NAT.
+              enum:
+              - ONE_TO_ONE_NAT
+              enumDescriptions:
+              - ''
+              type: string
+          type: object
+        AliasIpRange:
+          description: An alias IP range attached to an instance's network interface.
+          id: AliasIpRange
+          properties:
+            ipCidrRange:
+              description: The IP CIDR range represented by this alias IP range. This
+                IP CIDR range must belong to the specified subnetwork and cannot contain
+                IP addresses reserved by system or used by other network interfaces.
+                This range may be a single IP address (e.g. 10.2.3.4), a netmask (e.g.
+                /24) or a CIDR format string (e.g. 10.1.2.0/24).
+              type: string
+            subnetworkRangeName:
+              description: Optional subnetwork secondary range name specifying the
+                secondary range from which to allocate the IP CIDR range for this
+                alias IP range. If left unspecified, the primary range of the subnetwork
+                will be used.
+              type: string
+          type: object
+        AttachedDiskInitializeParams:
+          description: |-
+            [Input Only] Specifies the parameters for a new disk that will be created alongside the new instance. Use initialization parameters to create boot disks or local SSDs attached to the new instance.
+
+            This property is mutually exclusive with the source property; you can only define one or the other, but not both.
+          id: AttachedDiskInitializeParams
+          properties:
+            description:
+              description: An optional description. Provide this property when creating
+                the disk.
+              type: string
+            diskName:
+              description: Specifies the disk name. If not specified, the default
+                is to use the name of the instance. If the disk with the instance
+                name exists already in the given zone/region, a new name will be automatically
+                generated.
+              type: string
+            diskSizeGb:
+              description: Specifies the size of the disk in base-2 GB.
+              format: int64
+              type: string
+            diskType:
+              description: |-
+                Specifies the disk type to use to create the instance. If not specified, the default is pd-standard, specified using the full URL. For example:
+                https://www.googleapis.com/compute/v1/projects/project/zones/zone/diskTypes/pd-standard
+
+
+                Other values include pd-ssd and local-ssd. If you define this field, you can provide either the full or partial URL. For example, the following are valid values:  
+                - https://www.googleapis.com/compute/v1/projects/project/zones/zone/diskTypes/diskType 
+                - projects/project/zones/zone/diskTypes/diskType 
+                - zones/zone/diskTypes/diskType  Note that for InstanceTemplate, this is the name of the disk type, not URL.
+              type: string
+            guestOsFeatures:
+              description: |-
+                A list of features to enable on the guest operating system. Applicable only for bootable images. Read  Enabling guest operating system features to see a list of available options.
+
+                Guest OS features are applied by merging initializeParams.guestOsFeatures and disks.guestOsFeatures
+              items:
+                $ref: '#/schemas/GuestOsFeature'
+              type: array
+            labels:
+              additionalProperties:
+                type: string
+              description: Labels to apply to this disk. These can be later modified
+                by the disks.setLabels method. This field is only applicable for persistent
+                disks.
+              type: object
+            replicaZones:
+              description: URLs of the zones where the disk should be replicated to.
+                Only applicable for regional resources.
+              items:
+                type: string
+              type: array
+            resourcePolicies:
+              description: Resource policies applied to this disk for automatic snapshot
+                creations. Specified using the full or partial URL. For instance template,
+                specify only the resource policy name.
+              items:
+                type: string
+              type: array
+            sourceImage:
+              description: |-
+                The source image to create this disk. When creating a new instance, one of initializeParams.sourceImage or disks.source is required except for local SSD.
+
+                To create a disk with one of the public operating system images, specify the image by its family name. For example, specify family/debian-9 to use the latest Debian 9 image:
+                projects/debian-cloud/global/images/family/debian-9
+
+
+                Alternatively, use a specific version of a public operating system image:
+                projects/debian-cloud/global/images/debian-9-stretch-vYYYYMMDD
+
+
+                To create a disk with a custom image that you created, specify the image name in the following format:
+                global/images/my-custom-image
+
+
+                You can also specify a custom image by its image family, which returns the latest version of the image in that family. Replace the image name with family/family-name:
+                global/images/family/my-image-family
+
+
+                If the source image is deleted later, this field will not be set.
+              type: string
+            sourceImageEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: |-
+                The customer-supplied encryption key of the source image. Required if the source image is protected by a customer-supplied encryption key.
+
+                Instance templates do not store customer-supplied encryption keys, so you cannot create disks for instances in a managed instance group if the source images are encrypted with your own keys.
+            sourceSnapshot:
+              description: |-
+                The source snapshot to create this disk. When creating a new instance, one of initializeParams.sourceSnapshot or disks.source is required except for local SSD.
+
+                To create a disk with a snapshot that you created, specify the snapshot name in the following format:
+                global/snapshots/my-backup
+
+
+                If the source snapshot is deleted later, this field will not be set.
+              type: string
+            sourceSnapshotEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: The customer-supplied encryption key of the source snapshot.
+          type: object
+        CustomerEncryptionKey:
+          description: Represents a customer-supplied encryption key
+          id: CustomerEncryptionKey
+          properties:
+            kmsKeyName:
+              description: The name of the encryption key that is stored in Google
+                Cloud KMS.
+              type: string
+            kmsKeyServiceAccount:
+              type: string
+            rawKey:
+              description: Specifies a 256-bit customer-supplied encryption key, encoded
+                in RFC 4648 base64 to either encrypt or decrypt this resource.
+              type: string
+            rsaEncryptedKey:
+              description: |-
+                Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit customer-supplied encryption key to either encrypt or decrypt this resource.
+
+                The key must meet the following requirements before you can provide it to Compute Engine:  
+                - The key is wrapped using a RSA public key certificate provided by Google. 
+                - After being wrapped, the key must be encoded in RFC 4648 base64 encoding.  Gets the RSA public key certificate provided by Google at:
+                https://cloud-certs.storage.googleapis.com/google-cloud-csek-ingress.pem
+              type: string
+            sha256:
+              description: '[Output only] The RFC 4648 base64 encoded SHA-256 hash
+                of the customer-supplied encryption key that protects this resource.'
+              type: string
+          type: object
+        GuestOsFeature:
+          description: Guest OS features.
+          id: GuestOsFeature
+          properties:
+            type:
+              description: The ID of a supported feature. Read  Enabling guest operating
+                system features to see a list of available options.
+              enum:
+              - FEATURE_TYPE_UNSPECIFIED
+              - GVNIC
+              - MULTI_IP_SUBNET
+              - SECURE_BOOT
+              - UEFI_COMPATIBLE
+              - VIRTIO_SCSI_MULTIQUEUE
+              - WINDOWS
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        MachineImage:
+          description: Machine image resource.
+          id: MachineImage
+          properties:
+            creationTimestamp:
+              description: '[Output Only] The creation timestamp for this machine
+                image in RFC3339 text format.'
+              type: string
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            id:
+              description: '[Output Only] A unique identifier for this machine image.
+                The server defines this identifier.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#machineImage
+              description: '[Output Only] The resource type, which is always compute#machineImage
+                for machine image.'
+              type: string
+            machineImageEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: Encryption key to protect the machine image.
+            name:
+              annotations:
+                required:
+                - compute.machineImages.insert
+              description: Name of the resource; provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            selfLink:
+              description: '[Output Only] The URL for this machine image. The server
+                defines this URL.'
+              type: string
+            selfLinkWithId:
+              description: '[Output Only] Server-defined URL for this resource with
+                the resource id.'
+              type: string
+            sourceInstance:
+              description: |-
+                The source instance used to create the machine image. You can provide this as a partial or full URL to the resource. For example, the following are valid values:  
+                - https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance 
+                - projects/project/zones/zone/instances/instance
+              type: string
+            sourceInstanceProperties:
+              $ref: '#/schemas/SourceInstanceProperties'
+              description: Properties of source instance.
+            status:
+              description: '[Output Only] The status of disk creation.'
+              enum:
+              - CREATING
+              - DELETING
+              - INVALID
+              - READY
+              - UPLOADING
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            storageLocations:
+              description: GCS bucket storage location of the snapshot (regional or
+                multi-regional).
+              items:
+                type: string
+              type: array
+          type: object
+        Metadata:
+          description: A metadata key/value entry.
+          id: Metadata
+          properties:
+            fingerprint:
+              description: |-
+                Specifies a fingerprint for this request, which is essentially a hash of the metadata's contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update metadata. You must always provide an up-to-date fingerprint hash in order to update or change metadata, otherwise the request will fail with error 412 conditionNotMet.
+
+                To see the latest fingerprint, make a get() request to retrieve the resource.
+              format: byte
+              type: string
+            items:
+              description: Array of key/value pairs. The total size of all keys and
+                values must be less than 512 KB.
+              items:
+                properties:
+                  key:
+                    annotations:
+                      required:
+                      - compute.instances.insert
+                      - compute.projects.setCommonInstanceMetadata
+                    description: 'Key for the metadata entry. Keys must conform to
+                      the following regexp: [a-zA-Z0-9-_]+, and be less than 128 bytes
+                      in length. This is reflected as part of a URL in the metadata
+                      server. Additionally, to avoid ambiguity, keys must not conflict
+                      with any other metadata keys for the project.'
+                    pattern: '[a-zA-Z0-9-_]{1,128}'
+                    type: string
+                  value:
+                    annotations:
+                      required:
+                      - compute.instances.insert
+                      - compute.projects.setCommonInstanceMetadata
+                    description: Value for the metadata entry. These are free-form
+                      strings, and only have meaning as interpreted by the image running
+                      in the instance. The only restriction placed on values is that
+                      their size must be less than or equal to 262144 bytes (256 KiB).
+                    type: string
+                type: object
+              type: array
+            kind:
+              default: compute#metadata
+              description: '[Output Only] Type of the resource. Always compute#metadata
+                for metadata.'
+              type: string
+          type: object
+        NetworkInterface:
+          description: A network interface resource attached to an instance.
+          id: NetworkInterface
+          properties:
+            accessConfigs:
+              description: An array of configurations for this interface. Currently,
+                only one access config, ONE_TO_ONE_NAT, is supported. If there are
+                no accessConfigs specified, then this instance will have no external
+                internet access.
+              items:
+                $ref: '#/schemas/AccessConfig'
+              type: array
+            aliasIpRanges:
+              description: An array of alias IP ranges for this network interface.
+                Can only be specified for network interfaces on subnet-mode networks.
+              items:
+                $ref: '#/schemas/AliasIpRange'
+              type: array
+            fingerprint:
+              description: Fingerprint hash of contents stored in this network interface.
+                This field will be ignored when inserting an Instance or adding a
+                NetworkInterface. An up-to-date fingerprint must be provided in order
+                to update the NetworkInterface, otherwise the request will fail with
+                error 412 conditionNotMet.
+              format: byte
+              type: string
+            ipv6Address:
+              description: '[Output Only] An IPv6 internal network address for this
+                network interface.'
+              type: string
+            kind:
+              default: compute#networkInterface
+              description: '[Output Only] Type of the resource. Always compute#networkInterface
+                for network interfaces.'
+              type: string
+            name:
+              description: '[Output Only] The name of the network interface, generated
+                by the server. For network devices, these are eth0, eth1, etc.'
+              type: string
+            network:
+              description: |-
+                URL of the network resource for this instance. When creating an instance, if neither the network nor the subnetwork is specified, the default network global/networks/default is used; if the network is not specified but the subnetwork is specified, the network is inferred.
+
+                This field is optional when creating a firewall rule. If not specified when creating a firewall rule, the default network global/networks/default is used.
+
+                If you specify this property, you can specify the network as a full or partial URL. For example, the following are all valid URLs:  
+                - https://www.googleapis.com/compute/v1/projects/project/global/networks/network 
+                - projects/project/global/networks/network 
+                - global/networks/default
+              type: string
+            networkIP:
+              description: An IPv4 internal network address to assign to the instance
+                for this network interface. If not specified by the user, an unused
+                internal IP is assigned by the system.
+              type: string
+            subnetwork:
+              description: |-
+                The URL of the Subnetwork resource for this instance. If the network resource is in legacy mode, do not provide this property. If the network is in auto subnet mode, providing the subnetwork is optional. If the network is in custom subnet mode, then this field should be specified. If you specify this property, you can specify the subnetwork as a full or partial URL. For example, the following are all valid URLs:  
+                - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork 
+                - regions/region/subnetworks/subnetwork
+              type: string
+          type: object
+        SavedAttachedDisk:
+          description: An instance-attached disk resource.
+          id: SavedAttachedDisk
+          properties:
+            autoDelete:
+              description: Specifies whether the disk will be auto-deleted when the
+                instance is deleted (but not when the disk is detached from the instance).
+              type: boolean
+            boot:
+              description: Indicates that this is a boot disk. The virtual machine
+                will use the first partition of the disk for its root filesystem.
+              type: boolean
+            deviceName:
+              description: |-
+                Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance.
+
+                If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disks-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks.
+              type: string
+            diskEncryptionKey:
+              $ref: '#/schemas/CustomerEncryptionKey'
+              description: |-
+                Encrypts or decrypts a disk using a customer-supplied encryption key.
+
+                If you are creating a new disk, this field encrypts the new disk using an encryption key that you provide. If you are attaching an existing disk that is already encrypted, this field decrypts the disk using the customer-supplied encryption key.
+
+                If you encrypt a disk using a customer-supplied key, you must provide the same key again when you attempt to use this resource at a later time. For example, you must provide the key when you create a snapshot or an image from the disk or when you attach the disk to a virtual machine instance.
+
+                If you do not provide an encryption key, then the disk will be encrypted using an automatically generated key and you do not need to provide a key to use the disk later.
+
+                Machine Images do not store customer-supplied encryption keys, so you cannot use your own keys to encrypt disks in a managed instance group.
+            diskSizeGb:
+              description: The size of the disk in base-2 GB. This supersedes disk_size_gb
+                in InitializeParams.
+              format: int64
+              type: string
+            guestOsFeatures:
+              description: A list of features to enable on the guest operating system.
+                Applicable only for bootable images. Read  Enabling guest operating
+                system features to see a list of available options.
+              items:
+                $ref: '#/schemas/GuestOsFeature'
+              type: array
+            index:
+              description: '[Output Only] A zero-based index to this disk, where 0
+                is reserved for the boot disk. If you have many disks attached to
+                an instance, each disk would have a unique index number.'
+              format: int32
+              type: integer
+            initializeParams:
+              $ref: '#/schemas/AttachedDiskInitializeParams'
+              description: |-
+                [Input Only] Specifies the parameters for a new disk that will be created alongside the new instance. Use initialization parameters to create boot disks or local SSDs attached to the new instance.
+
+                This property is mutually exclusive with the source property; you can only define one or the other, but not both.
+            interface:
+              description: Specifies the disk interface to use for attaching this
+                disk, which is either SCSI or NVME. The default is SCSI. Persistent
+                disks must always use SCSI and the request will fail if you attempt
+                to attach a persistent disk in any other format than SCSI. Local SSDs
+                can use either NVME or SCSI. For performance characteristics of SCSI
+                over NVMe, see Local SSD performance.
+              enum:
+              - NVDIMM
+              - NVME
+              - SCSI
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            kind:
+              default: compute#savedAttachedDisk
+              description: '[Output Only] Type of the resource. Always compute#attachedDisk
+                for attached disks.'
+              type: string
+            licenses:
+              description: '[Output Only] Any valid publicly visible licenses.'
+              items:
+                type: string
+              type: array
+            mode:
+              description: The mode in which to attach this disk, either READ_WRITE
+                or READ_ONLY. If not specified, the default is to attach the disk
+                in READ_WRITE mode.
+              enum:
+              - READ_ONLY
+              - READ_WRITE
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            savedState:
+              description: For LocalSSD disks on VM Instances in STOPPED or SUSPENDED
+                state, this field is set to PRESERVED if the LocalSSD data has been
+                saved to a persistent location by customer request. (see the discard_local_ssd
+                option on Stop/Suspend). Read-only in the api.
+              enum:
+              - DISK_SAVED_STATE_UNSPECIFIED
+              - PRESERVED
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            source:
+              description: |-
+                Specifies a valid partial or full URL to an existing Persistent Disk resource. When creating a new instance, one of initializeParams.sourceImage or disks.source is required except for local SSD.
+
+                If desired, you can also attach existing non-root persistent disks using this property. This field is only applicable for persistent disks.
+
+                Note that for sourceMachineImage, specify the disk name, not the URL for the disk.
+              type: string
+            storageBytes:
+              description: "[Output Only] A size of the storage used by the disk's\
+                \ snapshot."
+              format: int64
+              type: string
+            storageBytesStatus:
+              description: '[Output Only] An indicator whether storageBytes is in
+                a stable state or it is being adjusted as a result of shared storage
+                reallocation. This status can either be UPDATING, meaning the size
+                of the snapshot is being updated, or UP_TO_DATE, meaning the size
+                of the snapshot is up-to-date.'
+              enum:
+              - UPDATING
+              - UP_TO_DATE
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            type:
+              description: Specifies the type of the disk, either SCRATCH or PERSISTENT.
+                If not specified, the default is PERSISTENT.
+              enum:
+              - PERSISTENT
+              - SCRATCH
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        Scheduling:
+          description: Sets the scheduling options for an Instance.
+          id: Scheduling
+          properties:
+            automaticRestart:
+              description: |-
+                Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine (not terminated by a user). You can only set the automatic restart option for standard instances. Preemptible instances cannot be automatically restarted.
+
+                By default, this is set to true so an instance is automatically restarted if it is terminated by Compute Engine.
+              type: boolean
+            latencyTolerant:
+              description: Defines whether the instance is tolerant of higher cpu
+                latency. This can only be set during instance creation, or when the
+                instance is not currently running. It must not be set if the preemptible
+                option is also set.
+              type: boolean
+            minNodeCpus:
+              description: The minimum number of virtual CPUs this instance will consume
+                when running on a sole-tenant node.
+              format: int32
+              type: integer
+            nodeAffinities:
+              description: A set of node affinity and anti-affinity.
+              items:
+                $ref: '#/schemas/SchedulingNodeAffinity'
+              type: array
+            onHostMaintenance:
+              description: Defines the maintenance behavior for this instance. For
+                standard instances, the default behavior is MIGRATE. For preemptible
+                instances, the default and only possible behavior is TERMINATE. For
+                more information, see Setting Instance Scheduling Options.
+              enum:
+              - MIGRATE
+              - TERMINATE
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            preemptible:
+              description: Defines whether the instance is preemptible. This can only
+                be set during instance creation, it cannot be set or changed after
+                the instance has been created.
+              type: boolean
+          type: object
+        SchedulingNodeAffinity:
+          description: 'Node Affinity: the configuration of desired nodes onto which
+            this Instance could be scheduled.'
+          id: SchedulingNodeAffinity
+          properties:
+            key:
+              description: Corresponds to the label key of Node resource.
+              type: string
+            operator:
+              description: Defines the operation of node selection.
+              enum:
+              - IN
+              - NOT_IN
+              - OPERATOR_UNSPECIFIED
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            values:
+              description: Corresponds to the label values of Node resource.
+              items:
+                type: string
+              type: array
+          type: object
+        ServiceAccount:
+          description: A service account.
+          id: ServiceAccount
+          properties:
+            email:
+              description: Email address of the service account.
+              type: string
+            scopes:
+              description: The list of scopes to be made available for this service
+                account.
+              items:
+                type: string
+              type: array
+          type: object
+        SourceInstanceProperties:
+          description: ''
+          id: SourceInstanceProperties
+          properties:
+            canIpForward:
+              description: Enables instances created based on this machine image to
+                send packets with source IP addresses other than their own and receive
+                packets with destination IP addresses other than their own. If these
+                instances will be used as an IP gateway or it will be set as the next-hop
+                in a Route resource, specify true. If unsure, leave this set to false.
+                See the Enable IP forwarding documentation for more information.
+              type: boolean
+            deletionProtection:
+              description: Whether the instance created from the machine image should
+                be protected against deletion.
+              type: boolean
+            description:
+              description: An optional text description for the instances that are
+                created from this machine image.
+              type: string
+            disks:
+              description: An array of disks that are associated with the instances
+                that are created from this machine image.
+              items:
+                $ref: '#/schemas/SavedAttachedDisk'
+              type: array
+            guestAccelerators:
+              description: A list of guest accelerator cards' type and count to use
+                for instances created from the machine image.
+              items:
+                $ref: '#/schemas/AcceleratorConfig'
+              type: array
+            labels:
+              additionalProperties:
+                type: string
+              description: Labels to apply to instances that are created from this
+                machine image.
+              type: object
+            machineType:
+              annotations:
+                required:
+                - compute.machineImages.insert
+              description: The machine type to use for instances that are created
+                from this machine image.
+              type: string
+            metadata:
+              $ref: '#/schemas/Metadata'
+              description: The metadata key/value pairs to assign to instances that
+                are created from this machine image. These pairs can consist of custom
+                metadata or predefined keys. See Project and instance metadata for
+                more information.
+            minCpuPlatform:
+              description: 'Minimum cpu/platform to be used by this instance. The
+                instance may be scheduled on the specified or newer cpu/platform.
+                Applicable values are the friendly names of CPU platforms, such as
+                minCpuPlatform: "Intel Haswell" or minCpuPlatform: "Intel Sandy Bridge".
+                For more information, read Specifying a Minimum CPU Platform.'
+              type: string
+            networkInterfaces:
+              description: An array of network access configurations for this interface.
+              items:
+                $ref: '#/schemas/NetworkInterface'
+              type: array
+            scheduling:
+              $ref: '#/schemas/Scheduling'
+              description: Specifies the scheduling options for the instances that
+                are created from this machine image.
+            serviceAccounts:
+              description: A list of service accounts with specified scopes. Access
+                tokens for these service accounts are available to the instances that
+                are created from this machine image. Use metadata queries to obtain
+                the access tokens for these instances.
+              items:
+                $ref: '#/schemas/ServiceAccount'
+              type: array
+            tags:
+              $ref: '#/schemas/Tags'
+              description: A list of tags to apply to the instances that are created
+                from this machine image. The tags identify valid sources or targets
+                for network firewalls. The setTags method can modify this list of
+                tags. Each tag within the list must comply with RFC1035.
+          type: object
+        Tags:
+          description: A set of instance tags.
+          id: Tags
+          properties:
+            fingerprint:
+              description: |-
+                Specifies a fingerprint for this request, which is essentially a hash of the tags' contents and used for optimistic locking. The fingerprint is initially generated by Compute Engine and changes after every request to modify or update tags. You must always provide an up-to-date fingerprint hash in order to update or change tags.
+
+                To see the latest fingerprint, make get() request to the instance.
+              format: byte
+              type: string
+            items:
+              description: An array of tags. Each tag must be 1-63 characters long,
+                and comply with RFC1035.
+              items:
+                type: string
+              type: array
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-alpha/types/machineImages?alt=json
+  title: Compute Engine API

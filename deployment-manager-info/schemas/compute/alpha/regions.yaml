@@ -1,0 +1,297 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: regions
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Region'
+      methodName: get
+      schemas:
+        DeprecationStatus:
+          description: Deprecation status for a public resource.
+          id: DeprecationStatus
+          properties:
+            deleted:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to DELETED. This is only informational
+                and the status will not change unless the client explicitly changes
+                it.
+              type: string
+            deprecated:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to DEPRECATED. This is only
+                informational and the status will not change unless the client explicitly
+                changes it.
+              type: string
+            obsolete:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to OBSOLETE. This is only informational
+                and the status will not change unless the client explicitly changes
+                it.
+              type: string
+            replacement:
+              description: The URL of the suggested replacement for a deprecated resource.
+                The suggested replacement resource must be the same kind of resource
+                as the deprecated resource.
+              type: string
+            state:
+              description: The deprecation state of this resource. This can be ACTIVE,
+                DEPRECATED, OBSOLETE, or DELETED. Operations which communicate the
+                end of life date for an image, can use ACTIVE. Operations which create
+                a new resource using a DEPRECATED resource will return successfully,
+                but with a warning indicating the deprecated resource and recommending
+                its replacement. Operations which use OBSOLETE or DELETED resources
+                will be rejected and result in an error.
+              enum:
+              - ACTIVE
+              - DELETED
+              - DEPRECATED
+              - OBSOLETE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        Quota:
+          description: A quotas entry.
+          id: Quota
+          properties:
+            limit:
+              description: '[Output Only] Quota limit for this metric.'
+              format: double
+              type: number
+            metric:
+              description: '[Output Only] Name of the quota metric.'
+              enum:
+              - ALIASES_PER_NETWORK_GLOBAL
+              - AMD_S9300_GPUS
+              - AUTOSCALERS
+              - BACKEND_BUCKETS
+              - BACKEND_SERVICES
+              - COMMITMENTS
+              - CPUS
+              - CPUS_ALL_REGIONS
+              - DISKS_TOTAL_GB
+              - EXTERNAL_VPN_GATEWAYS
+              - FIREWALLS
+              - FORWARDING_RULES
+              - GLOBAL_INTERNAL_ADDRESSES
+              - GPUS_ALL_REGIONS
+              - HEALTH_CHECKS
+              - IMAGES
+              - INSTANCES
+              - INSTANCES_PER_NETWORK_GLOBAL
+              - INSTANCE_GROUPS
+              - INSTANCE_GROUP_MANAGERS
+              - INSTANCE_TEMPLATES
+              - INTERCONNECTS
+              - INTERCONNECT_ATTACHMENTS_PER_REGION
+              - INTERCONNECT_ATTACHMENTS_TOTAL_MBPS
+              - INTERNAL_ADDRESSES
+              - INTERNAL_FORWARDING_RULES_PER_NETWORK
+              - INTERNAL_FORWARDING_RULES_WITH_GLOBAL_ACCESS_PER_NETWORK
+              - INTERNAL_FORWARDING_RULES_WITH_TARGET_INSTANCE_PER_NETWORK
+              - INTERNAL_TARGET_INSTANCE_WITH_GLOBAL_ACCESS_PER_NETWORK
+              - IN_USE_ADDRESSES
+              - IN_USE_BACKUP_SCHEDULES
+              - IN_USE_MAINTENANCE_WINDOWS
+              - IN_USE_SNAPSHOT_SCHEDULES
+              - LOCAL_SSD_TOTAL_GB
+              - MACHINE_IMAGES
+              - NETWORKS
+              - NETWORK_ENDPOINT_GROUPS
+              - NVIDIA_K80_GPUS
+              - NVIDIA_P100_GPUS
+              - NVIDIA_P100_VWS_GPUS
+              - NVIDIA_P4_GPUS
+              - NVIDIA_P4_VWS_GPUS
+              - NVIDIA_T4_GPUS
+              - NVIDIA_T4_VWS_GPUS
+              - NVIDIA_V100_GPUS
+              - PREEMPTIBLE_CPUS
+              - PREEMPTIBLE_LOCAL_SSD_GB
+              - PREEMPTIBLE_NVIDIA_K80_GPUS
+              - PREEMPTIBLE_NVIDIA_P100_GPUS
+              - PREEMPTIBLE_NVIDIA_P100_VWS_GPUS
+              - PREEMPTIBLE_NVIDIA_P4_GPUS
+              - PREEMPTIBLE_NVIDIA_P4_VWS_GPUS
+              - PREEMPTIBLE_NVIDIA_T4_GPUS
+              - PREEMPTIBLE_NVIDIA_T4_VWS_GPUS
+              - PREEMPTIBLE_NVIDIA_V100_GPUS
+              - PRIVATE_V6_ACCESS_SUBNETWORKS
+              - REGIONAL_AUTOSCALERS
+              - REGIONAL_INSTANCE_GROUP_MANAGERS
+              - RESOURCE_POLICIES
+              - ROUTERS
+              - ROUTES
+              - SECURITY_POLICIES
+              - SECURITY_POLICY_RULES
+              - SNAPSHOTS
+              - SSD_TOTAL_GB
+              - SSL_CERTIFICATES
+              - STATIC_ADDRESSES
+              - SUBNETWORKS
+              - TARGET_HTTPS_PROXIES
+              - TARGET_HTTP_PROXIES
+              - TARGET_INSTANCES
+              - TARGET_POOLS
+              - TARGET_SSL_PROXIES
+              - TARGET_TCP_PROXIES
+              - TARGET_VPN_GATEWAYS
+              - URL_MAPS
+              - VPN_GATEWAYS
+              - VPN_TUNNELS
+              - XPN_SERVICE_PROJECTS
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            owner:
+              description: '[Output Only] Owning resource. This is the resource on
+                which this quota is applied.'
+              type: string
+            usage:
+              description: '[Output Only] Current usage of this metric.'
+              format: double
+              type: number
+          type: object
+        Region:
+          description: Region resource. (== resource_for beta.regions ==) (== resource_for
+            v1.regions ==)
+          id: Region
+          properties:
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            deprecated:
+              $ref: '#/schemas/DeprecationStatus'
+              description: '[Output Only] The deprecation status associated with this
+                region.'
+            description:
+              description: '[Output Only] Textual description of the resource.'
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#region
+              description: '[Output Only] Type of the resource. Always compute#region
+                for regions.'
+              type: string
+            name:
+              description: '[Output Only] Name of the resource.'
+              type: string
+            quotas:
+              description: '[Output Only] Quotas assigned to this region.'
+              items:
+                $ref: '#/schemas/Quota'
+              type: array
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            selfLinkWithId:
+              description: '[Output Only] Server-defined URL for this resource with
+                the resource id.'
+              type: string
+            status:
+              description: '[Output Only] Status of the region, either UP or DOWN.'
+              enum:
+              - DOWN
+              - UP
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            zones:
+              description: '[Output Only] A list of zones available in this region,
+                in the form of resource URLs.'
+              items:
+                type: string
+              type: array
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-alpha/types/regions?alt=json
+  title: Compute Engine API

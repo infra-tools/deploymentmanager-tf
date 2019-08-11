@@ -1,0 +1,299 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: regionSslCertificates
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          certificate:
+            description: A local certificate file. The certificate must be in PEM
+              format. The certificate chain must be no greater than 5 certs long.
+              The chain must include at least one intermediate cert.
+            type: string
+          description:
+            description: An optional description of this resource. Provide this property
+              when you create the resource.
+            type: string
+          managed:
+            $ref: '#/schemas/SslCertificateManagedSslCertificate'
+            description: Configuration and status of a managed SSL certificate.
+          name:
+            description: Name of the resource. Provided by the client when the resource
+              is created. The name must be 1-63 characters long, and comply with RFC1035.
+              Specifically, the name must be 1-63 characters long and match the regular
+              expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
+              must be a lowercase letter, and all following characters must be a dash,
+              lowercase letter, or digit, except the last character, which cannot
+              be a dash.
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            type: string
+          privateKey:
+            description: A write-only private key in PEM format. Only insert requests
+              will include this field.
+            type: string
+          region:
+            description: Name of the region scoping this request.
+            location: path
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            required: true
+            type: string
+          requestId:
+            description: |-
+              An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+              For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+              The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+            location: query
+            type: string
+          selfManaged:
+            $ref: '#/schemas/SslCertificateSelfManagedSslCertificate'
+            description: Configuration and status of a self-managed SSL certificate.
+          type:
+            description: (Optional) Specifies the type of SSL certificate, either
+              "SELF_MANAGED" or "MANAGED". If not specified, the certificate is self-managed
+              and the fields certificate and private_key are used.
+            enum:
+            - MANAGED
+            - SELF_MANAGED
+            - TYPE_UNSPECIFIED
+            enumDescriptions:
+            - ''
+            - ''
+            - ''
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        SslCertificate:
+          description: An SslCertificate resource. This resource provides a mechanism
+            to upload an SSL key and certificate to the load balancer to serve secure
+            connections from the user. (== resource_for beta.sslCertificates ==) (==
+            resource_for v1.sslCertificates ==)
+          id: SslCertificate
+          properties:
+            certificate:
+              description: A local certificate file. The certificate must be in PEM
+                format. The certificate chain must be no greater than 5 certs long.
+                The chain must include at least one intermediate cert.
+              type: string
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            managed:
+              $ref: '#/schemas/SslCertificateManagedSslCertificate'
+              description: Configuration and status of a managed SSL certificate.
+            name:
+              description: Name of the resource. Provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            privateKey:
+              description: A write-only private key in PEM format. Only insert requests
+                will include this field.
+              type: string
+            selfManaged:
+              $ref: '#/schemas/SslCertificateSelfManagedSslCertificate'
+              description: Configuration and status of a self-managed SSL certificate.
+            type:
+              description: (Optional) Specifies the type of SSL certificate, either
+                "SELF_MANAGED" or "MANAGED". If not specified, the certificate is
+                self-managed and the fields certificate and private_key are used.
+              enum:
+              - MANAGED
+              - SELF_MANAGED
+              - TYPE_UNSPECIFIED
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        SslCertificateManagedSslCertificate:
+          description: Configuration and status of a managed SSL certificate.
+          id: SslCertificateManagedSslCertificate
+          properties:
+            domains:
+              description: The domains for which a managed SSL certificate will be
+                generated. Currently only single-domain certs are supported.
+              items:
+                type: string
+              type: array
+          type: object
+        SslCertificateSelfManagedSslCertificate:
+          description: Configuration and status of a self-managed SSL certificate.
+          id: SslCertificateSelfManagedSslCertificate
+          properties:
+            certificate:
+              description: A local certificate file. The certificate must be in PEM
+                format. The certificate chain must be no greater than 5 certs long.
+                The chain must include at least one intermediate cert.
+              type: string
+            privateKey:
+              description: A write-only private key in PEM format. Only insert requests
+                will include this field.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/SslCertificate'
+      methodName: get
+      schemas:
+        SslCertificate:
+          description: An SslCertificate resource. This resource provides a mechanism
+            to upload an SSL key and certificate to the load balancer to serve secure
+            connections from the user. (== resource_for beta.sslCertificates ==) (==
+            resource_for v1.sslCertificates ==)
+          id: SslCertificate
+          properties:
+            certificate:
+              description: A local certificate file. The certificate must be in PEM
+                format. The certificate chain must be no greater than 5 certs long.
+                The chain must include at least one intermediate cert.
+              type: string
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            expireTime:
+              description: '[Output Only] Expire time of the certificate. RFC3339'
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#sslCertificate
+              description: '[Output Only] Type of the resource. Always compute#sslCertificate
+                for SSL certificates.'
+              type: string
+            managed:
+              $ref: '#/schemas/SslCertificateManagedSslCertificate'
+              description: Configuration and status of a managed SSL certificate.
+            name:
+              description: Name of the resource. Provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            privateKey:
+              description: A write-only private key in PEM format. Only insert requests
+                will include this field.
+              type: string
+            region:
+              description: '[Output Only] URL of the region where the regional SSL
+                Certificate resides. This field is not applicable to global SSL Certificate.'
+              type: string
+            selfLink:
+              description: '[Output only] Server-defined URL for the resource.'
+              type: string
+            selfLinkWithId:
+              description: '[Output Only] Server-defined URL for this resource with
+                the resource id.'
+              type: string
+            selfManaged:
+              $ref: '#/schemas/SslCertificateSelfManagedSslCertificate'
+              description: Configuration and status of a self-managed SSL certificate.
+            subjectAlternativeNames:
+              description: '[Output Only] Domains associated with the certificate
+                via Subject Alternative Name.'
+              items:
+                type: string
+              type: array
+            type:
+              description: (Optional) Specifies the type of SSL certificate, either
+                "SELF_MANAGED" or "MANAGED". If not specified, the certificate is
+                self-managed and the fields certificate and private_key are used.
+              enum:
+              - MANAGED
+              - SELF_MANAGED
+              - TYPE_UNSPECIFIED
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        SslCertificateManagedSslCertificate:
+          description: Configuration and status of a managed SSL certificate.
+          id: SslCertificateManagedSslCertificate
+          properties:
+            domainStatus:
+              additionalProperties:
+                enum:
+                - ACTIVE
+                - DOMAIN_STATUS_UNSPECIFIED
+                - FAILED_CAA_CHECKING
+                - FAILED_CAA_FORBIDDEN
+                - FAILED_NOT_VISIBLE
+                - FAILED_RATE_LIMITED
+                - PROVISIONING
+                enumDescriptions:
+                - ''
+                - ''
+                - ''
+                - ''
+                - ''
+                - ''
+                - ''
+                type: string
+              description: '[Output only] Detailed statuses of the domains specified
+                for managed certificate resource.'
+              type: object
+            domains:
+              description: The domains for which a managed SSL certificate will be
+                generated. Currently only single-domain certs are supported.
+              items:
+                type: string
+              type: array
+            status:
+              description: '[Output only] Status of the managed certificate resource.'
+              enum:
+              - ACTIVE
+              - MANAGED_CERTIFICATE_STATUS_UNSPECIFIED
+              - PROVISIONING
+              - PROVISIONING_FAILED
+              - PROVISIONING_FAILED_PERMANENTLY
+              - RENEWAL_FAILED
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        SslCertificateSelfManagedSslCertificate:
+          description: Configuration and status of a self-managed SSL certificate.
+          id: SslCertificateSelfManagedSslCertificate
+          properties:
+            certificate:
+              description: A local certificate file. The certificate must be in PEM
+                format. The certificate chain must be no greater than 5 certs long.
+                The chain must include at least one intermediate cert.
+              type: string
+            privateKey:
+              description: A write-only private key in PEM format. Only insert requests
+                will include this field.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-alpha/types/regionSslCertificates?alt=json
+  title: Compute Engine API

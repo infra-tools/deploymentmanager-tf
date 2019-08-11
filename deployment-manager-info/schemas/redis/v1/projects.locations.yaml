@@ -1,0 +1,48 @@
+type_info:
+  documentationLink: https://cloud.google.com/memorystore/docs/redis/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Location'
+      methodName: get
+      schemas:
+        Location:
+          description: A resource that represents Google Cloud Platform location.
+          id: Location
+          properties:
+            displayName:
+              description: |-
+                The friendly name for this location, typically a nearby city name.
+                For example, "Tokyo".
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: |-
+                Cross-service attributes for the location. For example
+
+                    {"cloud.googleapis.com/region": "us-east1"}
+              type: object
+            locationId:
+              description: 'Resource ID for the region. For example: "us-east1".'
+              type: string
+            metadata:
+              additionalProperties:
+                description: Properties of the object. Contains field @type with type
+                  URL.
+                type: any
+              description: Output only. The set of available zones in the location.
+                The map is keyed by the lowercase ID of each zone, as defined by Compute
+                Engine. These keys can be specified in `location_id` or `alternative_location_id`
+                fields when creating a Redis instance.
+              type: object
+            name:
+              description: 'Full resource name for the region. For example: "projects/example-project/locations/us-east1".'
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/redis-v1/types/projects.locations?alt=json
+  title: Google Cloud Memorystore for Redis API

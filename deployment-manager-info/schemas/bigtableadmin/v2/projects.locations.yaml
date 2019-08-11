@@ -1,0 +1,49 @@
+type_info:
+  documentationLink: https://cloud.google.com/bigtable/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Location'
+      methodName: get
+      schemas:
+        Location:
+          description: A resource that represents Google Cloud Platform location.
+          id: Location
+          properties:
+            displayName:
+              description: |-
+                The friendly name for this location, typically a nearby city name.
+                For example, "Tokyo".
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: |-
+                Cross-service attributes for the location. For example
+
+                    {"cloud.googleapis.com/region": "us-east1"}
+              type: object
+            locationId:
+              description: 'The canonical id for this location. For example: `"us-east1"`.'
+              type: string
+            metadata:
+              additionalProperties:
+                description: Properties of the object. Contains field @type with type
+                  URL.
+                type: any
+              description: |-
+                Service-specific metadata. For example the available capacity at the given
+                location.
+              type: object
+            name:
+              description: |-
+                Resource name for the location, which may vary between implementations.
+                For example: `"projects/example-project/locations/us-east1"`
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/bigtableadmin-v2/types/projects.locations?alt=json
+  title: Cloud Bigtable Admin API

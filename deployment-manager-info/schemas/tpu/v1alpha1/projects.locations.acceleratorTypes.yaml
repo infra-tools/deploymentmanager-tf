@@ -1,0 +1,25 @@
+type_info:
+  documentationLink: https://cloud.google.com/tpu/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations.acceleratorTypes
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/AcceleratorType'
+      methodName: get
+      schemas:
+        AcceleratorType:
+          description: A accelerator type that a Node can be configured with.
+          id: AcceleratorType
+          properties:
+            name:
+              description: The resource name.
+              type: string
+            type:
+              description: the accelerator type.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/tpu-v1alpha1/types/projects.locations.acceleratorTypes?alt=json
+  title: Cloud TPU API

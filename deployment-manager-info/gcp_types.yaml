@@ -1,0 +1,515 @@
+---
+provider: gcp-types/accesscontextmanager-v1beta
+types:
+- operations
+- accessPolicies
+- accessPolicies.servicePerimeters
+- accessPolicies.accessLevels
+---
+provider: gcp-types/appengine-v1
+types:
+- apps
+- apps.locations
+- apps.authorizedCertificates
+- apps.services
+- apps.services.versions
+- apps.services.versions.instances
+- apps.authorizedDomains
+- apps.operations
+- apps.domainMappings
+- apps.firewall.ingressRules
+---
+provider: gcp-types/bigquery-v2
+types:
+- jobs
+- projects
+- tabledata
+- tables
+- datasets
+- models
+---
+provider: gcp-types/bigtableadmin-v2
+types:
+- operations
+- operations.projects.operations
+- projects.locations
+- projects.instances
+- projects.instances.appProfiles
+- projects.instances.tables
+- projects.instances.clusters
+---
+provider: gcp-types/cloudbuild-v1
+types:
+- operations
+- projects.builds
+- projects.triggers
+---
+provider: gcp-types/cloudfunctions-v1
+types:
+- projects.locations
+- projects.locations.functions
+- operations
+---
+provider: gcp-types/cloudfunctions-v1beta2
+types:
+- operations
+- projects.locations
+- projects.locations.functions
+---
+provider: gcp-types/cloudkms-v1
+types:
+- projects.locations
+- projects.locations.keyRings
+- projects.locations.keyRings.importJobs
+- projects.locations.keyRings.cryptoKeys
+- projects.locations.keyRings.cryptoKeys.cryptoKeyVersions
+---
+provider: gcp-types/cloudresourcemanager-v1
+types:
+- organizations
+- liens
+- operations
+- folders
+- projects
+- virtual.projects.iamMemberBinding
+- virtual.organizations.iamMemberBinding
+---
+provider: gcp-types/cloudresourcemanager-v2
+types:
+- folders
+- operations
+- virtual.folders.iamMemberBinding
+---
+provider: gcp-types/compute-alpha
+types:
+- acceleratorTypes
+- addresses
+- autoscalers
+- backendBuckets
+- backendServices
+- diskTypes
+- disks
+- externalVpnGateways
+- firewalls
+- forwardingRules
+- globalAddresses
+- globalForwardingRules
+- globalNetworkEndpointGroups
+- globalOperations
+- globalOrganizationOperations
+- healthChecks
+- httpHealthChecks
+- httpsHealthChecks
+- images
+- instanceGroupManagers
+- instanceGroups
+- instanceTemplates
+- instances
+- interconnectAttachments
+- interconnectLocations
+- interconnects
+- licenseCodes
+- licenses
+- machineImages
+- machineTypes
+- networkEndpointGroups
+- networks
+- nodeGroups
+- nodeTemplates
+- nodeTypes
+- organizationSecurityPolicies
+- projects
+- regionAutoscalers
+- regionBackendServices
+- regionCommitments
+- regionDiskTypes
+- regionDisks
+- regionHealthCheckServices
+- regionHealthChecks
+- regionInstanceGroupManagers
+- regionInstanceGroups
+- regionNotificationEndpoints
+- regionOperations
+- regionSslCertificates
+- regionTargetHttpProxies
+- regionTargetHttpsProxies
+- regionUrlMaps
+- regions
+- reservations
+- resourcePolicies
+- routers
+- routes
+- securityPolicies
+- snapshots
+- sslCertificates
+- sslPolicies
+- subnetworks
+- targetHttpProxies
+- targetHttpsProxies
+- targetInstances
+- targetPools
+- targetSslProxies
+- targetTcpProxies
+- targetVpnGateways
+- urlMaps
+- vpnGateways
+- vpnTunnels
+- zoneOperations
+- zones
+---
+provider: gcp-types/compute-beta
+types:
+- acceleratorTypes
+- addresses
+- autoscalers
+- backendBuckets
+- backendServices
+- diskTypes
+- disks
+- externalVpnGateways
+- firewalls
+- forwardingRules
+- globalAddresses
+- globalForwardingRules
+- globalOperations
+- healthChecks
+- httpHealthChecks
+- httpsHealthChecks
+- images
+- instanceGroupManagers
+- instanceGroups
+- instanceTemplates
+- instances
+- interconnectAttachments
+- interconnectLocations
+- interconnects
+- licenseCodes
+- licenses
+- machineTypes
+- networkEndpointGroups
+- networks
+- nodeGroups
+- nodeTemplates
+- nodeTypes
+- projects
+- regionAutoscalers
+- regionBackendServices
+- regionCommitments
+- regionDiskTypes
+- regionDisks
+- regionInstanceGroupManagers
+- regionInstanceGroups
+- regionOperations
+- regions
+- reservations
+- resourcePolicies
+- routers
+- routes
+- securityPolicies
+- snapshots
+- sslCertificates
+- sslPolicies
+- subnetworks
+- targetHttpProxies
+- targetHttpsProxies
+- targetInstances
+- targetPools
+- targetSslProxies
+- targetTcpProxies
+- targetVpnGateways
+- urlMaps
+- vpnGateways
+- vpnTunnels
+- zoneOperations
+- zones
+---
+provider: gcp-types/compute-v1
+types:
+- acceleratorTypes
+- addresses
+- autoscalers
+- backendBuckets
+- backendServices
+- diskTypes
+- disks
+- firewalls
+- forwardingRules
+- globalAddresses
+- globalForwardingRules
+- globalOperations
+- healthChecks
+- httpHealthChecks
+- httpsHealthChecks
+- images
+- instanceGroupManagers
+- instanceGroups
+- instanceTemplates
+- instances
+- interconnectAttachments
+- interconnectLocations
+- interconnects
+- licenseCodes
+- licenses
+- machineTypes
+- networkEndpointGroups
+- networks
+- nodeGroups
+- nodeTemplates
+- nodeTypes
+- projects
+- regionAutoscalers
+- regionBackendServices
+- regionCommitments
+- regionDiskTypes
+- regionDisks
+- regionInstanceGroupManagers
+- regionInstanceGroups
+- regionOperations
+- regions
+- routers
+- routes
+- securityPolicies
+- snapshots
+- sslCertificates
+- sslPolicies
+- subnetworks
+- targetHttpProxies
+- targetHttpsProxies
+- targetInstances
+- targetPools
+- targetSslProxies
+- targetTcpProxies
+- targetVpnGateways
+- urlMaps
+- vpnTunnels
+- zoneOperations
+- zones
+---
+provider: gcp-types/container-v1
+types:
+- projects.locations
+- projects.locations.operations
+- projects.locations.clusters
+- projects.locations.clusters.well-known
+- projects.locations.clusters.nodePools
+- projects.aggregated.usableSubnetworks
+- projects.zones
+- projects.zones.clusters
+- projects.zones.clusters.nodePools
+- projects.zones.operations
+---
+provider: gcp-types/container-v1beta1
+types:
+- projects.locations
+- projects.locations.operations
+- projects.locations.clusters
+- projects.locations.clusters.nodePools
+- projects.locations.clusters.well-known
+- projects.aggregated.usableSubnetworks
+- projects.zones
+- projects.zones.clusters
+- projects.zones.clusters.nodePools
+- projects.zones.operations
+---
+provider: gcp-types/dataproc-v1
+types:
+- projects.locations.workflowTemplates
+- projects.regions.jobs
+- projects.regions.clusters
+- projects.regions.workflowTemplates
+- projects.regions.operations
+---
+provider: gcp-types/deploymentmanager-alpha
+types:
+- compositeTypes
+- deployments
+- manifests
+- operations
+- resources
+- typeProviders
+- types
+---
+provider: gcp-types/deploymentmanager-v2
+types:
+- deployments
+- manifests
+- operations
+- resources
+- types
+---
+provider: gcp-types/deploymentmanager-v2beta
+types:
+- compositeTypes
+- deployments
+- manifests
+- operations
+- resources
+- typeProviders
+- types
+---
+provider: gcp-types/dns-v1
+types:
+- changes
+- dnsKeys
+- managedZoneOperations
+- managedZones
+- projects
+- resourceRecordSets
+---
+provider: gcp-types/dns-v1alpha2
+types:
+- changes
+- dnsKeys
+- managedZoneOperations
+- managedZones
+- policies
+- projects
+- resourceRecordSets
+---
+provider: gcp-types/dns-v1beta2
+types:
+- changes
+- dnsKeys
+- managedZoneOperations
+- managedZones
+- policies
+- projects
+- resourceRecordSets
+---
+provider: gcp-types/file-v1beta1
+types:
+- projects.locations
+- projects.locations.operations
+- projects.locations.instances
+---
+provider: gcp-types/iam-v1
+types:
+- roles
+- permissions
+- organizations.roles
+- iamPolicies
+- projects.serviceAccounts
+- projects.serviceAccounts.keys
+- projects.roles
+---
+provider: gcp-types/logging-v2
+types:
+- monitoredResourceDescriptors
+- organizations.sinks
+- organizations.logs
+- organizations.exclusions
+- entries
+- sinks
+- logs
+- projects.metrics
+- projects.sinks
+- projects.logs
+- projects.exclusions
+- billingAccounts.sinks
+- billingAccounts.logs
+- billingAccounts.exclusions
+- folders.exclusions
+- folders.sinks
+- folders.logs
+- exclusions
+---
+provider: gcp-types/monitoring-v3
+types:
+- projects.timeSeries
+- projects.uptimeCheckConfigs
+- projects.monitoredResourceDescriptors
+- projects.notificationChannelDescriptors
+- projects.groups
+- projects.groups.members
+- projects.collectdTimeSeries
+- projects.notificationChannels
+- projects.alertPolicies
+- projects.metricDescriptors
+- uptimeCheckIps
+---
+provider: gcp-types/pubsub-v1
+types:
+- projects.topics
+- projects.topics.subscriptions
+- projects.topics.snapshots
+- projects.subscriptions
+- projects.snapshots
+---
+provider: gcp-types/redis-v1
+types:
+- projects.locations
+- projects.locations.operations
+- projects.locations.instances
+---
+provider: gcp-types/redis-v1beta1
+types:
+- projects.locations
+- projects.locations.operations
+- projects.locations.instances
+---
+provider: gcp-types/runtimeconfig-v1beta1
+types:
+- projects.configs
+- projects.configs.operations
+- projects.configs.waiters
+- projects.configs.variables
+---
+provider: gcp-types/servicemanagement-v1
+types:
+- operations
+- services
+- services.configs
+- services.consumers
+- services.rollouts
+---
+provider: gcp-types/serviceusage-v1
+types:
+- services
+- operations
+- virtualService
+---
+provider: gcp-types/serviceusage-v1beta1
+types:
+- operations
+- services
+- virtualService
+---
+provider: gcp-types/spanner-v1
+types:
+- projects.instances
+- projects.instances.databases
+- projects.instances.databases.operations
+- projects.instances.databases.sessions
+- projects.instances.operations
+- projects.instanceConfigs
+---
+provider: gcp-types/sqladmin-v1beta4
+types:
+- backupRuns
+- databases
+- flags
+- instances
+- operations
+- sslCerts
+- tiers
+- users
+---
+provider: gcp-types/storage-v1
+types:
+- bucketAccessControls
+- buckets
+- channels
+- defaultObjectAccessControls
+- notifications
+- objectAccessControls
+- objects
+- projects.hmacKeys
+- projects.serviceAccount
+---
+provider: gcp-types/tpu-v1alpha1
+types:
+- projects.locations
+- projects.locations.acceleratorTypes
+- projects.locations.nodes
+- projects.locations.tensorflowVersions
+- projects.locations.operations

@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/pubsub/docs
+  kind: deploymentmanager#typeInfo
+  name: projects.topics.subscriptions
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/pubsub-v1/types/projects.topics.subscriptions?alt=json
+  title: Cloud Pub/Sub API

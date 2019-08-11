@@ -1,0 +1,112 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: zones
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Zone'
+      methodName: get
+      schemas:
+        DeprecationStatus:
+          description: Deprecation status for a public resource.
+          id: DeprecationStatus
+          properties:
+            deleted:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to DELETED. This is only informational
+                and the status will not change unless the client explicitly changes
+                it.
+              type: string
+            deprecated:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to DEPRECATED. This is only
+                informational and the status will not change unless the client explicitly
+                changes it.
+              type: string
+            obsolete:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to OBSOLETE. This is only informational
+                and the status will not change unless the client explicitly changes
+                it.
+              type: string
+            replacement:
+              description: The URL of the suggested replacement for a deprecated resource.
+                The suggested replacement resource must be the same kind of resource
+                as the deprecated resource.
+              type: string
+            state:
+              description: The deprecation state of this resource. This can be ACTIVE,
+                DEPRECATED, OBSOLETE, or DELETED. Operations which communicate the
+                end of life date for an image, can use ACTIVE. Operations which create
+                a new resource using a DEPRECATED resource will return successfully,
+                but with a warning indicating the deprecated resource and recommending
+                its replacement. Operations which use OBSOLETE or DELETED resources
+                will be rejected and result in an error.
+              enum:
+              - ACTIVE
+              - DELETED
+              - DEPRECATED
+              - OBSOLETE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        Zone:
+          description: 'A Zone resource. (== resource_for beta.zones ==) (== resource_for
+            v1.zones ==) Next ID: 17'
+          id: Zone
+          properties:
+            availableCpuPlatforms:
+              description: '[Output Only] Available cpu/platform selections for the
+                zone.'
+              items:
+                type: string
+              type: array
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            deprecated:
+              $ref: '#/schemas/DeprecationStatus'
+              description: '[Output Only] The deprecation status associated with this
+                zone.'
+            description:
+              description: '[Output Only] Textual description of the resource.'
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#zone
+              description: '[Output Only] Type of the resource. Always compute#zone
+                for zones.'
+              type: string
+            name:
+              description: '[Output Only] Name of the resource.'
+              type: string
+            region:
+              description: '[Output Only] Full URL reference to the region which hosts
+                the zone.'
+              type: string
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            status:
+              description: '[Output Only] Status of the zone, either UP or DOWN.'
+              enum:
+              - DOWN
+              - UP
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-v1/types/zones?alt=json
+  title: Compute Engine API

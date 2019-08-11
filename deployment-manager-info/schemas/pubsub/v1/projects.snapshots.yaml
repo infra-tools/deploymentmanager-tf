@@ -1,0 +1,115 @@
+type_info:
+  documentationLink: https://cloud.google.com/pubsub/docs
+  kind: deploymentmanager#typeInfo
+  name: projects.snapshots
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          labels:
+            additionalProperties:
+              type: string
+            description: |-
+              See <a href="https://cloud.google.com/pubsub/docs/labels"> Creating and
+              managing labels</a>.
+            type: object
+          name:
+            description: |-
+              Optional user-provided name for this snapshot.
+              If the name is not provided in the request, the server will assign a random
+              name for this snapshot on the same project as the subscription.
+              Note that for REST API requests, you must specify a name.  See the
+              <a href="https://cloud.google.com/pubsub/docs/admin#resource_names">
+              resource name rules</a>.
+              Format is `projects/{project}/snapshots/{snap}`.
+            location: path
+            pattern: ^projects/[^/]+/snapshots/[^/]+$
+            required: true
+            type: string
+          subscription:
+            description: |-
+              The subscription whose backlog the snapshot retains.
+              Specifically, the created snapshot is guaranteed to retain:
+               (a) The existing backlog on the subscription. More precisely, this is
+                   defined as the messages in the subscription's backlog that are
+                   unacknowledged upon the successful completion of the
+                   `CreateSnapshot` request; as well as:
+               (b) Any messages published to the subscription's topic following the
+                   successful completion of the CreateSnapshot request.
+              Format is `projects/{project}/subscriptions/{sub}`.
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        CreateSnapshotRequest:
+          description: Request for the `CreateSnapshot` method.
+          id: CreateSnapshotRequest
+          properties:
+            labels:
+              additionalProperties:
+                type: string
+              description: |-
+                See <a href="https://cloud.google.com/pubsub/docs/labels"> Creating and
+                managing labels</a>.
+              type: object
+            subscription:
+              description: |-
+                The subscription whose backlog the snapshot retains.
+                Specifically, the created snapshot is guaranteed to retain:
+                 (a) The existing backlog on the subscription. More precisely, this is
+                     defined as the messages in the subscription's backlog that are
+                     unacknowledged upon the successful completion of the
+                     `CreateSnapshot` request; as well as:
+                 (b) Any messages published to the subscription's topic following the
+                     successful completion of the CreateSnapshot request.
+                Format is `projects/{project}/subscriptions/{sub}`.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Snapshot'
+      methodName: get
+      schemas:
+        Snapshot:
+          description: |-
+            A snapshot resource. Snapshots are used in
+            <a href="https://cloud.google.com/pubsub/docs/replay-overview">Seek</a>
+            operations, which allow
+            you to manage message acknowledgments in bulk. That is, you can set the
+            acknowledgment state of messages in an existing subscription to the state
+            captured by a snapshot.
+          id: Snapshot
+          properties:
+            expireTime:
+              description: |-
+                The snapshot is guaranteed to exist up until this time.
+                A newly-created snapshot expires no later than 7 days from the time of its
+                creation. Its exact lifetime is determined at creation by the existing
+                backlog in the source subscription. Specifically, the lifetime of the
+                snapshot is `7 days - (age of oldest unacked message in the subscription)`.
+                For example, consider a subscription whose oldest unacked message is 3 days
+                old. If a snapshot is created from this subscription, the snapshot -- which
+                will always capture this 3-day-old backlog as long as the snapshot
+                exists -- will expire in 4 days. The service will refuse to create a
+                snapshot that would expire in less than 1 hour after creation.
+              format: google-datetime
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: |-
+                See <a href="https://cloud.google.com/pubsub/docs/labels"> Creating and
+                managing labels</a>.
+              type: object
+            name:
+              description: The name of the snapshot.
+              type: string
+            topic:
+              description: The name of the topic from which this snapshot is retaining
+                messages.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/pubsub-v1/types/projects.snapshots?alt=json
+  title: Cloud Pub/Sub API

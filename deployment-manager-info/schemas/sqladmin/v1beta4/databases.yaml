@@ -1,0 +1,135 @@
+type_info:
+  documentationLink: https://cloud.google.com/sql/docs/reference/latest
+  kind: deploymentmanager#typeInfo
+  name: databases
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          charset:
+            description: The MySQL charset value.
+            type: string
+          collation:
+            description: The MySQL collation value.
+            type: string
+          etag:
+            description: This field is deprecated and will be removed from a future
+              version of the API.
+            type: string
+          instance:
+            description: Database instance ID. This does not include the project ID.
+            location: path
+            required: true
+            type: string
+          kind:
+            default: sql#database
+            description: This is always sql#database.
+            type: string
+          name:
+            annotations:
+              required:
+              - sql.databases.insert
+            description: The name of the database in the Cloud SQL instance. This
+              does not include the project ID or instance name.
+            type: string
+          selfLink:
+            description: The URI of this resource.
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        Database:
+          description: Represents a SQL database on the Cloud SQL instance.
+          id: Database
+          properties:
+            charset:
+              description: The MySQL charset value.
+              type: string
+            collation:
+              description: The MySQL collation value.
+              type: string
+            etag:
+              description: This field is deprecated and will be removed from a future
+                version of the API.
+              type: string
+            instance:
+              annotations:
+                required:
+                - sql.databases.insert
+              description: The name of the Cloud SQL instance. This does not include
+                the project ID.
+              type: string
+            kind:
+              default: sql#database
+              description: This is always sql#database.
+              type: string
+            name:
+              annotations:
+                required:
+                - sql.databases.insert
+              description: The name of the database in the Cloud SQL instance. This
+                does not include the project ID or instance name.
+              type: string
+            project:
+              annotations:
+                required:
+                - sql.databases.insert
+              description: The project ID of the project containing the Cloud SQL
+                database. The Google apps domain is prefixed if applicable.
+              type: string
+            selfLink:
+              description: The URI of this resource.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Database'
+      methodName: get
+      schemas:
+        Database:
+          description: Represents a SQL database on the Cloud SQL instance.
+          id: Database
+          properties:
+            charset:
+              description: The MySQL charset value.
+              type: string
+            collation:
+              description: The MySQL collation value.
+              type: string
+            etag:
+              description: This field is deprecated and will be removed from a future
+                version of the API.
+              type: string
+            instance:
+              annotations:
+                required:
+                - sql.databases.insert
+              description: The name of the Cloud SQL instance. This does not include
+                the project ID.
+              type: string
+            kind:
+              default: sql#database
+              description: This is always sql#database.
+              type: string
+            name:
+              annotations:
+                required:
+                - sql.databases.insert
+              description: The name of the database in the Cloud SQL instance. This
+                does not include the project ID or instance name.
+              type: string
+            project:
+              annotations:
+                required:
+                - sql.databases.insert
+              description: The project ID of the project containing the Cloud SQL
+                database. The Google apps domain is prefixed if applicable.
+              type: string
+            selfLink:
+              description: The URI of this resource.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/sqladmin-v1beta4/types/databases?alt=json
+  title: Cloud SQL Admin API

@@ -1,0 +1,658 @@
+type_info:
+  documentationLink: https://developers.google.com/deployment-manager/
+  kind: deploymentmanager#typeInfo
+  name: typeProviders
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          collectionOverrides:
+            description: Allows resource handling overrides for specific collections
+            items:
+              $ref: '#/schemas/CollectionOverride'
+            type: array
+          credential:
+            $ref: '#/schemas/Credential'
+            description: Credential used when interacting with this type.
+          description:
+            description: An optional textual description of the resource; provided
+              by the client when the resource is created.
+            type: string
+          descriptorUrl:
+            description: Descriptor Url for the this type provider.
+            type: string
+          labels:
+            description: 'Map of labels; provided by the client when the resource
+              is created or updated. Specifically: Label keys must be between 1 and
+              63 characters long and must conform to the following regular expression:
+              [a-z]([-a-z0-9]*[a-z0-9])? Label values must be between 0 and 63 characters
+              long and must conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?'
+            items:
+              $ref: '#/schemas/TypeProviderLabelEntry'
+            type: array
+          name:
+            description: Name of the resource; provided by the client when the resource
+              is created. The name must be 1-63 characters long, and comply with RFC1035.
+              Specifically, the name must be 1-63 characters long and match the regular
+              expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first character
+              must be a lowercase letter, and all following characters must be a dash,
+              lowercase letter, or digit, except the last character, which cannot
+              be a dash.
+            type: string
+          options:
+            $ref: '#/schemas/Options'
+            description: Options to apply when handling any resources in this service.
+        type: object
+      methodName: insert
+      schemas:
+        AsyncOptions:
+          description: Async options that determine when a resource should finish.
+          id: AsyncOptions
+          properties:
+            methodMatch:
+              description: Method regex where this policy will apply.
+              type: string
+            pollingOptions:
+              $ref: '#/schemas/PollingOptions'
+              description: Deployment manager will poll instances for this API resource
+                setting a RUNNING state, and blocking until polling conditions tell
+                whether the resource is completed or failed.
+          type: object
+        BasicAuth:
+          description: Basic Auth used as a credential.
+          id: BasicAuth
+          properties:
+            password:
+              type: string
+            user:
+              type: string
+          type: object
+        CollectionOverride:
+          description: CollectionOverride allows resource handling overrides for specific
+            resources within a BaseType
+          id: CollectionOverride
+          properties:
+            collection:
+              description: The collection that identifies this resource within its
+                service.
+              type: string
+            options:
+              $ref: '#/schemas/Options'
+              description: The options to apply to this resource-level override
+          type: object
+        Credential:
+          description: The credential used by Deployment Manager and TypeProvider.
+            Only one of the options is permitted.
+          id: Credential
+          properties:
+            basicAuth:
+              $ref: '#/schemas/BasicAuth'
+              description: Basic Auth Credential, only used by TypeProvider.
+            serviceAccount:
+              $ref: '#/schemas/ServiceAccount'
+              description: Service Account Credential, only used by Deployment.
+            useProjectDefault:
+              description: Specify to use the project default credential, only supported
+                by Deployment.
+              type: boolean
+          type: object
+        Diagnostic:
+          description: ''
+          id: Diagnostic
+          properties:
+            field:
+              description: JsonPath expression on the resource that if non empty,
+                indicates that this field needs to be extracted as a diagnostic.
+              type: string
+            level:
+              description: Level to record this diagnostic.
+              type: string
+          type: object
+        InputMapping:
+          description: InputMapping creates a 'virtual' property that will be injected
+            into the properties before sending the request to the underlying API.
+          id: InputMapping
+          properties:
+            fieldName:
+              description: The name of the field that is going to be injected.
+              type: string
+            location:
+              description: The location where this mapping applies.
+              type: string
+            methodMatch:
+              description: Regex to evaluate on method to decide if input applies.
+              type: string
+            value:
+              description: A jsonPath expression to select an element.
+              type: string
+          type: object
+        Operation:
+          description: An Operation resource, used to manage asynchronous API requests.
+            (== resource_for v1.globalOperations ==) (== resource_for beta.globalOperations
+            ==) (== resource_for v1.regionOperations ==) (== resource_for beta.regionOperations
+            ==) (== resource_for v1.zoneOperations ==) (== resource_for beta.zoneOperations
+            ==)
+          id: Operation
+          properties:
+            creationTimestamp:
+              description: '[Deprecated] This field is deprecated.'
+              type: string
+          type: object
+        Options:
+          description: Options allows customized resource handling by Deployment Manager.
+          id: Options
+          properties:
+            asyncOptions:
+              description: Options regarding how to thread async requests.
+              items:
+                $ref: '#/schemas/AsyncOptions'
+              type: array
+            inputMappings:
+              description: The mappings that apply for requests.
+              items:
+                $ref: '#/schemas/InputMapping'
+              type: array
+            validationOptions:
+              $ref: '#/schemas/ValidationOptions'
+              description: Options for how to validate and process properties on a
+                resource.
+            virtualProperties:
+              description: 'Additional properties block described as a jsonSchema,
+                these properties will never be part of the json payload, but they
+                can be consumed by InputMappings, this must be a valid json schema
+                draft-04. The properties specified here will be decouple in a different
+                section. This schema will be merged to the schema validation, and
+                properties here will be extracted From the payload and consumed explicitly
+                by InputMappings. ex: field1: type: string field2: type: number'
+              type: string
+          type: object
+        PollingOptions:
+          description: ''
+          id: PollingOptions
+          properties:
+            diagnostics:
+              description: An array of diagnostics to be collected by Deployment Manager,
+                these diagnostics will be displayed to the user.
+              items:
+                $ref: '#/schemas/Diagnostic'
+              type: array
+            failCondition:
+              description: JsonPath expression that determines if the request failed.
+              type: string
+            finishCondition:
+              description: JsonPath expression that determines if the request is completed.
+              type: string
+            pollingLink:
+              description: JsonPath expression that evaluates to string, it indicates
+                where to poll.
+              type: string
+            targetLink:
+              description: JsonPath expression, after polling is completed, indicates
+                where to fetch the resource.
+              type: string
+          type: object
+        ServiceAccount:
+          description: Service Account used as a credential.
+          id: ServiceAccount
+          properties:
+            email:
+              description: The IAM service account email address like test@myproject.iam.gserviceaccount.com
+              type: string
+          type: object
+        TypeProvider:
+          description: A type provider that describes a service-backed Type.
+          id: TypeProvider
+          properties:
+            collectionOverrides:
+              description: Allows resource handling overrides for specific collections
+              items:
+                $ref: '#/schemas/CollectionOverride'
+              type: array
+            credential:
+              $ref: '#/schemas/Credential'
+              description: Credential used when interacting with this type.
+            description:
+              description: An optional textual description of the resource; provided
+                by the client when the resource is created.
+              type: string
+            descriptorUrl:
+              description: Descriptor Url for the this type provider.
+              type: string
+            labels:
+              description: 'Map of labels; provided by the client when the resource
+                is created or updated. Specifically: Label keys must be between 1
+                and 63 characters long and must conform to the following regular expression:
+                [a-z]([-a-z0-9]*[a-z0-9])? Label values must be between 0 and 63 characters
+                long and must conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?'
+              items:
+                $ref: '#/schemas/TypeProviderLabelEntry'
+              type: array
+            name:
+              description: Name of the resource; provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              type: string
+            options:
+              $ref: '#/schemas/Options'
+              description: Options to apply when handling any resources in this service.
+          type: object
+        TypeProviderLabelEntry:
+          id: TypeProviderLabelEntry
+          properties:
+            key:
+              type: string
+            value:
+              type: string
+          type: object
+        ValidationOptions:
+          description: Options for how to validate and process properties on a resource.
+          id: ValidationOptions
+          properties:
+            schemaValidation:
+              description: Customize how deployment manager will validate the resource
+                against schema errors.
+              type: string
+            undeclaredProperties:
+              description: Specify what to do with extra properties when executing
+                a request.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/TypeProvider'
+      methodName: get
+      schemas:
+        AsyncOptions:
+          description: Async options that determine when a resource should finish.
+          id: AsyncOptions
+          properties:
+            methodMatch:
+              description: Method regex where this policy will apply.
+              type: string
+            pollingOptions:
+              $ref: '#/schemas/PollingOptions'
+              description: Deployment manager will poll instances for this API resource
+                setting a RUNNING state, and blocking until polling conditions tell
+                whether the resource is completed or failed.
+          type: object
+        BasicAuth:
+          description: Basic Auth used as a credential.
+          id: BasicAuth
+          properties:
+            password:
+              type: string
+            user:
+              type: string
+          type: object
+        CollectionOverride:
+          description: CollectionOverride allows resource handling overrides for specific
+            resources within a BaseType
+          id: CollectionOverride
+          properties:
+            collection:
+              description: The collection that identifies this resource within its
+                service.
+              type: string
+            options:
+              $ref: '#/schemas/Options'
+              description: The options to apply to this resource-level override
+          type: object
+        Credential:
+          description: The credential used by Deployment Manager and TypeProvider.
+            Only one of the options is permitted.
+          id: Credential
+          properties:
+            basicAuth:
+              $ref: '#/schemas/BasicAuth'
+              description: Basic Auth Credential, only used by TypeProvider.
+            serviceAccount:
+              $ref: '#/schemas/ServiceAccount'
+              description: Service Account Credential, only used by Deployment.
+            useProjectDefault:
+              description: Specify to use the project default credential, only supported
+                by Deployment.
+              type: boolean
+          type: object
+        Diagnostic:
+          description: ''
+          id: Diagnostic
+          properties:
+            field:
+              description: JsonPath expression on the resource that if non empty,
+                indicates that this field needs to be extracted as a diagnostic.
+              type: string
+            level:
+              description: Level to record this diagnostic.
+              type: string
+          type: object
+        InputMapping:
+          description: InputMapping creates a 'virtual' property that will be injected
+            into the properties before sending the request to the underlying API.
+          id: InputMapping
+          properties:
+            fieldName:
+              description: The name of the field that is going to be injected.
+              type: string
+            location:
+              description: The location where this mapping applies.
+              type: string
+            methodMatch:
+              description: Regex to evaluate on method to decide if input applies.
+              type: string
+            value:
+              description: A jsonPath expression to select an element.
+              type: string
+          type: object
+        Operation:
+          description: An Operation resource, used to manage asynchronous API requests.
+            (== resource_for v1.globalOperations ==) (== resource_for beta.globalOperations
+            ==) (== resource_for v1.regionOperations ==) (== resource_for beta.regionOperations
+            ==) (== resource_for v1.zoneOperations ==) (== resource_for beta.zoneOperations
+            ==)
+          id: Operation
+          properties:
+            clientOperationId:
+              description: '[Output Only] The value of `requestId` if you provided
+                it in the request. Not present otherwise.'
+              type: string
+            creationTimestamp:
+              description: '[Deprecated] This field is deprecated.'
+              type: string
+            description:
+              description: '[Output Only] A textual description of the operation,
+                which is set when the operation is created.'
+              type: string
+            endTime:
+              description: '[Output Only] The time that this operation was completed.
+                This value is in RFC3339 text format.'
+              type: string
+            error:
+              description: '[Output Only] If errors are generated during processing
+                of the operation, this field will be populated.'
+              properties:
+                errors:
+                  description: '[Output Only] The array of errors encountered while
+                    processing this operation.'
+                  items:
+                    properties:
+                      code:
+                        description: '[Output Only] The error type identifier for
+                          this error.'
+                        type: string
+                      location:
+                        description: '[Output Only] Indicates the field in the request
+                          that caused the error. This property is optional.'
+                        type: string
+                      message:
+                        description: '[Output Only] An optional, human-readable error
+                          message.'
+                        type: string
+                    type: object
+                  type: array
+              type: object
+            httpErrorMessage:
+              description: '[Output Only] If the operation fails, this field contains
+                the HTTP error message that was returned, such as NOT FOUND.'
+              type: string
+            httpErrorStatusCode:
+              description: '[Output Only] If the operation fails, this field contains
+                the HTTP error status code that was returned. For example, a 404 means
+                the resource was not found.'
+              format: int32
+              type: integer
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            insertTime:
+              description: '[Output Only] The time that this operation was requested.
+                This value is in RFC3339 text format.'
+              type: string
+            kind:
+              default: deploymentmanager#operation
+              description: '[Output Only] Type of the resource. Always compute#operation
+                for Operation resources.'
+              type: string
+            name:
+              description: '[Output Only] Name of the resource.'
+              type: string
+            operationType:
+              description: '[Output Only] The type of operation, such as insert, update,
+                or delete, and so on.'
+              type: string
+            progress:
+              description: '[Output Only] An optional progress indicator that ranges
+                from 0 to 100. There is no requirement that this be linear or support
+                any granularity of operations. This should not be used to guess when
+                the operation will be complete. This number should monotonically increase
+                as the operation progresses.'
+              format: int32
+              type: integer
+            region:
+              description: '[Output Only] The URL of the region where the operation
+                resides. Only available when performing regional operations. You must
+                specify this field as part of the HTTP request URL. It is not settable
+                as a field in the request body.'
+              type: string
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            startTime:
+              description: '[Output Only] The time that this operation was started
+                by the server. This value is in RFC3339 text format.'
+              type: string
+            status:
+              description: '[Output Only] The status of the operation, which can be
+                one of the following: PENDING, RUNNING, or DONE.'
+              type: string
+            statusMessage:
+              description: '[Output Only] An optional textual description of the current
+                status of the operation.'
+              type: string
+            targetId:
+              description: '[Output Only] The unique target ID, which identifies a
+                specific incarnation of the target resource.'
+              format: uint64
+              type: string
+            targetLink:
+              description: '[Output Only] The URL of the resource that the operation
+                modifies. For operations related to creating a snapshot, this points
+                to the persistent disk that the snapshot was created from.'
+              type: string
+            user:
+              description: '[Output Only] User who requested the operation, for example:
+                user@example.com.'
+              type: string
+            warnings:
+              description: '[Output Only] If warning messages are generated during
+                processing of the operation, this field will be populated.'
+              items:
+                properties:
+                  code:
+                    description: '[Output Only] A warning code, if applicable. For
+                      example, Compute Engine returns NO_RESULTS_ON_PAGE if there
+                      are no results in the response.'
+                    type: string
+                  data:
+                    description: |-
+                      [Output Only] Metadata about this warning in key: value format. For example:
+                      "data": [ { "key": "scope", "value": "zones/us-east1-d" }
+                    items:
+                      properties:
+                        key:
+                          description: '[Output Only] A key that provides more detail
+                            on the warning being returned. For example, for warnings
+                            where there are no results in a list request for a particular
+                            zone, this key might be scope and the key value might
+                            be the zone name. Other examples might be a key indicating
+                            a deprecated resource and a suggested replacement, or
+                            a warning about invalid network settings (for example,
+                            if an instance attempts to perform IP forwarding but is
+                            not enabled for IP forwarding).'
+                          type: string
+                        value:
+                          description: '[Output Only] A warning data value corresponding
+                            to the key.'
+                          type: string
+                      type: object
+                    type: array
+                  message:
+                    description: '[Output Only] A human-readable description of the
+                      warning code.'
+                    type: string
+                type: object
+              type: array
+            zone:
+              description: '[Output Only] The URL of the zone where the operation
+                resides. Only available when performing per-zone operations. You must
+                specify this field as part of the HTTP request URL. It is not settable
+                as a field in the request body.'
+              type: string
+          type: object
+        Options:
+          description: Options allows customized resource handling by Deployment Manager.
+          id: Options
+          properties:
+            asyncOptions:
+              description: Options regarding how to thread async requests.
+              items:
+                $ref: '#/schemas/AsyncOptions'
+              type: array
+            inputMappings:
+              description: The mappings that apply for requests.
+              items:
+                $ref: '#/schemas/InputMapping'
+              type: array
+            validationOptions:
+              $ref: '#/schemas/ValidationOptions'
+              description: Options for how to validate and process properties on a
+                resource.
+            virtualProperties:
+              description: 'Additional properties block described as a jsonSchema,
+                these properties will never be part of the json payload, but they
+                can be consumed by InputMappings, this must be a valid json schema
+                draft-04. The properties specified here will be decouple in a different
+                section. This schema will be merged to the schema validation, and
+                properties here will be extracted From the payload and consumed explicitly
+                by InputMappings. ex: field1: type: string field2: type: number'
+              type: string
+          type: object
+        PollingOptions:
+          description: ''
+          id: PollingOptions
+          properties:
+            diagnostics:
+              description: An array of diagnostics to be collected by Deployment Manager,
+                these diagnostics will be displayed to the user.
+              items:
+                $ref: '#/schemas/Diagnostic'
+              type: array
+            failCondition:
+              description: JsonPath expression that determines if the request failed.
+              type: string
+            finishCondition:
+              description: JsonPath expression that determines if the request is completed.
+              type: string
+            pollingLink:
+              description: JsonPath expression that evaluates to string, it indicates
+                where to poll.
+              type: string
+            targetLink:
+              description: JsonPath expression, after polling is completed, indicates
+                where to fetch the resource.
+              type: string
+          type: object
+        ServiceAccount:
+          description: Service Account used as a credential.
+          id: ServiceAccount
+          properties:
+            email:
+              description: The IAM service account email address like test@myproject.iam.gserviceaccount.com
+              type: string
+          type: object
+        TypeProvider:
+          description: A type provider that describes a service-backed Type.
+          id: TypeProvider
+          properties:
+            collectionOverrides:
+              description: Allows resource handling overrides for specific collections
+              items:
+                $ref: '#/schemas/CollectionOverride'
+              type: array
+            credential:
+              $ref: '#/schemas/Credential'
+              description: Credential used when interacting with this type.
+            description:
+              description: An optional textual description of the resource; provided
+                by the client when the resource is created.
+              type: string
+            descriptorUrl:
+              description: Descriptor Url for the this type provider.
+              type: string
+            id:
+              description: Output only. Unique identifier for the resource defined
+                by the server.
+              format: uint64
+              type: string
+            insertTime:
+              description: Output only. Creation timestamp in RFC3339 text format.
+              type: string
+            labels:
+              description: 'Map of labels; provided by the client when the resource
+                is created or updated. Specifically: Label keys must be between 1
+                and 63 characters long and must conform to the following regular expression:
+                [a-z]([-a-z0-9]*[a-z0-9])? Label values must be between 0 and 63 characters
+                long and must conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?'
+              items:
+                $ref: '#/schemas/TypeProviderLabelEntry'
+              type: array
+            name:
+              description: Name of the resource; provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              type: string
+            operation:
+              $ref: '#/schemas/Operation'
+              description: Output only. The Operation that most recently ran, or is
+                currently running, on this type provider.
+            options:
+              $ref: '#/schemas/Options'
+              description: Options to apply when handling any resources in this service.
+            selfLink:
+              description: Output only. Self link for the type provider.
+              type: string
+          type: object
+        TypeProviderLabelEntry:
+          id: TypeProviderLabelEntry
+          properties:
+            key:
+              type: string
+            value:
+              type: string
+          type: object
+        ValidationOptions:
+          description: Options for how to validate and process properties on a resource.
+          id: ValidationOptions
+          properties:
+            schemaValidation:
+              description: Customize how deployment manager will validate the resource
+                against schema errors.
+              type: string
+            undeclaredProperties:
+              description: Specify what to do with extra properties when executing
+                a request.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/deploymentmanager-v2beta/types/typeProviders?alt=json
+  title: Google Cloud Deployment Manager API V2Beta Methods

@@ -1,0 +1,63 @@
+type_info:
+  documentationLink: https://cloud.google.com/kms/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations.keyRings
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          keyRingId:
+            description: |-
+              Required. It must be unique within a location and match the regular
+              expression `[a-zA-Z0-9_-]{1,63}`
+            location: query
+            type: string
+          name:
+            description: |-
+              Output only. The resource name for the KeyRing in the format
+              `projects/*/locations/*/keyRings/*`.
+            type: string
+          parent:
+            description: |-
+              Required. The resource name of the location associated with the
+              KeyRings, in the format `projects/*/locations/*`.
+            location: path
+            pattern: ^projects/[^/]+/locations/[^/]+$
+            required: true
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        KeyRing:
+          description: A KeyRing is a toplevel logical grouping of CryptoKeys.
+          id: KeyRing
+          properties:
+            name:
+              description: |-
+                Output only. The resource name for the KeyRing in the format
+                `projects/*/locations/*/keyRings/*`.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/KeyRing'
+      methodName: get
+      schemas:
+        KeyRing:
+          description: A KeyRing is a toplevel logical grouping of CryptoKeys.
+          id: KeyRing
+          properties:
+            createTime:
+              description: Output only. The time at which this KeyRing was created.
+              format: google-datetime
+              type: string
+            name:
+              description: |-
+                Output only. The resource name for the KeyRing in the format
+                `projects/*/locations/*/keyRings/*`.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/cloudkms-v1/types/projects.locations.keyRings?alt=json
+  title: Cloud Key Management Service (KMS) API

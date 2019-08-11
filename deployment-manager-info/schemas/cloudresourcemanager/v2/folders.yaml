@@ -1,0 +1,147 @@
+type_info:
+  documentationLink: https://cloud.google.com/resource-manager
+  kind: deploymentmanager#typeInfo
+  name: folders
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          displayName:
+            description: |-
+              The folder?s display name.
+              A folder?s display name must be unique amongst its siblings, e.g.
+              no two folders with the same parent can share the same display name.
+              The display name must start and end with a letter or digit, may contain
+              letters, digits, spaces, hyphens and underscores and can be no longer
+              than 30 characters. This is captured by the regular expression:
+              [\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?.
+            type: string
+          lifecycleState:
+            description: |-
+              Output only. The lifecycle state of the folder.
+              Updates to the lifecycle_state must be performed via
+              DeleteFolder and
+              UndeleteFolder.
+            enum:
+            - LIFECYCLE_STATE_UNSPECIFIED
+            - ACTIVE
+            - DELETE_REQUESTED
+            enumDescriptions:
+            - Unspecified state.
+            - The normal and active state.
+            - The folder has been marked for deletion by the user.
+            type: string
+          name:
+            description: |-
+              Output only. The resource name of the Folder.
+              Its format is `folders/{folder_id}`, for example: "folders/1234".
+            type: string
+          parent:
+            description: |-
+              The resource name of the new Folder's parent.
+              Must be of the form `folders/{folder_id}` or `organizations/{org_id}`.
+            location: query
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        Folder:
+          description: |-
+            A Folder in an Organization's resource hierarchy, used to
+            organize that Organization's resources.
+          id: Folder
+          properties:
+            displayName:
+              description: |-
+                The folder?s display name.
+                A folder?s display name must be unique amongst its siblings, e.g.
+                no two folders with the same parent can share the same display name.
+                The display name must start and end with a letter or digit, may contain
+                letters, digits, spaces, hyphens and underscores and can be no longer
+                than 30 characters. This is captured by the regular expression:
+                [\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?.
+              type: string
+            lifecycleState:
+              description: |-
+                Output only. The lifecycle state of the folder.
+                Updates to the lifecycle_state must be performed via
+                DeleteFolder and
+                UndeleteFolder.
+              enum:
+              - LIFECYCLE_STATE_UNSPECIFIED
+              - ACTIVE
+              - DELETE_REQUESTED
+              enumDescriptions:
+              - Unspecified state.
+              - The normal and active state.
+              - The folder has been marked for deletion by the user.
+              type: string
+            name:
+              description: |-
+                Output only. The resource name of the Folder.
+                Its format is `folders/{folder_id}`, for example: "folders/1234".
+              type: string
+            parent:
+              description: |-
+                The Folder?s parent's resource name.
+                Updates to the folder's parent must be performed via
+                MoveFolder.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Folder'
+      methodName: get
+      schemas:
+        Folder:
+          description: |-
+            A Folder in an Organization's resource hierarchy, used to
+            organize that Organization's resources.
+          id: Folder
+          properties:
+            createTime:
+              description: Output only. Timestamp when the Folder was created. Assigned
+                by the server.
+              format: google-datetime
+              type: string
+            displayName:
+              description: |-
+                The folder?s display name.
+                A folder?s display name must be unique amongst its siblings, e.g.
+                no two folders with the same parent can share the same display name.
+                The display name must start and end with a letter or digit, may contain
+                letters, digits, spaces, hyphens and underscores and can be no longer
+                than 30 characters. This is captured by the regular expression:
+                [\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?.
+              type: string
+            lifecycleState:
+              description: |-
+                Output only. The lifecycle state of the folder.
+                Updates to the lifecycle_state must be performed via
+                DeleteFolder and
+                UndeleteFolder.
+              enum:
+              - LIFECYCLE_STATE_UNSPECIFIED
+              - ACTIVE
+              - DELETE_REQUESTED
+              enumDescriptions:
+              - Unspecified state.
+              - The normal and active state.
+              - The folder has been marked for deletion by the user.
+              type: string
+            name:
+              description: |-
+                Output only. The resource name of the Folder.
+                Its format is `folders/{folder_id}`, for example: "folders/1234".
+              type: string
+            parent:
+              description: |-
+                The Folder?s parent's resource name.
+                Updates to the folder's parent must be performed via
+                MoveFolder.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/cloudresourcemanager-v2/types/folders?alt=json
+  title: Cloud Resource Manager API

@@ -1,0 +1,234 @@
+type_info:
+  documentationLink: https://developers.google.com/cloud-dns
+  kind: deploymentmanager#typeInfo
+  name: changes
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          additions:
+            description: Which ResourceRecordSets to add?
+            items:
+              $ref: '#/schemas/ResourceRecordSet'
+            type: array
+          clientOperationId:
+            description: For mutating operation requests only. An optional identifier
+              specified by the client. Must be unique for operation resources in the
+              Operations collection.
+            location: query
+            type: string
+          deletions:
+            description: Which ResourceRecordSets to remove? Must match existing data
+              exactly.
+            items:
+              $ref: '#/schemas/ResourceRecordSet'
+            type: array
+          id:
+            description: Unique identifier for the resource; defined by the server
+              (output only).
+            type: string
+          isServing:
+            description: If the DNS queries for the zone will be served.
+            type: boolean
+          kind:
+            default: dns#change
+            description: 'Identifies what kind of resource this is. Value: the fixed
+              string "dns#change".'
+            type: string
+          managedZone:
+            description: Identifies the managed zone addressed by this request. Can
+              be the managed zone name or id.
+            location: path
+            required: true
+            type: string
+          startTime:
+            description: The time that this operation was started by the server (output
+              only). This is in RFC3339 text format.
+            type: string
+          status:
+            description: Status of the operation (output only). A status of "done"
+              means that the request to update the authoritative servers has been
+              sent, but the servers might not be updated yet.
+            enum:
+            - done
+            - pending
+            enumDescriptions:
+            - ''
+            - ''
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        Change:
+          description: A Change represents a set of ResourceRecordSet additions and
+            deletions applied atomically to a ManagedZone. ResourceRecordSets within
+            a ManagedZone are modified by creating a new Change element in the Changes
+            collection. In turn the Changes collection also records the past modifications
+            to the ResourceRecordSets in a ManagedZone. The current state of the ManagedZone
+            is the sum effect of applying all Change elements in the Changes collection
+            in sequence.
+          id: Change
+          properties:
+            additions:
+              description: Which ResourceRecordSets to add?
+              items:
+                $ref: '#/schemas/ResourceRecordSet'
+              type: array
+            deletions:
+              description: Which ResourceRecordSets to remove? Must match existing
+                data exactly.
+              items:
+                $ref: '#/schemas/ResourceRecordSet'
+              type: array
+            id:
+              description: Unique identifier for the resource; defined by the server
+                (output only).
+              type: string
+            isServing:
+              description: If the DNS queries for the zone will be served.
+              type: boolean
+            kind:
+              default: dns#change
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#change".'
+              type: string
+            startTime:
+              description: The time that this operation was started by the server
+                (output only). This is in RFC3339 text format.
+              type: string
+            status:
+              description: Status of the operation (output only). A status of "done"
+                means that the request to update the authoritative servers has been
+                sent, but the servers might not be updated yet.
+              enum:
+              - done
+              - pending
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        ResourceRecordSet:
+          description: A unit of data that will be returned by the DNS servers.
+          id: ResourceRecordSet
+          properties:
+            kind:
+              default: dns#resourceRecordSet
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#resourceRecordSet".'
+              type: string
+            name:
+              description: For example, www.example.com.
+              type: string
+            rrdatas:
+              description: As defined in RFC 1035 (section 5) and RFC 1034 (section
+                3.6.1) -- see examples.
+              items:
+                type: string
+              type: array
+            signatureRrdatas:
+              description: As defined in RFC 4034 (section 3.2).
+              items:
+                type: string
+              type: array
+            ttl:
+              description: Number of seconds that this ResourceRecordSet can be cached
+                by resolvers.
+              format: int32
+              type: integer
+            type:
+              description: The identifier of a supported record type. See the list
+                of Supported DNS record types.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Change'
+      methodName: get
+      schemas:
+        Change:
+          description: A Change represents a set of ResourceRecordSet additions and
+            deletions applied atomically to a ManagedZone. ResourceRecordSets within
+            a ManagedZone are modified by creating a new Change element in the Changes
+            collection. In turn the Changes collection also records the past modifications
+            to the ResourceRecordSets in a ManagedZone. The current state of the ManagedZone
+            is the sum effect of applying all Change elements in the Changes collection
+            in sequence.
+          id: Change
+          properties:
+            additions:
+              description: Which ResourceRecordSets to add?
+              items:
+                $ref: '#/schemas/ResourceRecordSet'
+              type: array
+            deletions:
+              description: Which ResourceRecordSets to remove? Must match existing
+                data exactly.
+              items:
+                $ref: '#/schemas/ResourceRecordSet'
+              type: array
+            id:
+              description: Unique identifier for the resource; defined by the server
+                (output only).
+              type: string
+            isServing:
+              description: If the DNS queries for the zone will be served.
+              type: boolean
+            kind:
+              default: dns#change
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#change".'
+              type: string
+            startTime:
+              description: The time that this operation was started by the server
+                (output only). This is in RFC3339 text format.
+              type: string
+            status:
+              description: Status of the operation (output only). A status of "done"
+                means that the request to update the authoritative servers has been
+                sent, but the servers might not be updated yet.
+              enum:
+              - done
+              - pending
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        ResourceRecordSet:
+          description: A unit of data that will be returned by the DNS servers.
+          id: ResourceRecordSet
+          properties:
+            kind:
+              default: dns#resourceRecordSet
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#resourceRecordSet".'
+              type: string
+            name:
+              description: For example, www.example.com.
+              type: string
+            rrdatas:
+              description: As defined in RFC 1035 (section 5) and RFC 1034 (section
+                3.6.1) -- see examples.
+              items:
+                type: string
+              type: array
+            signatureRrdatas:
+              description: As defined in RFC 4034 (section 3.2).
+              items:
+                type: string
+              type: array
+            ttl:
+              description: Number of seconds that this ResourceRecordSet can be cached
+                by resolvers.
+              format: int32
+              type: integer
+            type:
+              description: The identifier of a supported record type. See the list
+                of Supported DNS record types.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/dns-v1alpha2/types/changes?alt=json
+  title: Google Cloud DNS API

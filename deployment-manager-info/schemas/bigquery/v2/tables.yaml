@@ -1,0 +1,1627 @@
+type_info:
+  documentationLink: https://cloud.google.com/bigquery/
+  kind: deploymentmanager#typeInfo
+  name: tables
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          clustering:
+            $ref: '#/schemas/Clustering'
+            description: '[Beta] Clustering specification for the table. Must be specified
+              with partitioning, data in the table will be first partitioned and subsequently
+              clustered.'
+          creationTime:
+            description: '[Output-only] The time when this table was created, in milliseconds
+              since the epoch.'
+            format: int64
+            type: string
+          datasetId:
+            description: Dataset ID of the new table
+            location: path
+            required: true
+            type: string
+          description:
+            description: '[Optional] A user-friendly description of this table.'
+            type: string
+          encryptionConfiguration:
+            $ref: '#/schemas/EncryptionConfiguration'
+            description: Custom encryption configuration (e.g., Cloud KMS keys).
+          etag:
+            description: '[Output-only] A hash of the table metadata. Used to ensure
+              there were no concurrent modifications to the resource when attempting
+              an update. Not guaranteed to change when the table contents or the fields
+              numRows, numBytes, numLongTermBytes or lastModifiedTime change.'
+            type: string
+          expirationTime:
+            description: '[Optional] The time when this table expires, in milliseconds
+              since the epoch. If not present, the table will persist indefinitely.
+              Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs
+              property of the encapsulating dataset can be used to set a default expirationTime
+              on newly created tables.'
+            format: int64
+            type: string
+          externalDataConfiguration:
+            $ref: '#/schemas/ExternalDataConfiguration'
+            description: '[Optional] Describes the data format, location, and other
+              properties of a table stored outside of BigQuery. By defining these
+              properties, the data source can then be queried as if it were a standard
+              BigQuery table.'
+          friendlyName:
+            description: '[Optional] A descriptive name for this table.'
+            type: string
+          id:
+            description: '[Output-only] An opaque ID uniquely identifying the table.'
+            type: string
+          kind:
+            default: bigquery#table
+            description: '[Output-only] The type of the resource.'
+            type: string
+          labels:
+            additionalProperties:
+              type: string
+            description: The labels associated with this table. You can use these
+              to organize and group your tables. Label keys and values can be no longer
+              than 63 characters, can only contain lowercase letters, numeric characters,
+              underscores and dashes. International characters are allowed. Label
+              values are optional. Label keys must start with a letter and each label
+              in the list must have a different key.
+            type: object
+          lastModifiedTime:
+            description: '[Output-only] The time when this table was last modified,
+              in milliseconds since the epoch.'
+            format: uint64
+            type: string
+          location:
+            description: '[Output-only] The geographic location where the table resides.
+              This value is inherited from the dataset.'
+            type: string
+          materializedView:
+            $ref: '#/schemas/MaterializedViewDefinition'
+            description: '[Optional] Materialized view definition.'
+          model:
+            $ref: '#/schemas/ModelDefinition'
+            description: "[Output-only, Beta] Present iff this table represents a\
+              \ ML model. Describes the training information for the model, and it\
+              \ is required to run 'PREDICT' queries."
+          numBytes:
+            description: '[Output-only] The size of this table in bytes, excluding
+              any data in the streaming buffer.'
+            format: int64
+            type: string
+          numLongTermBytes:
+            description: '[Output-only] The number of bytes in the table that are
+              considered "long-term storage".'
+            format: int64
+            type: string
+          numPhysicalBytes:
+            description: '[Output-only] [TrustedTester] The physical size of this
+              table in bytes, excluding any data in the streaming buffer. This includes
+              compression and storage used for time travel.'
+            format: int64
+            type: string
+          numRows:
+            description: '[Output-only] The number of rows of data in this table,
+              excluding any data in the streaming buffer.'
+            format: uint64
+            type: string
+          rangePartitioning:
+            $ref: '#/schemas/RangePartitioning'
+            description: '[TrustedTester] Range partitioning specification for this
+              table. Only one of timePartitioning and rangePartitioning should be
+              specified.'
+          requirePartitionFilter:
+            default: 'false'
+            description: '[Beta] [Optional] If set to true, queries over this table
+              require a partition filter that can be used for partition elimination
+              to be specified.'
+            type: boolean
+          schema:
+            $ref: '#/schemas/TableSchema'
+            description: '[Optional] Describes the schema of this table.'
+          selfLink:
+            description: '[Output-only] A URL that can be used to access this resource
+              again.'
+            type: string
+          streamingBuffer:
+            $ref: '#/schemas/Streamingbuffer'
+            description: "[Output-only] Contains information regarding this table's\
+              \ streaming buffer, if one is present. This field will be absent if\
+              \ the table is not being streamed to or if there is no data in the streaming\
+              \ buffer."
+          tableReference:
+            $ref: '#/schemas/TableReference'
+            description: '[Required] Reference describing the ID of this table.'
+          timePartitioning:
+            $ref: '#/schemas/TimePartitioning'
+            description: Time-based partitioning specification for this table. Only
+              one of timePartitioning and rangePartitioning should be specified.
+          type:
+            description: '[Output-only] Describes the table type. The following values
+              are supported: TABLE: A normal BigQuery table. VIEW: A virtual table
+              defined by a SQL query. [TrustedTester] MATERIALIZED_VIEW: SQL query
+              whose result is persisted. EXTERNAL: A table that references data stored
+              in an external storage system, such as Google Cloud Storage. The default
+              value is TABLE.'
+            type: string
+          view:
+            $ref: '#/schemas/ViewDefinition'
+            description: '[Optional] The view definition.'
+        type: object
+      methodName: insert
+      schemas:
+        BigtableColumn:
+          id: BigtableColumn
+          properties:
+            encoding:
+              description: "[Optional] The encoding of the values when the type is\
+                \ not STRING. Acceptable encoding values are: TEXT - indicates values\
+                \ are alphanumeric text strings. BINARY - indicates values are encoded\
+                \ using HBase Bytes.toBytes family of functions. 'encoding' can also\
+                \ be set at the column family level. However, the setting at this\
+                \ level takes precedence if 'encoding' is set at both levels."
+              type: string
+            fieldName:
+              description: '[Optional] If the qualifier is not a valid BigQuery field
+                identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                must be provided as the column field name and is used as field name
+                in queries.'
+              type: string
+            onlyReadLatest:
+              description: "[Optional] If this is set, only the latest version of\
+                \ value in this column are exposed. 'onlyReadLatest' can also be set\
+                \ at the column family level. However, the setting at this level takes\
+                \ precedence if 'onlyReadLatest' is set at both levels."
+              type: boolean
+            qualifierEncoded:
+              description: '[Required] Qualifier of the column. Columns in the parent
+                column family that has this exact qualifier are exposed as . field.
+                If the qualifier is valid UTF-8 string, it can be specified in the
+                qualifier_string field. Otherwise, a base-64 encoded value must be
+                set to qualifier_encoded. The column field name is the same as the
+                column qualifier. However, if the qualifier is not a valid BigQuery
+                field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid
+                identifier must be provided as field_name.'
+              format: byte
+              type: string
+            qualifierString:
+              type: string
+            type:
+              description: "[Optional] The type to convert the value in cells of this\
+                \ column. The values are expected to be encoded using HBase Bytes.toBytes\
+                \ function when using the BINARY encoding value. Following BigQuery\
+                \ types are allowed (case-sensitive) - BYTES STRING INTEGER FLOAT\
+                \ BOOLEAN Default type is BYTES. 'type' can also be set at the column\
+                \ family level. However, the setting at this level takes precedence\
+                \ if 'type' is set at both levels."
+              type: string
+          type: object
+        BigtableColumnFamily:
+          id: BigtableColumnFamily
+          properties:
+            columns:
+              description: '[Optional] Lists of columns that should be exposed as
+                individual fields as opposed to a list of (column name, value) pairs.
+                All columns whose qualifier matches a qualifier in this list can be
+                accessed as .. Other columns can be accessed as a list through .Column
+                field.'
+              items:
+                $ref: '#/schemas/BigtableColumn'
+              type: array
+            encoding:
+              description: "[Optional] The encoding of the values when the type is\
+                \ not STRING. Acceptable encoding values are: TEXT - indicates values\
+                \ are alphanumeric text strings. BINARY - indicates values are encoded\
+                \ using HBase Bytes.toBytes family of functions. This can be overridden\
+                \ for a specific column by listing that column in 'columns' and specifying\
+                \ an encoding for it."
+              type: string
+            familyId:
+              description: Identifier of the column family.
+              type: string
+            onlyReadLatest:
+              description: "[Optional] If this is set only the latest version of value\
+                \ are exposed for all columns in this column family. This can be overridden\
+                \ for a specific column by listing that column in 'columns' and specifying\
+                \ a different setting for that column."
+              type: boolean
+            type:
+              description: "[Optional] The type to convert the value in cells of this\
+                \ column family. The values are expected to be encoded using HBase\
+                \ Bytes.toBytes function when using the BINARY encoding value. Following\
+                \ BigQuery types are allowed (case-sensitive) - BYTES STRING INTEGER\
+                \ FLOAT BOOLEAN Default type is BYTES. This can be overridden for\
+                \ a specific column by listing that column in 'columns' and specifying\
+                \ a type for it."
+              type: string
+          type: object
+        BigtableOptions:
+          id: BigtableOptions
+          properties:
+            columnFamilies:
+              description: "[Optional] List of column families to expose in the table\
+                \ schema along with their types. This list restricts the column families\
+                \ that can be referenced in queries and specifies their value types.\
+                \ You can use this list to do type conversions - see the 'type' field\
+                \ for more details. If you leave this list empty, all column families\
+                \ are present in the table schema and their values are read as BYTES.\
+                \ During a query only the column families referenced in that query\
+                \ are read from Bigtable."
+              items:
+                $ref: '#/schemas/BigtableColumnFamily'
+              type: array
+            ignoreUnspecifiedColumnFamilies:
+              description: '[Optional] If field is true, then the column families
+                that are not specified in columnFamilies list are not exposed in the
+                table schema. Otherwise, they are read with BYTES type values. The
+                default value is false.'
+              type: boolean
+            readRowkeyAsString:
+              description: '[Optional] If field is true, then the rowkey column families
+                will be read and converted to string. Otherwise they are read with
+                BYTES type values and users need to manually cast them with CAST if
+                necessary. The default value is false.'
+              type: boolean
+          type: object
+        BqmlIterationResult:
+          id: BqmlIterationResult
+          properties:
+            durationMs:
+              description: '[Output-only, Beta] Time taken to run the training iteration
+                in milliseconds.'
+              format: int64
+              type: string
+            evalLoss:
+              description: '[Output-only, Beta] Eval loss computed on the eval data
+                at the end of the iteration. The eval loss is used for early stopping
+                to avoid overfitting. No eval loss if eval_split_method option is
+                specified as no_split or auto_split with input data size less than
+                500 rows.'
+              format: double
+              type: number
+            index:
+              description: '[Output-only, Beta] Index of the ML training iteration,
+                starting from zero for each training run.'
+              format: int32
+              type: integer
+            learnRate:
+              description: '[Output-only, Beta] Learning rate used for this iteration,
+                it varies for different training iterations if learn_rate_strategy
+                option is not constant.'
+              format: double
+              type: number
+            trainingLoss:
+              description: '[Output-only, Beta] Training loss computed on the training
+                data at the end of the iteration. The training loss function is defined
+                by model type.'
+              format: double
+              type: number
+          type: object
+        BqmlTrainingRun:
+          id: BqmlTrainingRun
+          properties:
+            iterationResults:
+              description: '[Output-only, Beta] List of each iteration results.'
+              items:
+                $ref: '#/schemas/BqmlIterationResult'
+              type: array
+            startTime:
+              description: '[Output-only, Beta] Training run start time in milliseconds
+                since the epoch.'
+              format: date-time
+              type: string
+            state:
+              description: '[Output-only, Beta] Different state applicable for a training
+                run. IN PROGRESS: Training run is in progress. FAILED: Training run
+                ended due to a non-retryable failure. SUCCEEDED: Training run successfully
+                completed. CANCELLED: Training run cancelled by the user.'
+              type: string
+            trainingOptions:
+              description: '[Output-only, Beta] Training options used by this training
+                run. These options are mutable for subsequent training runs. Default
+                values are explicitly stored for options not specified in the input
+                query of the first training run. For subsequent training runs, any
+                option not explicitly specified in the input query will be copied
+                from the previous training run.'
+              properties:
+                earlyStop:
+                  type: boolean
+                l1Reg:
+                  format: double
+                  type: number
+                l2Reg:
+                  format: double
+                  type: number
+                learnRate:
+                  format: double
+                  type: number
+                learnRateStrategy:
+                  type: string
+                lineSearchInitLearnRate:
+                  format: double
+                  type: number
+                maxIteration:
+                  format: int64
+                  type: string
+                minRelProgress:
+                  format: double
+                  type: number
+                warmStart:
+                  type: boolean
+              type: object
+          type: object
+        Clustering:
+          id: Clustering
+          properties:
+            fields:
+              description: '[Repeated] One or more fields on which data should be
+                clustered. Only top-level, non-repeated, simple-type fields are supported.
+                When you cluster a table using multiple columns, the order of columns
+                you specify is important. The order of the specified columns determines
+                the sort order of the data.'
+              items:
+                type: string
+              type: array
+          type: object
+        CsvOptions:
+          id: CsvOptions
+          properties:
+            allowJaggedRows:
+              description: '[Optional] Indicates if BigQuery should accept rows that
+                are missing trailing optional columns. If true, BigQuery treats missing
+                trailing columns as null values. If false, records with missing trailing
+                columns are treated as bad records, and if there are too many bad
+                records, an invalid error is returned in the job result. The default
+                value is false.'
+              type: boolean
+            allowQuotedNewlines:
+              description: '[Optional] Indicates if BigQuery should allow quoted data
+                sections that contain newline characters in a CSV file. The default
+                value is false.'
+              type: boolean
+            encoding:
+              description: '[Optional] The character encoding of the data. The supported
+                values are UTF-8 or ISO-8859-1. The default value is UTF-8. BigQuery
+                decodes the data after the raw, binary data has been split using the
+                values of the quote and fieldDelimiter properties.'
+              type: string
+            fieldDelimiter:
+              description: "[Optional] The separator for fields in a CSV file. BigQuery\
+                \ converts the string to ISO-8859-1 encoding, and then uses the first\
+                \ byte of the encoded string to split the data in its raw, binary\
+                \ state. BigQuery also supports the escape sequence \"\\t\" to specify\
+                \ a tab separator. The default value is a comma (',')."
+              type: string
+            quote:
+              default: '"'
+              description: "[Optional] The value that is used to quote data sections\
+                \ in a CSV file. BigQuery converts the string to ISO-8859-1 encoding,\
+                \ and then uses the first byte of the encoded string to split the\
+                \ data in its raw, binary state. The default value is a double-quote\
+                \ ('\"'). If your data does not contain quoted sections, set the property\
+                \ value to an empty string. If your data contains quoted newline characters,\
+                \ you must also set the allowQuotedNewlines property to true."
+              pattern: .?
+              type: string
+            skipLeadingRows:
+              description: '[Optional] The number of rows at the top of a CSV file
+                that BigQuery will skip when reading the data. The default value is
+                0. This property is useful if you have header rows in the file that
+                should be skipped.'
+              format: int64
+              type: string
+          type: object
+        EncryptionConfiguration:
+          id: EncryptionConfiguration
+          properties:
+            kmsKeyName:
+              description: '[Optional] Describes the Cloud KMS encryption key that
+                will be used to protect destination BigQuery table. The BigQuery Service
+                Account associated with your project requires access to this encryption
+                key.'
+              type: string
+          type: object
+        ExternalDataConfiguration:
+          id: ExternalDataConfiguration
+          properties:
+            autodetect:
+              description: Try to detect schema and format options automatically.
+                Any option specified explicitly will be honored.
+              type: boolean
+            bigtableOptions:
+              $ref: '#/schemas/BigtableOptions'
+              description: '[Optional] Additional options if sourceFormat is set to
+                BIGTABLE.'
+            compression:
+              description: '[Optional] The compression type of the data source. Possible
+                values include GZIP and NONE. The default value is NONE. This setting
+                is ignored for Google Cloud Bigtable, Google Cloud Datastore backups
+                and Avro formats.'
+              type: string
+            csvOptions:
+              $ref: '#/schemas/CsvOptions'
+              description: Additional properties to set if sourceFormat is set to
+                CSV.
+            googleSheetsOptions:
+              $ref: '#/schemas/GoogleSheetsOptions'
+              description: '[Optional] Additional options if sourceFormat is set to
+                GOOGLE_SHEETS.'
+            hivePartitioningMode:
+              description: '[Optional, Experimental] If hive partitioning is enabled,
+                which mode to use. Two modes are supported: - AUTO: automatically
+                infer partition key name(s) and type(s). - STRINGS: automatic infer
+                partition key name(s). All types are strings. Not all storage formats
+                support hive partitioning -- requesting hive partitioning on an unsupported
+                format will lead to an error.'
+              type: string
+            ignoreUnknownValues:
+              description: "[Optional] Indicates if BigQuery should allow extra values\
+                \ that are not represented in the table schema. If true, the extra\
+                \ values are ignored. If false, records with extra columns are treated\
+                \ as bad records, and if there are too many bad records, an invalid\
+                \ error is returned in the job result. The default value is false.\
+                \ The sourceFormat property determines what BigQuery treats as an\
+                \ extra value: CSV: Trailing columns JSON: Named values that don't\
+                \ match any column names Google Cloud Bigtable: This setting is ignored.\
+                \ Google Cloud Datastore backups: This setting is ignored. Avro: This\
+                \ setting is ignored."
+              type: boolean
+            maxBadRecords:
+              description: '[Optional] The maximum number of bad records that BigQuery
+                can ignore when reading data. If the number of bad records exceeds
+                this value, an invalid error is returned in the job result. This is
+                only valid for CSV, JSON, and Google Sheets. The default value is
+                0, which requires that all records are valid. This setting is ignored
+                for Google Cloud Bigtable, Google Cloud Datastore backups and Avro
+                formats.'
+              format: int32
+              type: integer
+            schema:
+              $ref: '#/schemas/TableSchema'
+              description: '[Optional] The schema for the data. Schema is required
+                for CSV and JSON formats. Schema is disallowed for Google Cloud Bigtable,
+                Cloud Datastore backups, and Avro formats.'
+            sourceFormat:
+              description: '[Required] The data format. For CSV files, specify "CSV".
+                For Google sheets, specify "GOOGLE_SHEETS". For newline-delimited
+                JSON, specify "NEWLINE_DELIMITED_JSON". For Avro files, specify "AVRO".
+                For Google Cloud Datastore backups, specify "DATASTORE_BACKUP". [Beta]
+                For Google Cloud Bigtable, specify "BIGTABLE".'
+              type: string
+            sourceUris:
+              description: "[Required] The fully-qualified URIs that point to your\
+                \ data in Google Cloud. For Google Cloud Storage URIs: Each URI can\
+                \ contain one '*' wildcard character and it must come after the 'bucket'\
+                \ name. Size limits related to load jobs apply to external data sources.\
+                \ For Google Cloud Bigtable URIs: Exactly one URI can be specified\
+                \ and it has be a fully specified and valid HTTPS URL for a Google\
+                \ Cloud Bigtable table. For Google Cloud Datastore backups, exactly\
+                \ one URI can be specified. Also, the '*' wildcard character is not\
+                \ allowed."
+              items:
+                type: string
+              type: array
+          type: object
+        GoogleSheetsOptions:
+          id: GoogleSheetsOptions
+          properties:
+            range:
+              description: '[Beta] [Optional] Range of a sheet to query from. Only
+                used when non-empty. Typical format: sheet_name!top_left_cell_id:bottom_right_cell_id
+                For example: sheet1!A1:B20'
+              type: string
+            skipLeadingRows:
+              description: '[Optional] The number of rows at the top of a sheet that
+                BigQuery will skip when reading the data. The default value is 0.
+                This property is useful if you have header rows that should be skipped.
+                When autodetect is on, behavior is the following: * skipLeadingRows
+                unspecified - Autodetect tries to detect headers in the first row.
+                If they are not detected, the row is read as data. Otherwise data
+                is read starting from the second row. * skipLeadingRows is 0 - Instructs
+                autodetect that there are no headers and data should be read starting
+                from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1
+                rows and tries to detect headers in row N. If headers are not detected,
+                row N is just skipped. Otherwise row N is used to extract column names
+                for the detected schema.'
+              format: int64
+              type: string
+          type: object
+        MaterializedViewDefinition:
+          id: MaterializedViewDefinition
+          properties:
+            lastRefreshTime:
+              description: '[Output-only] [TrustedTester] The time when this materialized
+                view was last modified, in milliseconds since the epoch.'
+              format: int64
+              type: string
+            query:
+              description: '[Required] A query whose result is persisted.'
+              type: string
+          type: object
+        ModelDefinition:
+          id: ModelDefinition
+          properties:
+            modelOptions:
+              description: '[Output-only, Beta] Model options used for the first training
+                run. These options are immutable for subsequent training runs. Default
+                values are used for any options not specified in the input query.'
+              properties:
+                labels:
+                  items:
+                    type: string
+                  type: array
+                lossType:
+                  type: string
+                modelType:
+                  type: string
+              type: object
+            trainingRuns:
+              description: '[Output-only, Beta] Information about ml training runs,
+                each training run comprises of multiple iterations and there may be
+                multiple training runs for the model if warm start is used or if a
+                user decides to continue a previously cancelled query.'
+              items:
+                $ref: '#/schemas/BqmlTrainingRun'
+              type: array
+          type: object
+        RangePartitioning:
+          id: RangePartitioning
+          properties:
+            field:
+              description: '[TrustedTester] [Required] The table is partitioned by
+                this field. The field must be a top-level NULLABLE/REQUIRED field.
+                The only supported type is INTEGER/INT64.'
+              type: string
+            range:
+              description: '[TrustedTester] [Required] Defines the ranges for range
+                partitioning.'
+              properties:
+                end:
+                  description: '[TrustedTester] [Required] The end of range partitioning,
+                    exclusive.'
+                  format: int64
+                  type: string
+                interval:
+                  description: '[TrustedTester] [Required] The width of each interval.'
+                  format: int64
+                  type: string
+                start:
+                  description: '[TrustedTester] [Required] The start of range partitioning,
+                    inclusive.'
+                  format: int64
+                  type: string
+              type: object
+          type: object
+        Streamingbuffer:
+          id: Streamingbuffer
+          properties:
+            estimatedBytes:
+              description: '[Output-only] A lower-bound estimate of the number of
+                bytes currently in the streaming buffer.'
+              format: uint64
+              type: string
+            estimatedRows:
+              description: '[Output-only] A lower-bound estimate of the number of
+                rows currently in the streaming buffer.'
+              format: uint64
+              type: string
+            oldestEntryTime:
+              description: '[Output-only] Contains the timestamp of the oldest entry
+                in the streaming buffer, in milliseconds since the epoch, if the streaming
+                buffer is available.'
+              format: uint64
+              type: string
+          type: object
+        Table:
+          id: Table
+          properties:
+            clustering:
+              $ref: '#/schemas/Clustering'
+              description: '[Beta] Clustering specification for the table. Must be
+                specified with partitioning, data in the table will be first partitioned
+                and subsequently clustered.'
+            creationTime:
+              description: '[Output-only] The time when this table was created, in
+                milliseconds since the epoch.'
+              format: int64
+              type: string
+            description:
+              description: '[Optional] A user-friendly description of this table.'
+              type: string
+            encryptionConfiguration:
+              $ref: '#/schemas/EncryptionConfiguration'
+              description: Custom encryption configuration (e.g., Cloud KMS keys).
+            etag:
+              description: '[Output-only] A hash of the table metadata. Used to ensure
+                there were no concurrent modifications to the resource when attempting
+                an update. Not guaranteed to change when the table contents or the
+                fields numRows, numBytes, numLongTermBytes or lastModifiedTime change.'
+              type: string
+            expirationTime:
+              description: '[Optional] The time when this table expires, in milliseconds
+                since the epoch. If not present, the table will persist indefinitely.
+                Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs
+                property of the encapsulating dataset can be used to set a default
+                expirationTime on newly created tables.'
+              format: int64
+              type: string
+            externalDataConfiguration:
+              $ref: '#/schemas/ExternalDataConfiguration'
+              description: '[Optional] Describes the data format, location, and other
+                properties of a table stored outside of BigQuery. By defining these
+                properties, the data source can then be queried as if it were a standard
+                BigQuery table.'
+            friendlyName:
+              description: '[Optional] A descriptive name for this table.'
+              type: string
+            id:
+              description: '[Output-only] An opaque ID uniquely identifying the table.'
+              type: string
+            kind:
+              default: bigquery#table
+              description: '[Output-only] The type of the resource.'
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: The labels associated with this table. You can use these
+                to organize and group your tables. Label keys and values can be no
+                longer than 63 characters, can only contain lowercase letters, numeric
+                characters, underscores and dashes. International characters are allowed.
+                Label values are optional. Label keys must start with a letter and
+                each label in the list must have a different key.
+              type: object
+            lastModifiedTime:
+              description: '[Output-only] The time when this table was last modified,
+                in milliseconds since the epoch.'
+              format: uint64
+              type: string
+            location:
+              description: '[Output-only] The geographic location where the table
+                resides. This value is inherited from the dataset.'
+              type: string
+            materializedView:
+              $ref: '#/schemas/MaterializedViewDefinition'
+              description: '[Optional] Materialized view definition.'
+            model:
+              $ref: '#/schemas/ModelDefinition'
+              description: "[Output-only, Beta] Present iff this table represents\
+                \ a ML model. Describes the training information for the model, and\
+                \ it is required to run 'PREDICT' queries."
+            numBytes:
+              description: '[Output-only] The size of this table in bytes, excluding
+                any data in the streaming buffer.'
+              format: int64
+              type: string
+            numLongTermBytes:
+              description: '[Output-only] The number of bytes in the table that are
+                considered "long-term storage".'
+              format: int64
+              type: string
+            numPhysicalBytes:
+              description: '[Output-only] [TrustedTester] The physical size of this
+                table in bytes, excluding any data in the streaming buffer. This includes
+                compression and storage used for time travel.'
+              format: int64
+              type: string
+            numRows:
+              description: '[Output-only] The number of rows of data in this table,
+                excluding any data in the streaming buffer.'
+              format: uint64
+              type: string
+            rangePartitioning:
+              $ref: '#/schemas/RangePartitioning'
+              description: '[TrustedTester] Range partitioning specification for this
+                table. Only one of timePartitioning and rangePartitioning should be
+                specified.'
+            requirePartitionFilter:
+              default: 'false'
+              description: '[Beta] [Optional] If set to true, queries over this table
+                require a partition filter that can be used for partition elimination
+                to be specified.'
+              type: boolean
+            schema:
+              $ref: '#/schemas/TableSchema'
+              description: '[Optional] Describes the schema of this table.'
+            selfLink:
+              description: '[Output-only] A URL that can be used to access this resource
+                again.'
+              type: string
+            streamingBuffer:
+              $ref: '#/schemas/Streamingbuffer'
+              description: "[Output-only] Contains information regarding this table's\
+                \ streaming buffer, if one is present. This field will be absent if\
+                \ the table is not being streamed to or if there is no data in the\
+                \ streaming buffer."
+            tableReference:
+              $ref: '#/schemas/TableReference'
+              description: '[Required] Reference describing the ID of this table.'
+            timePartitioning:
+              $ref: '#/schemas/TimePartitioning'
+              description: Time-based partitioning specification for this table. Only
+                one of timePartitioning and rangePartitioning should be specified.
+            type:
+              description: '[Output-only] Describes the table type. The following
+                values are supported: TABLE: A normal BigQuery table. VIEW: A virtual
+                table defined by a SQL query. [TrustedTester] MATERIALIZED_VIEW: SQL
+                query whose result is persisted. EXTERNAL: A table that references
+                data stored in an external storage system, such as Google Cloud Storage.
+                The default value is TABLE.'
+              type: string
+            view:
+              $ref: '#/schemas/ViewDefinition'
+              description: '[Optional] The view definition.'
+          type: object
+        TableFieldSchema:
+          id: TableFieldSchema
+          properties:
+            categories:
+              description: '[Optional] The categories attached to this field, used
+                for field-level access control.'
+              properties:
+                names:
+                  description: A list of category resource names. For example, "projects/1/taxonomies/2/categories/3".
+                    At most 5 categories are allowed.
+                  items:
+                    type: string
+                  type: array
+              type: object
+            description:
+              description: '[Optional] The field description. The maximum length is
+                1,024 characters.'
+              type: string
+            fields:
+              description: '[Optional] Describes the nested schema fields if the type
+                property is set to RECORD.'
+              items:
+                $ref: '#/schemas/TableFieldSchema'
+              type: array
+            mode:
+              description: '[Optional] The field mode. Possible values include NULLABLE,
+                REQUIRED and REPEATED. The default value is NULLABLE.'
+              type: string
+            name:
+              description: '[Required] The field name. The name must contain only
+                letters (a-z, A-Z), numbers (0-9), or underscores (_), and must start
+                with a letter or underscore. The maximum length is 128 characters.'
+              type: string
+            type:
+              description: '[Required] The field data type. Possible values include
+                STRING, BYTES, INTEGER, INT64 (same as INTEGER), FLOAT, FLOAT64 (same
+                as FLOAT), BOOLEAN, BOOL (same as BOOLEAN), TIMESTAMP, DATE, TIME,
+                DATETIME, RECORD (where RECORD indicates that the field contains a
+                nested schema) or STRUCT (same as RECORD).'
+              type: string
+          type: object
+        TableReference:
+          id: TableReference
+          properties:
+            datasetId:
+              annotations:
+                required:
+                - bigquery.tables.update
+              description: '[Required] The ID of the dataset containing this table.'
+              type: string
+            projectId:
+              annotations:
+                required:
+                - bigquery.tables.update
+              description: '[Required] The ID of the project containing this table.'
+              type: string
+            tableId:
+              annotations:
+                required:
+                - bigquery.tables.update
+              description: '[Required] The ID of the table. The ID must contain only
+                letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum
+                length is 1,024 characters.'
+              type: string
+          type: object
+        TableSchema:
+          id: TableSchema
+          properties:
+            fields:
+              description: Describes the fields in a table.
+              items:
+                $ref: '#/schemas/TableFieldSchema'
+              type: array
+          type: object
+        TimePartitioning:
+          id: TimePartitioning
+          properties:
+            expirationMs:
+              description: '[Optional] Number of milliseconds for which to keep the
+                storage for partitions in the table. The storage in a partition will
+                have an expiration time of its partition time plus this value.'
+              format: int64
+              type: string
+            field:
+              description: "[Beta] [Optional] If not set, the table is partitioned\
+                \ by pseudo column, referenced via either '_PARTITIONTIME' as TIMESTAMP\
+                \ type, or '_PARTITIONDATE' as DATE type. If field is specified, the\
+                \ table is instead partitioned by this field. The field must be a\
+                \ top-level TIMESTAMP or DATE field. Its mode must be NULLABLE or\
+                \ REQUIRED."
+              type: string
+            requirePartitionFilter:
+              type: boolean
+            type:
+              description: '[Required] The only type supported is DAY, which will
+                generate one partition per day.'
+              type: string
+          type: object
+        UserDefinedFunctionResource:
+          id: UserDefinedFunctionResource
+          properties:
+            inlineCode:
+              description: '[Pick one] An inline resource that contains code for a
+                user-defined function (UDF). Providing a inline code resource is equivalent
+                to providing a URI for a file containing the same code.'
+              type: string
+            resourceUri:
+              description: '[Pick one] A code resource to load from a Google Cloud
+                Storage URI (gs://bucket/path).'
+              type: string
+          type: object
+        ViewDefinition:
+          id: ViewDefinition
+          properties:
+            query:
+              description: '[Required] A query that BigQuery executes when the view
+                is referenced.'
+              type: string
+            useLegacySql:
+              description: "Specifies whether to use BigQuery's legacy SQL for this\
+                \ view. The default value is true. If set to false, the view will\
+                \ use BigQuery's standard SQL: https://cloud.google.com/bigquery/sql-reference/\
+                \ Queries and views that reference this view must use the same flag\
+                \ value."
+              type: boolean
+            userDefinedFunctionResources:
+              description: Describes user-defined function resources used in the query.
+              items:
+                $ref: '#/schemas/UserDefinedFunctionResource'
+              type: array
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Table'
+      methodName: get
+      schemas:
+        BigtableColumn:
+          id: BigtableColumn
+          properties:
+            encoding:
+              description: "[Optional] The encoding of the values when the type is\
+                \ not STRING. Acceptable encoding values are: TEXT - indicates values\
+                \ are alphanumeric text strings. BINARY - indicates values are encoded\
+                \ using HBase Bytes.toBytes family of functions. 'encoding' can also\
+                \ be set at the column family level. However, the setting at this\
+                \ level takes precedence if 'encoding' is set at both levels."
+              type: string
+            fieldName:
+              description: '[Optional] If the qualifier is not a valid BigQuery field
+                identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid identifier
+                must be provided as the column field name and is used as field name
+                in queries.'
+              type: string
+            onlyReadLatest:
+              description: "[Optional] If this is set, only the latest version of\
+                \ value in this column are exposed. 'onlyReadLatest' can also be set\
+                \ at the column family level. However, the setting at this level takes\
+                \ precedence if 'onlyReadLatest' is set at both levels."
+              type: boolean
+            qualifierEncoded:
+              description: '[Required] Qualifier of the column. Columns in the parent
+                column family that has this exact qualifier are exposed as . field.
+                If the qualifier is valid UTF-8 string, it can be specified in the
+                qualifier_string field. Otherwise, a base-64 encoded value must be
+                set to qualifier_encoded. The column field name is the same as the
+                column qualifier. However, if the qualifier is not a valid BigQuery
+                field identifier i.e. does not match [a-zA-Z][a-zA-Z0-9_]*, a valid
+                identifier must be provided as field_name.'
+              format: byte
+              type: string
+            qualifierString:
+              type: string
+            type:
+              description: "[Optional] The type to convert the value in cells of this\
+                \ column. The values are expected to be encoded using HBase Bytes.toBytes\
+                \ function when using the BINARY encoding value. Following BigQuery\
+                \ types are allowed (case-sensitive) - BYTES STRING INTEGER FLOAT\
+                \ BOOLEAN Default type is BYTES. 'type' can also be set at the column\
+                \ family level. However, the setting at this level takes precedence\
+                \ if 'type' is set at both levels."
+              type: string
+          type: object
+        BigtableColumnFamily:
+          id: BigtableColumnFamily
+          properties:
+            columns:
+              description: '[Optional] Lists of columns that should be exposed as
+                individual fields as opposed to a list of (column name, value) pairs.
+                All columns whose qualifier matches a qualifier in this list can be
+                accessed as .. Other columns can be accessed as a list through .Column
+                field.'
+              items:
+                $ref: '#/schemas/BigtableColumn'
+              type: array
+            encoding:
+              description: "[Optional] The encoding of the values when the type is\
+                \ not STRING. Acceptable encoding values are: TEXT - indicates values\
+                \ are alphanumeric text strings. BINARY - indicates values are encoded\
+                \ using HBase Bytes.toBytes family of functions. This can be overridden\
+                \ for a specific column by listing that column in 'columns' and specifying\
+                \ an encoding for it."
+              type: string
+            familyId:
+              description: Identifier of the column family.
+              type: string
+            onlyReadLatest:
+              description: "[Optional] If this is set only the latest version of value\
+                \ are exposed for all columns in this column family. This can be overridden\
+                \ for a specific column by listing that column in 'columns' and specifying\
+                \ a different setting for that column."
+              type: boolean
+            type:
+              description: "[Optional] The type to convert the value in cells of this\
+                \ column family. The values are expected to be encoded using HBase\
+                \ Bytes.toBytes function when using the BINARY encoding value. Following\
+                \ BigQuery types are allowed (case-sensitive) - BYTES STRING INTEGER\
+                \ FLOAT BOOLEAN Default type is BYTES. This can be overridden for\
+                \ a specific column by listing that column in 'columns' and specifying\
+                \ a type for it."
+              type: string
+          type: object
+        BigtableOptions:
+          id: BigtableOptions
+          properties:
+            columnFamilies:
+              description: "[Optional] List of column families to expose in the table\
+                \ schema along with their types. This list restricts the column families\
+                \ that can be referenced in queries and specifies their value types.\
+                \ You can use this list to do type conversions - see the 'type' field\
+                \ for more details. If you leave this list empty, all column families\
+                \ are present in the table schema and their values are read as BYTES.\
+                \ During a query only the column families referenced in that query\
+                \ are read from Bigtable."
+              items:
+                $ref: '#/schemas/BigtableColumnFamily'
+              type: array
+            ignoreUnspecifiedColumnFamilies:
+              description: '[Optional] If field is true, then the column families
+                that are not specified in columnFamilies list are not exposed in the
+                table schema. Otherwise, they are read with BYTES type values. The
+                default value is false.'
+              type: boolean
+            readRowkeyAsString:
+              description: '[Optional] If field is true, then the rowkey column families
+                will be read and converted to string. Otherwise they are read with
+                BYTES type values and users need to manually cast them with CAST if
+                necessary. The default value is false.'
+              type: boolean
+          type: object
+        BqmlIterationResult:
+          id: BqmlIterationResult
+          properties:
+            durationMs:
+              description: '[Output-only, Beta] Time taken to run the training iteration
+                in milliseconds.'
+              format: int64
+              type: string
+            evalLoss:
+              description: '[Output-only, Beta] Eval loss computed on the eval data
+                at the end of the iteration. The eval loss is used for early stopping
+                to avoid overfitting. No eval loss if eval_split_method option is
+                specified as no_split or auto_split with input data size less than
+                500 rows.'
+              format: double
+              type: number
+            index:
+              description: '[Output-only, Beta] Index of the ML training iteration,
+                starting from zero for each training run.'
+              format: int32
+              type: integer
+            learnRate:
+              description: '[Output-only, Beta] Learning rate used for this iteration,
+                it varies for different training iterations if learn_rate_strategy
+                option is not constant.'
+              format: double
+              type: number
+            trainingLoss:
+              description: '[Output-only, Beta] Training loss computed on the training
+                data at the end of the iteration. The training loss function is defined
+                by model type.'
+              format: double
+              type: number
+          type: object
+        BqmlTrainingRun:
+          id: BqmlTrainingRun
+          properties:
+            iterationResults:
+              description: '[Output-only, Beta] List of each iteration results.'
+              items:
+                $ref: '#/schemas/BqmlIterationResult'
+              type: array
+            startTime:
+              description: '[Output-only, Beta] Training run start time in milliseconds
+                since the epoch.'
+              format: date-time
+              type: string
+            state:
+              description: '[Output-only, Beta] Different state applicable for a training
+                run. IN PROGRESS: Training run is in progress. FAILED: Training run
+                ended due to a non-retryable failure. SUCCEEDED: Training run successfully
+                completed. CANCELLED: Training run cancelled by the user.'
+              type: string
+            trainingOptions:
+              description: '[Output-only, Beta] Training options used by this training
+                run. These options are mutable for subsequent training runs. Default
+                values are explicitly stored for options not specified in the input
+                query of the first training run. For subsequent training runs, any
+                option not explicitly specified in the input query will be copied
+                from the previous training run.'
+              properties:
+                earlyStop:
+                  type: boolean
+                l1Reg:
+                  format: double
+                  type: number
+                l2Reg:
+                  format: double
+                  type: number
+                learnRate:
+                  format: double
+                  type: number
+                learnRateStrategy:
+                  type: string
+                lineSearchInitLearnRate:
+                  format: double
+                  type: number
+                maxIteration:
+                  format: int64
+                  type: string
+                minRelProgress:
+                  format: double
+                  type: number
+                warmStart:
+                  type: boolean
+              type: object
+          type: object
+        Clustering:
+          id: Clustering
+          properties:
+            fields:
+              description: '[Repeated] One or more fields on which data should be
+                clustered. Only top-level, non-repeated, simple-type fields are supported.
+                When you cluster a table using multiple columns, the order of columns
+                you specify is important. The order of the specified columns determines
+                the sort order of the data.'
+              items:
+                type: string
+              type: array
+          type: object
+        CsvOptions:
+          id: CsvOptions
+          properties:
+            allowJaggedRows:
+              description: '[Optional] Indicates if BigQuery should accept rows that
+                are missing trailing optional columns. If true, BigQuery treats missing
+                trailing columns as null values. If false, records with missing trailing
+                columns are treated as bad records, and if there are too many bad
+                records, an invalid error is returned in the job result. The default
+                value is false.'
+              type: boolean
+            allowQuotedNewlines:
+              description: '[Optional] Indicates if BigQuery should allow quoted data
+                sections that contain newline characters in a CSV file. The default
+                value is false.'
+              type: boolean
+            encoding:
+              description: '[Optional] The character encoding of the data. The supported
+                values are UTF-8 or ISO-8859-1. The default value is UTF-8. BigQuery
+                decodes the data after the raw, binary data has been split using the
+                values of the quote and fieldDelimiter properties.'
+              type: string
+            fieldDelimiter:
+              description: "[Optional] The separator for fields in a CSV file. BigQuery\
+                \ converts the string to ISO-8859-1 encoding, and then uses the first\
+                \ byte of the encoded string to split the data in its raw, binary\
+                \ state. BigQuery also supports the escape sequence \"\\t\" to specify\
+                \ a tab separator. The default value is a comma (',')."
+              type: string
+            quote:
+              default: '"'
+              description: "[Optional] The value that is used to quote data sections\
+                \ in a CSV file. BigQuery converts the string to ISO-8859-1 encoding,\
+                \ and then uses the first byte of the encoded string to split the\
+                \ data in its raw, binary state. The default value is a double-quote\
+                \ ('\"'). If your data does not contain quoted sections, set the property\
+                \ value to an empty string. If your data contains quoted newline characters,\
+                \ you must also set the allowQuotedNewlines property to true."
+              pattern: .?
+              type: string
+            skipLeadingRows:
+              description: '[Optional] The number of rows at the top of a CSV file
+                that BigQuery will skip when reading the data. The default value is
+                0. This property is useful if you have header rows in the file that
+                should be skipped.'
+              format: int64
+              type: string
+          type: object
+        EncryptionConfiguration:
+          id: EncryptionConfiguration
+          properties:
+            kmsKeyName:
+              description: '[Optional] Describes the Cloud KMS encryption key that
+                will be used to protect destination BigQuery table. The BigQuery Service
+                Account associated with your project requires access to this encryption
+                key.'
+              type: string
+          type: object
+        ExternalDataConfiguration:
+          id: ExternalDataConfiguration
+          properties:
+            autodetect:
+              description: Try to detect schema and format options automatically.
+                Any option specified explicitly will be honored.
+              type: boolean
+            bigtableOptions:
+              $ref: '#/schemas/BigtableOptions'
+              description: '[Optional] Additional options if sourceFormat is set to
+                BIGTABLE.'
+            compression:
+              description: '[Optional] The compression type of the data source. Possible
+                values include GZIP and NONE. The default value is NONE. This setting
+                is ignored for Google Cloud Bigtable, Google Cloud Datastore backups
+                and Avro formats.'
+              type: string
+            csvOptions:
+              $ref: '#/schemas/CsvOptions'
+              description: Additional properties to set if sourceFormat is set to
+                CSV.
+            googleSheetsOptions:
+              $ref: '#/schemas/GoogleSheetsOptions'
+              description: '[Optional] Additional options if sourceFormat is set to
+                GOOGLE_SHEETS.'
+            hivePartitioningMode:
+              description: '[Optional, Experimental] If hive partitioning is enabled,
+                which mode to use. Two modes are supported: - AUTO: automatically
+                infer partition key name(s) and type(s). - STRINGS: automatic infer
+                partition key name(s). All types are strings. Not all storage formats
+                support hive partitioning -- requesting hive partitioning on an unsupported
+                format will lead to an error.'
+              type: string
+            ignoreUnknownValues:
+              description: "[Optional] Indicates if BigQuery should allow extra values\
+                \ that are not represented in the table schema. If true, the extra\
+                \ values are ignored. If false, records with extra columns are treated\
+                \ as bad records, and if there are too many bad records, an invalid\
+                \ error is returned in the job result. The default value is false.\
+                \ The sourceFormat property determines what BigQuery treats as an\
+                \ extra value: CSV: Trailing columns JSON: Named values that don't\
+                \ match any column names Google Cloud Bigtable: This setting is ignored.\
+                \ Google Cloud Datastore backups: This setting is ignored. Avro: This\
+                \ setting is ignored."
+              type: boolean
+            maxBadRecords:
+              description: '[Optional] The maximum number of bad records that BigQuery
+                can ignore when reading data. If the number of bad records exceeds
+                this value, an invalid error is returned in the job result. This is
+                only valid for CSV, JSON, and Google Sheets. The default value is
+                0, which requires that all records are valid. This setting is ignored
+                for Google Cloud Bigtable, Google Cloud Datastore backups and Avro
+                formats.'
+              format: int32
+              type: integer
+            schema:
+              $ref: '#/schemas/TableSchema'
+              description: '[Optional] The schema for the data. Schema is required
+                for CSV and JSON formats. Schema is disallowed for Google Cloud Bigtable,
+                Cloud Datastore backups, and Avro formats.'
+            sourceFormat:
+              description: '[Required] The data format. For CSV files, specify "CSV".
+                For Google sheets, specify "GOOGLE_SHEETS". For newline-delimited
+                JSON, specify "NEWLINE_DELIMITED_JSON". For Avro files, specify "AVRO".
+                For Google Cloud Datastore backups, specify "DATASTORE_BACKUP". [Beta]
+                For Google Cloud Bigtable, specify "BIGTABLE".'
+              type: string
+            sourceUris:
+              description: "[Required] The fully-qualified URIs that point to your\
+                \ data in Google Cloud. For Google Cloud Storage URIs: Each URI can\
+                \ contain one '*' wildcard character and it must come after the 'bucket'\
+                \ name. Size limits related to load jobs apply to external data sources.\
+                \ For Google Cloud Bigtable URIs: Exactly one URI can be specified\
+                \ and it has be a fully specified and valid HTTPS URL for a Google\
+                \ Cloud Bigtable table. For Google Cloud Datastore backups, exactly\
+                \ one URI can be specified. Also, the '*' wildcard character is not\
+                \ allowed."
+              items:
+                type: string
+              type: array
+          type: object
+        GoogleSheetsOptions:
+          id: GoogleSheetsOptions
+          properties:
+            range:
+              description: '[Beta] [Optional] Range of a sheet to query from. Only
+                used when non-empty. Typical format: sheet_name!top_left_cell_id:bottom_right_cell_id
+                For example: sheet1!A1:B20'
+              type: string
+            skipLeadingRows:
+              description: '[Optional] The number of rows at the top of a sheet that
+                BigQuery will skip when reading the data. The default value is 0.
+                This property is useful if you have header rows that should be skipped.
+                When autodetect is on, behavior is the following: * skipLeadingRows
+                unspecified - Autodetect tries to detect headers in the first row.
+                If they are not detected, the row is read as data. Otherwise data
+                is read starting from the second row. * skipLeadingRows is 0 - Instructs
+                autodetect that there are no headers and data should be read starting
+                from the first row. * skipLeadingRows = N > 0 - Autodetect skips N-1
+                rows and tries to detect headers in row N. If headers are not detected,
+                row N is just skipped. Otherwise row N is used to extract column names
+                for the detected schema.'
+              format: int64
+              type: string
+          type: object
+        MaterializedViewDefinition:
+          id: MaterializedViewDefinition
+          properties:
+            lastRefreshTime:
+              description: '[Output-only] [TrustedTester] The time when this materialized
+                view was last modified, in milliseconds since the epoch.'
+              format: int64
+              type: string
+            query:
+              description: '[Required] A query whose result is persisted.'
+              type: string
+          type: object
+        ModelDefinition:
+          id: ModelDefinition
+          properties:
+            modelOptions:
+              description: '[Output-only, Beta] Model options used for the first training
+                run. These options are immutable for subsequent training runs. Default
+                values are used for any options not specified in the input query.'
+              properties:
+                labels:
+                  items:
+                    type: string
+                  type: array
+                lossType:
+                  type: string
+                modelType:
+                  type: string
+              type: object
+            trainingRuns:
+              description: '[Output-only, Beta] Information about ml training runs,
+                each training run comprises of multiple iterations and there may be
+                multiple training runs for the model if warm start is used or if a
+                user decides to continue a previously cancelled query.'
+              items:
+                $ref: '#/schemas/BqmlTrainingRun'
+              type: array
+          type: object
+        RangePartitioning:
+          id: RangePartitioning
+          properties:
+            field:
+              description: '[TrustedTester] [Required] The table is partitioned by
+                this field. The field must be a top-level NULLABLE/REQUIRED field.
+                The only supported type is INTEGER/INT64.'
+              type: string
+            range:
+              description: '[TrustedTester] [Required] Defines the ranges for range
+                partitioning.'
+              properties:
+                end:
+                  description: '[TrustedTester] [Required] The end of range partitioning,
+                    exclusive.'
+                  format: int64
+                  type: string
+                interval:
+                  description: '[TrustedTester] [Required] The width of each interval.'
+                  format: int64
+                  type: string
+                start:
+                  description: '[TrustedTester] [Required] The start of range partitioning,
+                    inclusive.'
+                  format: int64
+                  type: string
+              type: object
+          type: object
+        Streamingbuffer:
+          id: Streamingbuffer
+          properties:
+            estimatedBytes:
+              description: '[Output-only] A lower-bound estimate of the number of
+                bytes currently in the streaming buffer.'
+              format: uint64
+              type: string
+            estimatedRows:
+              description: '[Output-only] A lower-bound estimate of the number of
+                rows currently in the streaming buffer.'
+              format: uint64
+              type: string
+            oldestEntryTime:
+              description: '[Output-only] Contains the timestamp of the oldest entry
+                in the streaming buffer, in milliseconds since the epoch, if the streaming
+                buffer is available.'
+              format: uint64
+              type: string
+          type: object
+        Table:
+          id: Table
+          properties:
+            clustering:
+              $ref: '#/schemas/Clustering'
+              description: '[Beta] Clustering specification for the table. Must be
+                specified with partitioning, data in the table will be first partitioned
+                and subsequently clustered.'
+            creationTime:
+              description: '[Output-only] The time when this table was created, in
+                milliseconds since the epoch.'
+              format: int64
+              type: string
+            description:
+              description: '[Optional] A user-friendly description of this table.'
+              type: string
+            encryptionConfiguration:
+              $ref: '#/schemas/EncryptionConfiguration'
+              description: Custom encryption configuration (e.g., Cloud KMS keys).
+            etag:
+              description: '[Output-only] A hash of the table metadata. Used to ensure
+                there were no concurrent modifications to the resource when attempting
+                an update. Not guaranteed to change when the table contents or the
+                fields numRows, numBytes, numLongTermBytes or lastModifiedTime change.'
+              type: string
+            expirationTime:
+              description: '[Optional] The time when this table expires, in milliseconds
+                since the epoch. If not present, the table will persist indefinitely.
+                Expired tables will be deleted and their storage reclaimed. The defaultTableExpirationMs
+                property of the encapsulating dataset can be used to set a default
+                expirationTime on newly created tables.'
+              format: int64
+              type: string
+            externalDataConfiguration:
+              $ref: '#/schemas/ExternalDataConfiguration'
+              description: '[Optional] Describes the data format, location, and other
+                properties of a table stored outside of BigQuery. By defining these
+                properties, the data source can then be queried as if it were a standard
+                BigQuery table.'
+            friendlyName:
+              description: '[Optional] A descriptive name for this table.'
+              type: string
+            id:
+              description: '[Output-only] An opaque ID uniquely identifying the table.'
+              type: string
+            kind:
+              default: bigquery#table
+              description: '[Output-only] The type of the resource.'
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: The labels associated with this table. You can use these
+                to organize and group your tables. Label keys and values can be no
+                longer than 63 characters, can only contain lowercase letters, numeric
+                characters, underscores and dashes. International characters are allowed.
+                Label values are optional. Label keys must start with a letter and
+                each label in the list must have a different key.
+              type: object
+            lastModifiedTime:
+              description: '[Output-only] The time when this table was last modified,
+                in milliseconds since the epoch.'
+              format: uint64
+              type: string
+            location:
+              description: '[Output-only] The geographic location where the table
+                resides. This value is inherited from the dataset.'
+              type: string
+            materializedView:
+              $ref: '#/schemas/MaterializedViewDefinition'
+              description: '[Optional] Materialized view definition.'
+            model:
+              $ref: '#/schemas/ModelDefinition'
+              description: "[Output-only, Beta] Present iff this table represents\
+                \ a ML model. Describes the training information for the model, and\
+                \ it is required to run 'PREDICT' queries."
+            numBytes:
+              description: '[Output-only] The size of this table in bytes, excluding
+                any data in the streaming buffer.'
+              format: int64
+              type: string
+            numLongTermBytes:
+              description: '[Output-only] The number of bytes in the table that are
+                considered "long-term storage".'
+              format: int64
+              type: string
+            numPhysicalBytes:
+              description: '[Output-only] [TrustedTester] The physical size of this
+                table in bytes, excluding any data in the streaming buffer. This includes
+                compression and storage used for time travel.'
+              format: int64
+              type: string
+            numRows:
+              description: '[Output-only] The number of rows of data in this table,
+                excluding any data in the streaming buffer.'
+              format: uint64
+              type: string
+            rangePartitioning:
+              $ref: '#/schemas/RangePartitioning'
+              description: '[TrustedTester] Range partitioning specification for this
+                table. Only one of timePartitioning and rangePartitioning should be
+                specified.'
+            requirePartitionFilter:
+              default: 'false'
+              description: '[Beta] [Optional] If set to true, queries over this table
+                require a partition filter that can be used for partition elimination
+                to be specified.'
+              type: boolean
+            schema:
+              $ref: '#/schemas/TableSchema'
+              description: '[Optional] Describes the schema of this table.'
+            selfLink:
+              description: '[Output-only] A URL that can be used to access this resource
+                again.'
+              type: string
+            streamingBuffer:
+              $ref: '#/schemas/Streamingbuffer'
+              description: "[Output-only] Contains information regarding this table's\
+                \ streaming buffer, if one is present. This field will be absent if\
+                \ the table is not being streamed to or if there is no data in the\
+                \ streaming buffer."
+            tableReference:
+              $ref: '#/schemas/TableReference'
+              description: '[Required] Reference describing the ID of this table.'
+            timePartitioning:
+              $ref: '#/schemas/TimePartitioning'
+              description: Time-based partitioning specification for this table. Only
+                one of timePartitioning and rangePartitioning should be specified.
+            type:
+              description: '[Output-only] Describes the table type. The following
+                values are supported: TABLE: A normal BigQuery table. VIEW: A virtual
+                table defined by a SQL query. [TrustedTester] MATERIALIZED_VIEW: SQL
+                query whose result is persisted. EXTERNAL: A table that references
+                data stored in an external storage system, such as Google Cloud Storage.
+                The default value is TABLE.'
+              type: string
+            view:
+              $ref: '#/schemas/ViewDefinition'
+              description: '[Optional] The view definition.'
+          type: object
+        TableFieldSchema:
+          id: TableFieldSchema
+          properties:
+            categories:
+              description: '[Optional] The categories attached to this field, used
+                for field-level access control.'
+              properties:
+                names:
+                  description: A list of category resource names. For example, "projects/1/taxonomies/2/categories/3".
+                    At most 5 categories are allowed.
+                  items:
+                    type: string
+                  type: array
+              type: object
+            description:
+              description: '[Optional] The field description. The maximum length is
+                1,024 characters.'
+              type: string
+            fields:
+              description: '[Optional] Describes the nested schema fields if the type
+                property is set to RECORD.'
+              items:
+                $ref: '#/schemas/TableFieldSchema'
+              type: array
+            mode:
+              description: '[Optional] The field mode. Possible values include NULLABLE,
+                REQUIRED and REPEATED. The default value is NULLABLE.'
+              type: string
+            name:
+              description: '[Required] The field name. The name must contain only
+                letters (a-z, A-Z), numbers (0-9), or underscores (_), and must start
+                with a letter or underscore. The maximum length is 128 characters.'
+              type: string
+            type:
+              description: '[Required] The field data type. Possible values include
+                STRING, BYTES, INTEGER, INT64 (same as INTEGER), FLOAT, FLOAT64 (same
+                as FLOAT), BOOLEAN, BOOL (same as BOOLEAN), TIMESTAMP, DATE, TIME,
+                DATETIME, RECORD (where RECORD indicates that the field contains a
+                nested schema) or STRUCT (same as RECORD).'
+              type: string
+          type: object
+        TableReference:
+          id: TableReference
+          properties:
+            datasetId:
+              annotations:
+                required:
+                - bigquery.tables.update
+              description: '[Required] The ID of the dataset containing this table.'
+              type: string
+            projectId:
+              annotations:
+                required:
+                - bigquery.tables.update
+              description: '[Required] The ID of the project containing this table.'
+              type: string
+            tableId:
+              annotations:
+                required:
+                - bigquery.tables.update
+              description: '[Required] The ID of the table. The ID must contain only
+                letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum
+                length is 1,024 characters.'
+              type: string
+          type: object
+        TableSchema:
+          id: TableSchema
+          properties:
+            fields:
+              description: Describes the fields in a table.
+              items:
+                $ref: '#/schemas/TableFieldSchema'
+              type: array
+          type: object
+        TimePartitioning:
+          id: TimePartitioning
+          properties:
+            expirationMs:
+              description: '[Optional] Number of milliseconds for which to keep the
+                storage for partitions in the table. The storage in a partition will
+                have an expiration time of its partition time plus this value.'
+              format: int64
+              type: string
+            field:
+              description: "[Beta] [Optional] If not set, the table is partitioned\
+                \ by pseudo column, referenced via either '_PARTITIONTIME' as TIMESTAMP\
+                \ type, or '_PARTITIONDATE' as DATE type. If field is specified, the\
+                \ table is instead partitioned by this field. The field must be a\
+                \ top-level TIMESTAMP or DATE field. Its mode must be NULLABLE or\
+                \ REQUIRED."
+              type: string
+            requirePartitionFilter:
+              type: boolean
+            type:
+              description: '[Required] The only type supported is DAY, which will
+                generate one partition per day.'
+              type: string
+          type: object
+        UserDefinedFunctionResource:
+          id: UserDefinedFunctionResource
+          properties:
+            inlineCode:
+              description: '[Pick one] An inline resource that contains code for a
+                user-defined function (UDF). Providing a inline code resource is equivalent
+                to providing a URI for a file containing the same code.'
+              type: string
+            resourceUri:
+              description: '[Pick one] A code resource to load from a Google Cloud
+                Storage URI (gs://bucket/path).'
+              type: string
+          type: object
+        ViewDefinition:
+          id: ViewDefinition
+          properties:
+            query:
+              description: '[Required] A query that BigQuery executes when the view
+                is referenced.'
+              type: string
+            useLegacySql:
+              description: "Specifies whether to use BigQuery's legacy SQL for this\
+                \ view. The default value is true. If set to false, the view will\
+                \ use BigQuery's standard SQL: https://cloud.google.com/bigquery/sql-reference/\
+                \ Queries and views that reference this view must use the same flag\
+                \ value."
+              type: boolean
+            userDefinedFunctionResources:
+              description: Describes user-defined function resources used in the query.
+              items:
+                $ref: '#/schemas/UserDefinedFunctionResource'
+              type: array
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/bigquery-v2/types/tables?alt=json
+  title: BigQuery API

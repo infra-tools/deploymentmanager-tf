@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/sql/docs/reference/latest
+  kind: deploymentmanager#typeInfo
+  name: flags
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/sqladmin-v1beta4/types/flags?alt=json
+  title: Cloud SQL Admin API

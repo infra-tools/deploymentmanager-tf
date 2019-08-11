@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/container-engine/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations.clusters.well-known
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/container-v1/types/projects.locations.clusters.well-known?alt=json
+  title: Kubernetes Engine API

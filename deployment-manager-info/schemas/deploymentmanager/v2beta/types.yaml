@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://developers.google.com/deployment-manager/
+  kind: deploymentmanager#typeInfo
+  name: types
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/deploymentmanager-v2beta/types/types?alt=json
+  title: Google Cloud Deployment Manager API V2Beta Methods

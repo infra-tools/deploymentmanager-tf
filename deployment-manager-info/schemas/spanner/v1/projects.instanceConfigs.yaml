@@ -1,0 +1,85 @@
+type_info:
+  documentationLink: https://cloud.google.com/spanner/
+  kind: deploymentmanager#typeInfo
+  name: projects.instanceConfigs
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/InstanceConfig'
+      methodName: get
+      schemas:
+        InstanceConfig:
+          description: |-
+            A possible configuration for a Cloud Spanner instance. Configurations
+            define the geographic placement of nodes and their replication.
+          id: InstanceConfig
+          properties:
+            displayName:
+              description: The name of this instance configuration as it appears in
+                UIs.
+              type: string
+            name:
+              description: |-
+                A unique identifier for the instance configuration.  Values
+                are of the form
+                `projects/<project>/instanceConfigs/a-z*`
+              type: string
+            replicas:
+              description: |-
+                The geographic placement of nodes in this instance configuration and their
+                replication properties.
+              items:
+                $ref: '#/schemas/ReplicaInfo'
+              type: array
+          type: object
+        ReplicaInfo:
+          id: ReplicaInfo
+          properties:
+            defaultLeaderLocation:
+              description: |-
+                If true, this location is designated as the default leader location where
+                leader replicas are placed. See the [region types
+                documentation](https://cloud.google.com/spanner/docs/instances#region_types)
+                for more details.
+              type: boolean
+            location:
+              description: The location of the serving resources, e.g. "us-central1".
+              type: string
+            type:
+              description: The type of replica.
+              enum:
+              - TYPE_UNSPECIFIED
+              - READ_WRITE
+              - READ_ONLY
+              - WITNESS
+              enumDescriptions:
+              - Not specified.
+              - |-
+                Read-write replicas support both reads and writes. These replicas:
+
+                * Maintain a full copy of your data.
+                * Serve reads.
+                * Can vote whether to commit a write.
+                * Participate in leadership election.
+                * Are eligible to become a leader.
+              - |-
+                Read-only replicas only support reads (not writes). Read-only replicas:
+
+                * Maintain a full copy of your data.
+                * Serve reads.
+                * Do not participate in voting to commit writes.
+                * Are not eligible to become a leader.
+              - |-
+                Witness replicas don't support reads but do participate in voting to
+                commit writes. Witness replicas:
+
+                * Do not maintain a full copy of data.
+                * Do not serve reads.
+                * Vote whether to commit writes.
+                * Participate in leader election but are not eligible to become leader.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/spanner-v1/types/projects.instanceConfigs?alt=json
+  title: Cloud Spanner API

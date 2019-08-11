@@ -1,0 +1,395 @@
+type_info:
+  documentationLink: https://cloud.google.com/tpu/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations.nodes
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          acceleratorType:
+            description: |-
+              The type of hardware accelerators associated with this node.
+              Required.
+            type: string
+          cidrBlock:
+            description: |-
+              The CIDR block that the TPU node will use when selecting an IP address.
+              This CIDR block must be a /29 block; the Compute Engine networks API
+              forbids a smaller block, and using a larger block would be wasteful (a
+              node can only consume one IP address). Errors will occur if the CIDR block
+              has already been used for a currently existing TPU node, the CIDR block
+              conflicts with any subnetworks in the user's provided network, or the
+              provided network is peered with another network that is using that CIDR
+              block.
+              Required.
+            type: string
+          description:
+            description: The user-supplied description of the TPU. Maximum of 512
+              characters.
+            type: string
+          health:
+            description: The health status of the TPU node.
+            enum:
+            - HEALTH_UNSPECIFIED
+            - HEALTHY
+            - DEPRECATED_UNHEALTHY
+            - TIMEOUT
+            - UNHEALTHY_TENSORFLOW
+            - UNHEALTHY_MAINTENANCE
+            enumDescriptions:
+            - 'Health status is unknown: not initialized or failed to retrieve.'
+            - The resource is healthy.
+            - The resource is unhealthy.
+            - The resource is unresponsive.
+            - The in-guest ML stack is unhealthy.
+            - |-
+              The node is under maintenance/priority boost caused rescheduling and
+              will resume running once rescheduled.
+            type: string
+          healthDescription:
+            description: |-
+              Output only. If this field is populated, it contains a description of why the TPU Node
+              is unhealthy.
+            type: string
+          ipAddress:
+            description: |-
+              Output only. DEPRECATED! Use network_endpoints instead.
+              The network address for the TPU Node as visible to Compute Engine
+              instances.
+            type: string
+          labels:
+            additionalProperties:
+              type: string
+            description: Resource labels to represent user-provided metadata.
+            type: object
+          network:
+            description: |-
+              The name of a network they wish to peer the TPU node to. It must be a
+              preexisting Compute Engine network inside of the project on which this API
+              has been activated. If none is provided, "default" will be used.
+            type: string
+          networkEndpoints:
+            description: |-
+              Output only. The network endpoints where TPU workers can be accessed and
+              sent work. It is recommended that Tensorflow clients of the node reach out
+              to the 0th entry in this map first.
+            items:
+              $ref: '#/schemas/NetworkEndpoint'
+            type: array
+          nodeId:
+            description: The unqualified resource name.
+            location: query
+            type: string
+          parent:
+            description: The parent resource name.
+            location: path
+            pattern: ^projects/[^/]+/locations/[^/]+$
+            required: true
+            type: string
+          port:
+            description: |-
+              Output only. DEPRECATED! Use network_endpoints instead.
+              The network port for the TPU Node as visible to Compute Engine instances.
+            type: string
+          schedulingConfig:
+            $ref: '#/schemas/SchedulingConfig'
+          serviceAccount:
+            description: |-
+              Output only. The service account used to run the tensor flow services within the node.
+              To share resources, including Google Cloud Storage data, with the
+              Tensorflow job running in the Node, this account must have permissions to
+              that data.
+            type: string
+          tensorflowVersion:
+            description: |-
+              The version of Tensorflow running in the Node.
+              Required.
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        NetworkEndpoint:
+          description: A network endpoint over which a TPU worker can be reached.
+          id: NetworkEndpoint
+          properties:
+            ipAddress:
+              description: The IP address of this network endpoint.
+              type: string
+            port:
+              description: The port of this network endpoint.
+              format: int32
+              type: integer
+          type: object
+        Node:
+          description: A TPU instance.
+          id: Node
+          properties:
+            acceleratorType:
+              description: |-
+                The type of hardware accelerators associated with this node.
+                Required.
+              type: string
+            cidrBlock:
+              description: |-
+                The CIDR block that the TPU node will use when selecting an IP address.
+                This CIDR block must be a /29 block; the Compute Engine networks API
+                forbids a smaller block, and using a larger block would be wasteful (a
+                node can only consume one IP address). Errors will occur if the CIDR block
+                has already been used for a currently existing TPU node, the CIDR block
+                conflicts with any subnetworks in the user's provided network, or the
+                provided network is peered with another network that is using that CIDR
+                block.
+                Required.
+              type: string
+            description:
+              description: The user-supplied description of the TPU. Maximum of 512
+                characters.
+              type: string
+            health:
+              description: The health status of the TPU node.
+              enum:
+              - HEALTH_UNSPECIFIED
+              - HEALTHY
+              - DEPRECATED_UNHEALTHY
+              - TIMEOUT
+              - UNHEALTHY_TENSORFLOW
+              - UNHEALTHY_MAINTENANCE
+              enumDescriptions:
+              - 'Health status is unknown: not initialized or failed to retrieve.'
+              - The resource is healthy.
+              - The resource is unhealthy.
+              - The resource is unresponsive.
+              - The in-guest ML stack is unhealthy.
+              - |-
+                The node is under maintenance/priority boost caused rescheduling and
+                will resume running once rescheduled.
+              type: string
+            healthDescription:
+              description: |-
+                Output only. If this field is populated, it contains a description of why the TPU Node
+                is unhealthy.
+              type: string
+            ipAddress:
+              description: |-
+                Output only. DEPRECATED! Use network_endpoints instead.
+                The network address for the TPU Node as visible to Compute Engine
+                instances.
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: Resource labels to represent user-provided metadata.
+              type: object
+            network:
+              description: |-
+                The name of a network they wish to peer the TPU node to. It must be a
+                preexisting Compute Engine network inside of the project on which this API
+                has been activated. If none is provided, "default" will be used.
+              type: string
+            networkEndpoints:
+              description: |-
+                Output only. The network endpoints where TPU workers can be accessed and
+                sent work. It is recommended that Tensorflow clients of the node reach out
+                to the 0th entry in this map first.
+              items:
+                $ref: '#/schemas/NetworkEndpoint'
+              type: array
+            port:
+              description: |-
+                Output only. DEPRECATED! Use network_endpoints instead.
+                The network port for the TPU Node as visible to Compute Engine instances.
+              type: string
+            schedulingConfig:
+              $ref: '#/schemas/SchedulingConfig'
+            serviceAccount:
+              description: |-
+                Output only. The service account used to run the tensor flow services within the node.
+                To share resources, including Google Cloud Storage data, with the
+                Tensorflow job running in the Node, this account must have permissions to
+                that data.
+              type: string
+            tensorflowVersion:
+              description: |-
+                The version of Tensorflow running in the Node.
+                Required.
+              type: string
+          type: object
+        SchedulingConfig:
+          id: SchedulingConfig
+          properties:
+            preemptible:
+              type: boolean
+            reserved:
+              description: Whether the node is created under a reservation.
+              type: boolean
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Node'
+      methodName: get
+      schemas:
+        NetworkEndpoint:
+          description: A network endpoint over which a TPU worker can be reached.
+          id: NetworkEndpoint
+          properties:
+            ipAddress:
+              description: The IP address of this network endpoint.
+              type: string
+            port:
+              description: The port of this network endpoint.
+              format: int32
+              type: integer
+          type: object
+        Node:
+          description: A TPU instance.
+          id: Node
+          properties:
+            acceleratorType:
+              description: |-
+                The type of hardware accelerators associated with this node.
+                Required.
+              type: string
+            cidrBlock:
+              description: |-
+                The CIDR block that the TPU node will use when selecting an IP address.
+                This CIDR block must be a /29 block; the Compute Engine networks API
+                forbids a smaller block, and using a larger block would be wasteful (a
+                node can only consume one IP address). Errors will occur if the CIDR block
+                has already been used for a currently existing TPU node, the CIDR block
+                conflicts with any subnetworks in the user's provided network, or the
+                provided network is peered with another network that is using that CIDR
+                block.
+                Required.
+              type: string
+            createTime:
+              description: Output only. The time when the node was created.
+              format: google-datetime
+              type: string
+            description:
+              description: The user-supplied description of the TPU. Maximum of 512
+                characters.
+              type: string
+            health:
+              description: The health status of the TPU node.
+              enum:
+              - HEALTH_UNSPECIFIED
+              - HEALTHY
+              - DEPRECATED_UNHEALTHY
+              - TIMEOUT
+              - UNHEALTHY_TENSORFLOW
+              - UNHEALTHY_MAINTENANCE
+              enumDescriptions:
+              - 'Health status is unknown: not initialized or failed to retrieve.'
+              - The resource is healthy.
+              - The resource is unhealthy.
+              - The resource is unresponsive.
+              - The in-guest ML stack is unhealthy.
+              - |-
+                The node is under maintenance/priority boost caused rescheduling and
+                will resume running once rescheduled.
+              type: string
+            healthDescription:
+              description: |-
+                Output only. If this field is populated, it contains a description of why the TPU Node
+                is unhealthy.
+              type: string
+            ipAddress:
+              description: |-
+                Output only. DEPRECATED! Use network_endpoints instead.
+                The network address for the TPU Node as visible to Compute Engine
+                instances.
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: Resource labels to represent user-provided metadata.
+              type: object
+            name:
+              description: Output only. The immutable name of the TPU
+              type: string
+            network:
+              description: |-
+                The name of a network they wish to peer the TPU node to. It must be a
+                preexisting Compute Engine network inside of the project on which this API
+                has been activated. If none is provided, "default" will be used.
+              type: string
+            networkEndpoints:
+              description: |-
+                Output only. The network endpoints where TPU workers can be accessed and
+                sent work. It is recommended that Tensorflow clients of the node reach out
+                to the 0th entry in this map first.
+              items:
+                $ref: '#/schemas/NetworkEndpoint'
+              type: array
+            port:
+              description: |-
+                Output only. DEPRECATED! Use network_endpoints instead.
+                The network port for the TPU Node as visible to Compute Engine instances.
+              type: string
+            schedulingConfig:
+              $ref: '#/schemas/SchedulingConfig'
+            serviceAccount:
+              description: |-
+                Output only. The service account used to run the tensor flow services within the node.
+                To share resources, including Google Cloud Storage data, with the
+                Tensorflow job running in the Node, this account must have permissions to
+                that data.
+              type: string
+            state:
+              description: Output only. The current state for the TPU Node.
+              enum:
+              - STATE_UNSPECIFIED
+              - CREATING
+              - READY
+              - RESTARTING
+              - REIMAGING
+              - DELETING
+              - REPAIRING
+              - STOPPED
+              - STOPPING
+              - STARTING
+              - PREEMPTED
+              - TERMINATED
+              - HIDING
+              - HIDDEN
+              - UNHIDING
+              enumDescriptions:
+              - TPU node state is not known/set.
+              - TPU node is being created.
+              - TPU node has been created and is fully usable.
+              - TPU node is restarting.
+              - TPU node is undergoing reimaging.
+              - TPU node is being deleted.
+              - |-
+                TPU node is being repaired and may be unusable. Details can be
+                found in the `help_description` field.
+              - TPU node is stopped.
+              - TPU node is currently stopping.
+              - TPU node is currently starting.
+              - TPU node has been preempted. Only applies to Preemptible TPU Nodes.
+              - |-
+                TPU node has been terminated due to maintenance or has reached the end of
+                its life cycle (for preemptible nodes).
+              - TPU node is currently hiding.
+              - TPU node has been hidden.
+              - TPU node is currently unhiding.
+              type: string
+            tensorflowVersion:
+              description: |-
+                The version of Tensorflow running in the Node.
+                Required.
+              type: string
+          type: object
+        SchedulingConfig:
+          id: SchedulingConfig
+          properties:
+            preemptible:
+              type: boolean
+            reserved:
+              description: Whether the node is created under a reservation.
+              type: boolean
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/tpu-v1alpha1/types/projects.locations.nodes?alt=json
+  title: Cloud TPU API

@@ -1,0 +1,137 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: machineTypes
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/MachineType'
+      methodName: get
+      schemas:
+        DeprecationStatus:
+          description: Deprecation status for a public resource.
+          id: DeprecationStatus
+          properties:
+            deleted:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to DELETED. This is only informational
+                and the status will not change unless the client explicitly changes
+                it.
+              type: string
+            deprecated:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to DEPRECATED. This is only
+                informational and the status will not change unless the client explicitly
+                changes it.
+              type: string
+            obsolete:
+              description: An optional RFC3339 timestamp on or after which the state
+                of this resource is intended to change to OBSOLETE. This is only informational
+                and the status will not change unless the client explicitly changes
+                it.
+              type: string
+            replacement:
+              description: The URL of the suggested replacement for a deprecated resource.
+                The suggested replacement resource must be the same kind of resource
+                as the deprecated resource.
+              type: string
+            state:
+              description: The deprecation state of this resource. This can be ACTIVE,
+                DEPRECATED, OBSOLETE, or DELETED. Operations which communicate the
+                end of life date for an image, can use ACTIVE. Operations which create
+                a new resource using a DEPRECATED resource will return successfully,
+                but with a warning indicating the deprecated resource and recommending
+                its replacement. Operations which use OBSOLETE or DELETED resources
+                will be rejected and result in an error.
+              enum:
+              - ACTIVE
+              - DELETED
+              - DEPRECATED
+              - OBSOLETE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        MachineType:
+          description: A Machine Type resource. (== resource_for v1.machineTypes ==)
+            (== resource_for beta.machineTypes ==)
+          id: MachineType
+          properties:
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            deprecated:
+              $ref: '#/schemas/DeprecationStatus'
+              description: '[Output Only] The deprecation status associated with this
+                machine type.'
+            description:
+              description: '[Output Only] An optional textual description of the resource.'
+              type: string
+            guestCpus:
+              description: '[Output Only] The number of virtual CPUs that are available
+                to the instance.'
+              format: int32
+              type: integer
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            imageSpaceGb:
+              description: '[Deprecated] This property is deprecated and will never
+                be populated with any relevant values.'
+              format: int32
+              type: integer
+            isSharedCpu:
+              description: '[Output Only] Whether this machine type has a shared CPU.
+                See Shared-core machine types for more information.'
+              type: boolean
+            kind:
+              default: compute#machineType
+              description: '[Output Only] The type of the resource. Always compute#machineType
+                for machine types.'
+              type: string
+            maximumPersistentDisks:
+              description: '[Output Only] Maximum persistent disks allowed.'
+              format: int32
+              type: integer
+            maximumPersistentDisksSizeGb:
+              description: '[Output Only] Maximum total persistent disks size (GB)
+                allowed.'
+              format: int64
+              type: string
+            memoryMb:
+              description: '[Output Only] The amount of physical memory available
+                to the instance, defined in MB.'
+              format: int32
+              type: integer
+            name:
+              description: '[Output Only] Name of the resource.'
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            scratchDisks:
+              description: '[Output Only] A list of extended scratch disks assigned
+                to the instance.'
+              items:
+                properties:
+                  diskGb:
+                    description: Size of the scratch disk, defined in GB.
+                    format: int32
+                    type: integer
+                type: object
+              type: array
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            zone:
+              description: '[Output Only] The name of the zone where the machine type
+                resides, such as us-central1-a.'
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-v1/types/machineTypes?alt=json
+  title: Compute Engine API

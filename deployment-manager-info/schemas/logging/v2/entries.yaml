@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/logging/docs/
+  kind: deploymentmanager#typeInfo
+  name: entries
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/logging-v2/types/entries?alt=json
+  title: Stackdriver Logging API

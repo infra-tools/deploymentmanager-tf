@@ -1,0 +1,316 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: reservations
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          commitment:
+            description: '[OutputOnly] Full or partial url for parent commitment for
+              reservations which are tied to a commitment.'
+            type: string
+          description:
+            description: An optional description of this resource. Provide this property
+              when you create the resource.
+            type: string
+          name:
+            annotations:
+              required:
+              - compute.instances.insert
+            description: The name of the resource, provided by the client when initially
+              creating the resource. The resource name must be 1-63 characters long,
+              and comply with RFC1035. Specifically, the name must be 1-63 characters
+              long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which
+              means the first character must be a lowercase letter, and all following
+              characters must be a dash, lowercase letter, or digit, except the last
+              character, which cannot be a dash.
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            type: string
+          requestId:
+            description: |-
+              An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+              For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+              The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+            location: query
+            type: string
+          specificReservation:
+            $ref: '#/schemas/AllocationSpecificSKUReservation'
+            description: Reservation for instances with specific machine shapes.
+          specificReservationRequired:
+            description: Indicates whether the reservation can be consumed by VMs
+              with "any reservation" defined. If the field is set, then only VMs that
+              target the reservation by name using --reservation-affinity can consume
+              this reservation.
+            type: boolean
+          zone:
+            description: Name of the zone for this request.
+            location: path
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            required: true
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        AcceleratorConfig:
+          description: A specification of the type and number of accelerator cards
+            attached to the instance.
+          id: AcceleratorConfig
+          properties:
+            acceleratorCount:
+              description: The number of the guest accelerator cards exposed to this
+                instance.
+              format: int32
+              type: integer
+            acceleratorType:
+              description: 'Full or partial URL of the accelerator type resource to
+                attach to this instance. For example: projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
+                If you are creating an instance template, specify only the accelerator
+                name. See GPUs on Compute Engine for a full list of accelerator types.'
+              type: string
+          type: object
+        AllocationSpecificSKUAllocationAllocatedInstancePropertiesReservedDisk:
+          id: AllocationSpecificSKUAllocationAllocatedInstancePropertiesReservedDisk
+          properties:
+            diskSizeGb:
+              description: Specifies the size of the disk in base-2 GB.
+              format: int64
+              type: string
+            interface:
+              description: Specifies the disk interface to use for attaching this
+                disk, which is either SCSI or NVME. The default is SCSI. For performance
+                characteristics of SCSI over NVMe, see Local SSD performance.
+              enum:
+              - NVME
+              - SCSI
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        AllocationSpecificSKUAllocationReservedInstanceProperties:
+          description: Properties of the SKU instances being reserved.
+          id: AllocationSpecificSKUAllocationReservedInstanceProperties
+          properties:
+            guestAccelerators:
+              description: Specifies accelerator type and count.
+              items:
+                $ref: '#/schemas/AcceleratorConfig'
+              type: array
+            localSsds:
+              description: Specifies amount of local ssd to reserve with each instance.
+                The type of disk is local-ssd.
+              items:
+                $ref: '#/schemas/AllocationSpecificSKUAllocationAllocatedInstancePropertiesReservedDisk'
+              type: array
+            machineType:
+              description: Specifies type of machine (name only) which has fixed number
+                of vCPUs and fixed amount of memory. This also includes specifying
+                custom machine type following custom-NUMBER_OF_CPUS-AMOUNT_OF_MEMORY
+                pattern.
+              type: string
+            minCpuPlatform:
+              description: Minimum cpu platform the reservation.
+              type: string
+          type: object
+        AllocationSpecificSKUReservation:
+          description: This reservation type allows to pre allocate specific instance
+            configuration.
+          id: AllocationSpecificSKUReservation
+          properties:
+            count:
+              description: Specifies number of resources that are allocated.
+              format: int64
+              type: string
+            inUseCount:
+              description: '[OutputOnly] Indicates how many resource are in use.'
+              format: int64
+              type: string
+            instanceProperties:
+              $ref: '#/schemas/AllocationSpecificSKUAllocationReservedInstanceProperties'
+              description: The instance properties for this specific sku reservation.
+          type: object
+        Reservation:
+          description: Reservation resource
+          id: Reservation
+          properties:
+            commitment:
+              description: '[OutputOnly] Full or partial url for parent commitment
+                for reservations which are tied to a commitment.'
+              type: string
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            name:
+              annotations:
+                required:
+                - compute.instances.insert
+              description: The name of the resource, provided by the client when initially
+                creating the resource. The resource name must be 1-63 characters long,
+                and comply with RFC1035. Specifically, the name must be 1-63 characters
+                long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?`
+                which means the first character must be a lowercase letter, and all
+                following characters must be a dash, lowercase letter, or digit, except
+                the last character, which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            specificReservation:
+              $ref: '#/schemas/AllocationSpecificSKUReservation'
+              description: Reservation for instances with specific machine shapes.
+            specificReservationRequired:
+              description: Indicates whether the reservation can be consumed by VMs
+                with "any reservation" defined. If the field is set, then only VMs
+                that target the reservation by name using --reservation-affinity can
+                consume this reservation.
+              type: boolean
+            zone:
+              description: Zone in which the reservation resides, must be provided
+                if reservation is created with commitment creation.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Reservation'
+      methodName: get
+      schemas:
+        AcceleratorConfig:
+          description: A specification of the type and number of accelerator cards
+            attached to the instance.
+          id: AcceleratorConfig
+          properties:
+            acceleratorCount:
+              description: The number of the guest accelerator cards exposed to this
+                instance.
+              format: int32
+              type: integer
+            acceleratorType:
+              description: 'Full or partial URL of the accelerator type resource to
+                attach to this instance. For example: projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
+                If you are creating an instance template, specify only the accelerator
+                name. See GPUs on Compute Engine for a full list of accelerator types.'
+              type: string
+          type: object
+        AllocationSpecificSKUAllocationAllocatedInstancePropertiesReservedDisk:
+          id: AllocationSpecificSKUAllocationAllocatedInstancePropertiesReservedDisk
+          properties:
+            diskSizeGb:
+              description: Specifies the size of the disk in base-2 GB.
+              format: int64
+              type: string
+            interface:
+              description: Specifies the disk interface to use for attaching this
+                disk, which is either SCSI or NVME. The default is SCSI. For performance
+                characteristics of SCSI over NVMe, see Local SSD performance.
+              enum:
+              - NVME
+              - SCSI
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        AllocationSpecificSKUAllocationReservedInstanceProperties:
+          description: Properties of the SKU instances being reserved.
+          id: AllocationSpecificSKUAllocationReservedInstanceProperties
+          properties:
+            guestAccelerators:
+              description: Specifies accelerator type and count.
+              items:
+                $ref: '#/schemas/AcceleratorConfig'
+              type: array
+            localSsds:
+              description: Specifies amount of local ssd to reserve with each instance.
+                The type of disk is local-ssd.
+              items:
+                $ref: '#/schemas/AllocationSpecificSKUAllocationAllocatedInstancePropertiesReservedDisk'
+              type: array
+            machineType:
+              description: Specifies type of machine (name only) which has fixed number
+                of vCPUs and fixed amount of memory. This also includes specifying
+                custom machine type following custom-NUMBER_OF_CPUS-AMOUNT_OF_MEMORY
+                pattern.
+              type: string
+            minCpuPlatform:
+              description: Minimum cpu platform the reservation.
+              type: string
+          type: object
+        AllocationSpecificSKUReservation:
+          description: This reservation type allows to pre allocate specific instance
+            configuration.
+          id: AllocationSpecificSKUReservation
+          properties:
+            count:
+              description: Specifies number of resources that are allocated.
+              format: int64
+              type: string
+            inUseCount:
+              description: '[OutputOnly] Indicates how many resource are in use.'
+              format: int64
+              type: string
+            instanceProperties:
+              $ref: '#/schemas/AllocationSpecificSKUAllocationReservedInstanceProperties'
+              description: The instance properties for this specific sku reservation.
+          type: object
+        Reservation:
+          description: Reservation resource
+          id: Reservation
+          properties:
+            commitment:
+              description: '[OutputOnly] Full or partial url for parent commitment
+                for reservations which are tied to a commitment.'
+              type: string
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#reservation
+              description: '[Output Only] Type of the resource. Always compute#reservations
+                for reservations.'
+              type: string
+            name:
+              annotations:
+                required:
+                - compute.instances.insert
+              description: The name of the resource, provided by the client when initially
+                creating the resource. The resource name must be 1-63 characters long,
+                and comply with RFC1035. Specifically, the name must be 1-63 characters
+                long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?`
+                which means the first character must be a lowercase letter, and all
+                following characters must be a dash, lowercase letter, or digit, except
+                the last character, which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            selfLink:
+              description: '[Output Only] Server-defined fully-qualified URL for this
+                resource.'
+              type: string
+            specificReservation:
+              $ref: '#/schemas/AllocationSpecificSKUReservation'
+              description: Reservation for instances with specific machine shapes.
+            specificReservationRequired:
+              description: Indicates whether the reservation can be consumed by VMs
+                with "any reservation" defined. If the field is set, then only VMs
+                that target the reservation by name using --reservation-affinity can
+                consume this reservation.
+              type: boolean
+            zone:
+              description: Zone in which the reservation resides, must be provided
+                if reservation is created with commitment creation.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-beta/types/reservations?alt=json
+  title: Compute Engine API

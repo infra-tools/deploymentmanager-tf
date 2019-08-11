@@ -1,0 +1,2743 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: regionBackendServices
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          affinityCookieTtlSec:
+            description: |-
+              Lifetime of cookies in seconds if session_affinity is GENERATED_COOKIE. If set to 0, the cookie is non-persistent and lasts only until the end of the browser session (or equivalent). The maximum allowed value for TTL is one day.
+
+              When the load balancing scheme is INTERNAL, this field is not used.
+            format: int32
+            type: integer
+          appEngineBackend:
+            $ref: '#/schemas/BackendServiceAppEngineBackend'
+            description: Directs request to an App Engine app. cloudFunctionBackend
+              and backends[] must be empty if this is set.
+          backends:
+            description: The list of backends that serve this BackendService.
+            items:
+              $ref: '#/schemas/Backend'
+            type: array
+          cdnPolicy:
+            $ref: '#/schemas/BackendServiceCdnPolicy'
+            description: Cloud CDN configuration for this BackendService.
+          circuitBreakers:
+            $ref: '#/schemas/CircuitBreakers'
+            description: |-
+              Settings controlling the volume of connections to a backend service.
+
+              This field is applicable to either:  
+              - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+              - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+          cloudFunctionBackend:
+            $ref: '#/schemas/BackendServiceCloudFunctionBackend'
+            description: Directs request to a cloud function. appEngineBackend and
+              backends[] must be empty if this is set.
+          connectionDraining:
+            $ref: '#/schemas/ConnectionDraining'
+          consistentHash:
+            $ref: '#/schemas/ConsistentHashLoadBalancerSettings'
+            description: |-
+              Consistent Hash-based load balancing can be used to provide soft session affinity based on HTTP headers, cookies or other properties. This load balancing policy is applicable only for HTTP connections. The affinity to a particular destination host will be lost when one or more hosts are added/removed from the destination service. This field specifies parameters that control consistent hashing. This field is only applicable when localityLbPolicy is set to MAGLEV or RING_HASH.
+
+              This field is applicable to either:  
+              - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+              - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+          customRequestHeaders:
+            description: Headers that the HTTP/S load balancer should add to proxied
+              requests.
+            items:
+              type: string
+            type: array
+          description:
+            description: An optional description of this resource. Provide this property
+              when you create the resource.
+            type: string
+          enableCDN:
+            description: |-
+              If true, enable Cloud CDN for this BackendService.
+
+              When the load balancing scheme is INTERNAL, this field is not used.
+            type: boolean
+          failoverPolicy:
+            $ref: '#/schemas/BackendServiceFailoverPolicy'
+          fingerprint:
+            description: |-
+              Fingerprint of this resource. A hash of the contents stored in this object. This field is used in optimistic locking. This field will be ignored when inserting a BackendService. An up-to-date fingerprint must be provided in order to update the BackendService, otherwise the request will fail with error 412 conditionNotMet.
+
+              To see the latest fingerprint, make a get() request to retrieve a BackendService.
+            format: byte
+            type: string
+          healthChecks:
+            description: |-
+              The list of URLs to the HttpHealthCheck or HttpsHealthCheck resource for health checking this BackendService. Currently at most one health check can be specified, and a health check is required for Compute Engine backend services. A health check must not be specified for App Engine backend and Cloud Function backend.
+
+              For internal load balancing, a URL to a HealthCheck resource must be specified instead.
+            items:
+              type: string
+            type: array
+          iap:
+            $ref: '#/schemas/BackendServiceIAP'
+          loadBalancingScheme:
+            description: Indicates whether the backend service will be used with internal
+              or external load balancing. A backend service created for one type of
+              load balancing cannot be used with the other. Possible values are INTERNAL
+              and EXTERNAL.
+            enum:
+            - EXTERNAL
+            - INTERNAL
+            - INTERNAL_MANAGED
+            - INTERNAL_SELF_MANAGED
+            - INVALID_LOAD_BALANCING_SCHEME
+            enumDescriptions:
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            type: string
+          localityLbPolicy:
+            description: |-
+              The load balancing algorithm used within the scope of the locality. The possible values are:  
+              - ROUND_ROBIN: This is a simple policy in which each healthy backend is selected in round robin order. This is the default. 
+              - LEAST_REQUEST: An O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests. 
+              - RING_HASH: The ring/modulo hash load balancer implements consistent hashing to backends. The algorithm has the property that the addition/removal of a host from a set of N hosts only affects 1/N of the requests. 
+              - RANDOM: The load balancer selects a random healthy host. 
+              - ORIGINAL_DESTINATION: Backend host is selected based on the client connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection before the connection was redirected to the load balancer. 
+              - MAGLEV: used as a drop in replacement for the ring hash load balancer. Maglev is not as stable as ring hash but has faster table lookup build times and host selection times. For more information about Maglev, refer to https://ai.google/research/pubs/pub44824 
+
+              This field is applicable to either:  
+              - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+              - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            enum:
+            - INVALID_LB_POLICY
+            - LEAST_REQUEST
+            - MAGLEV
+            - ORINGINAL_DESTINATION
+            - RANDOM
+            - RING_HASH
+            - ROUND_ROBIN
+            enumDescriptions:
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            type: string
+          logConfig:
+            $ref: '#/schemas/BackendServiceLogConfig'
+            description: This field denotes the logging options for the load balancer
+              traffic served by this backend service. If logging is enabled, logs
+              will be exported to Stackdriver.
+          name:
+            description: Name of the resource. Provided by the client when the resource
+              is created. The name must be 1-63 characters long, and comply with RFC1035.
+              Specifically, the name must be 1-63 characters long and match the regular
+              expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
+              must be a lowercase letter, and all following characters must be a dash,
+              lowercase letter, or digit, except the last character, which cannot
+              be a dash.
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            type: string
+          outlierDetection:
+            $ref: '#/schemas/OutlierDetection'
+            description: |-
+              Settings controlling eviction of unhealthy hosts from the load balancing pool. This field is applicable to either:  
+              - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+              - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+          port:
+            description: |-
+              Deprecated in favor of portName. The TCP port to connect on the backend. The default value is 80.
+
+              This cannot be used for internal load balancing.
+            format: int32
+            type: integer
+          portName:
+            description: |-
+              Name of backend port. The same name should appear in the instance groups referenced by this service. Required when the load balancing scheme is EXTERNAL.
+
+              When the load balancing scheme is INTERNAL, this field is not used.
+            type: string
+          protocol:
+            description: |-
+              The protocol this BackendService uses to communicate with backends.
+
+              Possible values are HTTP, HTTPS, TCP, and SSL. The default is HTTP.
+
+              For internal load balancing, the possible values are TCP and UDP, and the default is TCP.
+            enum:
+            - HTTP
+            - HTTP2
+            - HTTPS
+            - SSL
+            - TCP
+            - UDP
+            enumDescriptions:
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            type: string
+          region:
+            description: Name of the region scoping this request.
+            location: path
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            required: true
+            type: string
+          requestId:
+            description: |-
+              An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+              For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+              The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+            location: query
+            type: string
+          securitySettings:
+            $ref: '#/schemas/SecuritySettings'
+            description: |-
+              This field specifies the security policy that applies to this backend service. This field is applicable to either:  
+              - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+              - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+          sessionAffinity:
+            description: |-
+              Type of session affinity to use. The default is NONE.
+
+              When the load balancing scheme is EXTERNAL, can be NONE, CLIENT_IP, or GENERATED_COOKIE.
+
+              When the load balancing scheme is INTERNAL, can be NONE, CLIENT_IP, CLIENT_IP_PROTO, or CLIENT_IP_PORT_PROTO.
+
+              When the protocol is UDP, this field is not used.
+            enum:
+            - CLIENT_IP
+            - CLIENT_IP_PORT_PROTO
+            - CLIENT_IP_PROTO
+            - GENERATED_COOKIE
+            - HEADER_FIELD
+            - HTTP_COOKIE
+            - NONE
+            enumDescriptions:
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            - ''
+            type: string
+          timeoutSec:
+            description: How many seconds to wait for the backend before considering
+              it a failed request. Default is 30 seconds.
+            format: int32
+            type: integer
+        type: object
+      methodName: insert
+      schemas:
+        AuthenticationPolicy:
+          description: The authentication settings for the backend service.
+          id: AuthenticationPolicy
+          properties:
+            origins:
+              description: List of authentication methods that can be used for origin
+                authentication. Similar to peers, these will be evaluated in order
+                the first valid one will be used to set origin identity. If none of
+                these methods pass, the request will be rejected with authentication
+                failed error (401). Leave the list empty if origin authentication
+                is not required.
+              items:
+                $ref: '#/schemas/OriginAuthenticationMethod'
+              type: array
+            peers:
+              description: List of authentication methods that can be used for peer
+                authentication. They will be evaluated in order the first valid one
+                will be used to set peer identity. If none of these methods pass,
+                the request will be rejected with authentication failed error (401).
+                Leave the list empty if peer authentication is not required.
+              items:
+                $ref: '#/schemas/PeerAuthenticationMethod'
+              type: array
+            principalBinding:
+              description: 'Define whether peer or origin identity should be used
+                for principal. Default value is USE_PEER. If peer (or origin) identity
+                is not available, either because peer/origin authentication is not
+                defined, or failed, principal will be left unset. In other words,
+                binding rule does not affect the decision to accept or reject request.
+                This field can be set to one of the following: USE_PEER: Principal
+                will be set to the identity from peer authentication. USE_ORIGIN:
+                Principal will be set to the identity from origin authentication.'
+              enum:
+              - INVALID
+              - USE_ORIGIN
+              - USE_PEER
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            serverTlsContext:
+              $ref: '#/schemas/TlsContext'
+              description: Configures the mechanism to obtain server-side security
+                certificates and identity information.
+          type: object
+        AuthorizationConfig:
+          description: Authorization configuration provides service-level and method-level
+            access control for a service.
+          id: AuthorizationConfig
+          properties:
+            policies:
+              description: List of RbacPolicies.
+              items:
+                $ref: '#/schemas/RbacPolicy'
+              type: array
+          type: object
+        Backend:
+          description: Message containing information of one individual backend.
+          id: Backend
+          properties:
+            balancingMode:
+              description: |-
+                Specifies the balancing mode for this backend. For global HTTP(S) or TCP/SSL load balancing, the default is UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S)) and CONNECTION (for TCP/SSL).
+
+                For Internal Load Balancing, the default and only supported mode is CONNECTION.
+              enum:
+              - CONNECTION
+              - RATE
+              - UTILIZATION
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            capacityScaler:
+              description: |-
+                A multiplier applied to the group's maximum servicing capacity (based on UTILIZATION, RATE or CONNECTION). Default value is 1, which means the group will serve up to 100% of its configured capacity (depending on balancingMode). A setting of 0 means the group is completely drained, offering 0% of its available Capacity. Valid range is [0.0,1.0].
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            failover:
+              description: This field designates whether this is a failover backend.
+                More than one failover backend can be configured for a given BackendService.
+              type: boolean
+            group:
+              description: |-
+                The fully-qualified URL of an Instance Group or Network Endpoint Group resource. In case of instance group this defines the list of instances that serve traffic. Member virtual machine instances from each instance group must live in the same zone as the instance group itself. No two backends in a backend service are allowed to use same Instance Group resource.
+
+                For Network Endpoint Groups this defines list of endpoints. All endpoints of Network Endpoint Group must be hosted on instances located in the same zone as the Network Endpoint Group.
+
+                Backend service can not contain mix of Instance Group and Network Endpoint Group backends.
+
+                Note that you must specify an Instance Group or Network Endpoint Group resource using the fully-qualified URL, rather than a partial URL.
+
+                When the BackendService has load balancing scheme INTERNAL, the instance group must be within the same region as the BackendService. Network Endpoint Groups are not supported for INTERNAL load balancing scheme.
+              type: string
+            maxConnections:
+              description: |-
+                The max number of simultaneous connections for the group. Can be used with either CONNECTION or UTILIZATION balancing modes. For CONNECTION mode, either maxConnections or maxConnectionsPerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxConnectionsPerEndpoint:
+              description: |-
+                The max number of simultaneous connections that a single backend network endpoint can handle. This is used to calculate the capacity of the group. Can be used in either CONNECTION or UTILIZATION balancing modes. For CONNECTION mode, either maxConnections or maxConnectionsPerEndpoint must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxConnectionsPerInstance:
+              description: |-
+                The max number of simultaneous connections that a single backend instance can handle. This is used to calculate the capacity of the group. Can be used in either CONNECTION or UTILIZATION balancing modes. For CONNECTION mode, either maxConnections or maxConnectionsPerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxRate:
+              description: |-
+                The max requests per second (RPS) of the group. Can be used with either RATE or UTILIZATION balancing modes, but required if RATE mode. For RATE mode, either maxRate or maxRatePerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxRatePerEndpoint:
+              description: |-
+                The max requests per second (RPS) that a single backend network endpoint can handle. This is used to calculate the capacity of the group. Can be used in either balancing mode. For RATE mode, either maxRate or maxRatePerEndpoint must be set.
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+            maxRatePerInstance:
+              description: |-
+                The max requests per second (RPS) that a single backend instance can handle. This is used to calculate the capacity of the group. Can be used in either balancing mode. For RATE mode, either maxRate or maxRatePerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+            maxUtilization:
+              description: |-
+                Used when balancingMode is UTILIZATION. This ratio defines the CPU utilization target for the group. The default is 0.8. Valid range is [0.0, 1.0].
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+          type: object
+        BackendService:
+          description: A BackendService resource. This resource defines a group of
+            backend virtual machines and their serving capacity. (== resource_for
+            v1.backendService ==) (== resource_for beta.backendService ==)
+          id: BackendService
+          properties:
+            affinityCookieTtlSec:
+              description: |-
+                Lifetime of cookies in seconds if session_affinity is GENERATED_COOKIE. If set to 0, the cookie is non-persistent and lasts only until the end of the browser session (or equivalent). The maximum allowed value for TTL is one day.
+
+                When the load balancing scheme is INTERNAL, this field is not used.
+              format: int32
+              type: integer
+            appEngineBackend:
+              $ref: '#/schemas/BackendServiceAppEngineBackend'
+              description: Directs request to an App Engine app. cloudFunctionBackend
+                and backends[] must be empty if this is set.
+            backends:
+              description: The list of backends that serve this BackendService.
+              items:
+                $ref: '#/schemas/Backend'
+              type: array
+            cdnPolicy:
+              $ref: '#/schemas/BackendServiceCdnPolicy'
+              description: Cloud CDN configuration for this BackendService.
+            circuitBreakers:
+              $ref: '#/schemas/CircuitBreakers'
+              description: |-
+                Settings controlling the volume of connections to a backend service.
+
+                This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            cloudFunctionBackend:
+              $ref: '#/schemas/BackendServiceCloudFunctionBackend'
+              description: Directs request to a cloud function. appEngineBackend and
+                backends[] must be empty if this is set.
+            connectionDraining:
+              $ref: '#/schemas/ConnectionDraining'
+            consistentHash:
+              $ref: '#/schemas/ConsistentHashLoadBalancerSettings'
+              description: |-
+                Consistent Hash-based load balancing can be used to provide soft session affinity based on HTTP headers, cookies or other properties. This load balancing policy is applicable only for HTTP connections. The affinity to a particular destination host will be lost when one or more hosts are added/removed from the destination service. This field specifies parameters that control consistent hashing. This field is only applicable when localityLbPolicy is set to MAGLEV or RING_HASH.
+
+                This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            customRequestHeaders:
+              description: Headers that the HTTP/S load balancer should add to proxied
+                requests.
+              items:
+                type: string
+              type: array
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            enableCDN:
+              description: |-
+                If true, enable Cloud CDN for this BackendService.
+
+                When the load balancing scheme is INTERNAL, this field is not used.
+              type: boolean
+            failoverPolicy:
+              $ref: '#/schemas/BackendServiceFailoverPolicy'
+            fingerprint:
+              description: |-
+                Fingerprint of this resource. A hash of the contents stored in this object. This field is used in optimistic locking. This field will be ignored when inserting a BackendService. An up-to-date fingerprint must be provided in order to update the BackendService, otherwise the request will fail with error 412 conditionNotMet.
+
+                To see the latest fingerprint, make a get() request to retrieve a BackendService.
+              format: byte
+              type: string
+            healthChecks:
+              description: |-
+                The list of URLs to the HttpHealthCheck or HttpsHealthCheck resource for health checking this BackendService. Currently at most one health check can be specified, and a health check is required for Compute Engine backend services. A health check must not be specified for App Engine backend and Cloud Function backend.
+
+                For internal load balancing, a URL to a HealthCheck resource must be specified instead.
+              items:
+                type: string
+              type: array
+            iap:
+              $ref: '#/schemas/BackendServiceIAP'
+            loadBalancingScheme:
+              description: Indicates whether the backend service will be used with
+                internal or external load balancing. A backend service created for
+                one type of load balancing cannot be used with the other. Possible
+                values are INTERNAL and EXTERNAL.
+              enum:
+              - EXTERNAL
+              - INTERNAL
+              - INTERNAL_MANAGED
+              - INTERNAL_SELF_MANAGED
+              - INVALID_LOAD_BALANCING_SCHEME
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            localityLbPolicy:
+              description: |-
+                The load balancing algorithm used within the scope of the locality. The possible values are:  
+                - ROUND_ROBIN: This is a simple policy in which each healthy backend is selected in round robin order. This is the default. 
+                - LEAST_REQUEST: An O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests. 
+                - RING_HASH: The ring/modulo hash load balancer implements consistent hashing to backends. The algorithm has the property that the addition/removal of a host from a set of N hosts only affects 1/N of the requests. 
+                - RANDOM: The load balancer selects a random healthy host. 
+                - ORIGINAL_DESTINATION: Backend host is selected based on the client connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection before the connection was redirected to the load balancer. 
+                - MAGLEV: used as a drop in replacement for the ring hash load balancer. Maglev is not as stable as ring hash but has faster table lookup build times and host selection times. For more information about Maglev, refer to https://ai.google/research/pubs/pub44824 
+
+                This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+              enum:
+              - INVALID_LB_POLICY
+              - LEAST_REQUEST
+              - MAGLEV
+              - ORINGINAL_DESTINATION
+              - RANDOM
+              - RING_HASH
+              - ROUND_ROBIN
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            logConfig:
+              $ref: '#/schemas/BackendServiceLogConfig'
+              description: This field denotes the logging options for the load balancer
+                traffic served by this backend service. If logging is enabled, logs
+                will be exported to Stackdriver.
+            name:
+              description: Name of the resource. Provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            outlierDetection:
+              $ref: '#/schemas/OutlierDetection'
+              description: |-
+                Settings controlling eviction of unhealthy hosts from the load balancing pool. This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            port:
+              description: |-
+                Deprecated in favor of portName. The TCP port to connect on the backend. The default value is 80.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            portName:
+              description: |-
+                Name of backend port. The same name should appear in the instance groups referenced by this service. Required when the load balancing scheme is EXTERNAL.
+
+                When the load balancing scheme is INTERNAL, this field is not used.
+              type: string
+            protocol:
+              description: |-
+                The protocol this BackendService uses to communicate with backends.
+
+                Possible values are HTTP, HTTPS, TCP, and SSL. The default is HTTP.
+
+                For internal load balancing, the possible values are TCP and UDP, and the default is TCP.
+              enum:
+              - HTTP
+              - HTTP2
+              - HTTPS
+              - SSL
+              - TCP
+              - UDP
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            securitySettings:
+              $ref: '#/schemas/SecuritySettings'
+              description: |-
+                This field specifies the security policy that applies to this backend service. This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            sessionAffinity:
+              description: |-
+                Type of session affinity to use. The default is NONE.
+
+                When the load balancing scheme is EXTERNAL, can be NONE, CLIENT_IP, or GENERATED_COOKIE.
+
+                When the load balancing scheme is INTERNAL, can be NONE, CLIENT_IP, CLIENT_IP_PROTO, or CLIENT_IP_PORT_PROTO.
+
+                When the protocol is UDP, this field is not used.
+              enum:
+              - CLIENT_IP
+              - CLIENT_IP_PORT_PROTO
+              - CLIENT_IP_PROTO
+              - GENERATED_COOKIE
+              - HEADER_FIELD
+              - HTTP_COOKIE
+              - NONE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            timeoutSec:
+              description: How many seconds to wait for the backend before considering
+                it a failed request. Default is 30 seconds.
+              format: int32
+              type: integer
+          type: object
+        BackendServiceAppEngineBackend:
+          description: Configuration of a App Engine backend.
+          id: BackendServiceAppEngineBackend
+          properties:
+            appEngineService:
+              description: Optional. App Engine app service name.
+              type: string
+            targetProject:
+              description: Required. Project ID of the project hosting the app. This
+                is the project ID of this project. Reference to another project is
+                not allowed.
+              type: string
+            version:
+              description: Optional. Version of App Engine app service. When empty,
+                App Engine will do its normal traffic split.
+              type: string
+          type: object
+        BackendServiceCdnPolicy:
+          description: Message containing Cloud CDN configuration for a backend service.
+          id: BackendServiceCdnPolicy
+          properties:
+            cacheKeyPolicy:
+              $ref: '#/schemas/CacheKeyPolicy'
+              description: The CacheKeyPolicy for this CdnPolicy.
+            signedUrlCacheMaxAgeSec:
+              description: 'Maximum number of seconds the response to a signed URL
+                request will be considered fresh. After this time period, the response
+                will be revalidated before being served. Defaults to 1hr (3600s).
+                When serving responses to signed URL requests, Cloud CDN will internally
+                behave as though all responses from this backend had a "Cache-Control:
+                public, max-age=[TTL]" header, regardless of any existing Cache-Control
+                header. The actual headers served in responses will not be altered.'
+              format: int64
+              type: string
+          type: object
+        BackendServiceCloudFunctionBackend:
+          description: Configuration of a Cloud Function backend.
+          id: BackendServiceCloudFunctionBackend
+          properties:
+            functionName:
+              description: Required. A cloud function name. Special value ?*? represents
+                all cloud functions in the project.
+              type: string
+            targetProject:
+              description: Required. Project ID of the project hosting the cloud function.
+              type: string
+          type: object
+        BackendServiceFailoverPolicy:
+          id: BackendServiceFailoverPolicy
+          properties:
+            disableConnectionDrainOnFailover:
+              description: |-
+                On failover or failback, this field indicates whether connection drain will be honored. Setting this to true has the following effect: connections to the old active pool are not drained. Connections to the new active pool use the timeout of 10 min (currently fixed). Setting to false has the following effect: both old and new connections will have a drain timeout of 10 min.
+
+                This can be set to true only if the protocol is TCP.
+
+                The default is false.
+              type: boolean
+            dropTrafficIfUnhealthy:
+              description: |-
+                This option is used only when no healthy VMs are detected in the primary and backup instance groups. When set to true, traffic is dropped. When set to false, new connections are sent across all VMs in the primary group.
+
+                The default is false.
+              type: boolean
+            failoverRatio:
+              description: |-
+                The value of the field must be in [0, 1]. If the ratio of the healthy VMs in the primary backend is at or below this number, traffic arriving at the load-balanced IP will be directed to the failover backend.
+
+                In case where 'failoverRatio' is not set or all the VMs in the backup backend are unhealthy, the traffic will be directed back to the primary backend in the "force" mode, where traffic will be spread to the healthy VMs with the best effort, or to all VMs when no VM is healthy.
+
+                This field is only used with l4 load balancing.
+              format: float
+              type: number
+          type: object
+        BackendServiceIAP:
+          description: Identity-Aware Proxy
+          id: BackendServiceIAP
+          properties:
+            enabled:
+              type: boolean
+            oauth2ClientId:
+              type: string
+            oauth2ClientInfo:
+              $ref: '#/schemas/BackendServiceIAPOAuth2ClientInfo'
+              description: '[Input Only] OAuth client info required to generate client
+                id to be used for IAP.'
+            oauth2ClientSecret:
+              type: string
+          type: object
+        BackendServiceIAPOAuth2ClientInfo:
+          id: BackendServiceIAPOAuth2ClientInfo
+          properties:
+            applicationName:
+              description: Application name to be used in OAuth consent screen.
+              type: string
+            clientName:
+              description: Name of the client to be generated. Optional - If not provided,
+                the name will be autogenerated by the backend.
+              type: string
+            developerEmailAddress:
+              description: Developer's information to be used in OAuth consent screen.
+              type: string
+          type: object
+        BackendServiceLogConfig:
+          description: The available logging options for the load balancer traffic
+            served by this backend service.
+          id: BackendServiceLogConfig
+          properties:
+            enable:
+              description: This field denotes whether to enable logging for the load
+                balancer traffic served by this backend service.
+              type: boolean
+            sampleRate:
+              description: This field can only be specified if logging is enabled
+                for this backend service. The value of the field must be in [0, 1].
+                This configures the sampling rate of requests to the load balancer
+                where 1.0 means all logged requests are reported and 0.0 means no
+                logged requests are reported. The default value is 1.0.
+              format: float
+              type: number
+          type: object
+        CacheKeyPolicy:
+          description: Message containing what to include in the cache key for a request
+            for Cloud CDN.
+          id: CacheKeyPolicy
+          properties:
+            includeHost:
+              description: If true, requests to different hosts will be cached separately.
+              type: boolean
+            includeProtocol:
+              description: If true, http and https requests will be cached separately.
+              type: boolean
+            includeQueryString:
+              description: If true, include query string parameters in the cache key
+                according to query_string_whitelist and query_string_blacklist. If
+                neither is set, the entire query string will be included. If false,
+                the query string will be excluded from the cache key entirely.
+              type: boolean
+            queryStringBlacklist:
+              description: Names of query string parameters to exclude in cache keys.
+                All other parameters will be included. Either specify query_string_whitelist
+                or query_string_blacklist, not both. '&' and '=' will be percent encoded
+                and not treated as delimiters.
+              items:
+                type: string
+              type: array
+            queryStringWhitelist:
+              description: Names of query string parameters to include in cache keys.
+                All other parameters will be excluded. Either specify query_string_whitelist
+                or query_string_blacklist, not both. '&' and '=' will be percent encoded
+                and not treated as delimiters.
+              items:
+                type: string
+              type: array
+          type: object
+        CallCredentials:
+          description: gRPC call credentials to access the SDS server.
+          id: CallCredentials
+          properties:
+            accessToken:
+              description: The access token that is used as call credential for the
+                SDS server. This field is used only if callCredentialType is ACCESS_TOKEN.
+              type: string
+            callCredentialType:
+              description: 'The type of call credentials to use for GRPC requests
+                to the SDS server. This field can be set to one of the following:
+                ACCESS_TOKEN: An access token is used as call credentials for the
+                SDS server. GCE_VM: The local GCE VM service account credentials are
+                used to access the SDS server. JWT_SERVICE_TOKEN: The user provisioned
+                service account credentials are used to access the SDS server. FROM_PLUGIN:
+                Custom authenticator credentials are used to access the SDS server.'
+              enum:
+              - ACCESS_TOKEN
+              - FROM_PLUGIN
+              - GCE_VM
+              - INVALID
+              - JWT_SERVICE_ACCOUNT
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            fromPlugin:
+              $ref: '#/schemas/MetadataCredentialsFromPlugin'
+              description: Custom authenticator credentials.
+            jwtServiceAccount:
+              $ref: '#/schemas/ServiceAccountJwtAccessCredentials'
+              description: This service account credentials are used as call credentials
+                for the SDS server. This field is used only if callCredentialType
+                is JWT_SERVICE_ACCOUNT.
+          type: object
+        ChannelCredentials:
+          description: gRPC channel credentials to access the SDS server.
+          id: ChannelCredentials
+          properties:
+            certificates:
+              $ref: '#/schemas/TlsCertificatePaths'
+              description: The call credentials to access the SDS server.
+            channelCredentialType:
+              description: 'The channel credentials to access the SDS server. This
+                field can be set to one of the following: CERTIFICATES: Use TLS certificates
+                to access the SDS server. GCE_VM: Use local GCE VM credentials to
+                access the SDS server.'
+              enum:
+              - CERTIFICATES
+              - GCE_VM
+              - INVALID
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        CircuitBreakers:
+          description: Settings controlling the volume of connections to a backend
+            service.
+          id: CircuitBreakers
+          properties:
+            connectTimeout:
+              $ref: '#/schemas/Duration'
+              description: The timeout for new network connections to hosts.
+            maxConnections:
+              description: The maximum number of connections to the backend cluster.
+                If not specified, the default is 1024.
+              format: int32
+              type: integer
+            maxPendingRequests:
+              description: The maximum number of pending requests allowed to the backend
+                cluster. If not specified, the default is 1024.
+              format: int32
+              type: integer
+            maxRequests:
+              description: The maximum number of parallel requests that allowed to
+                the backend cluster. If not specified, the default is 1024.
+              format: int32
+              type: integer
+            maxRequestsPerConnection:
+              description: Maximum requests for a single backend connection. This
+                parameter is respected by both the HTTP/1.1 and HTTP/2 implementations.
+                If not specified, there is no limit. Setting this parameter to 1 will
+                effectively disable keep alive.
+              format: int32
+              type: integer
+            maxRetries:
+              description: The maximum number of parallel retries allowed to the backend
+                cluster. If not specified, the default is 3.
+              format: int32
+              type: integer
+          type: object
+        ClientTlsSettings:
+          description: The client side authentication settings for connection originating
+            from the backend service.
+          id: ClientTlsSettings
+          properties:
+            clientTlsContext:
+              $ref: '#/schemas/TlsContext'
+              description: Configures the mechanism to obtain client-side security
+                certificates and identity information. This field is only applicable
+                when mode is set to MUTUAL.
+            mode:
+              description: 'Indicates whether connections to this port should be secured
+                using TLS. The value of this field determines how TLS is enforced.
+                This can be set to one of the following values: DISABLE: Do not setup
+                a TLS connection to the backends. SIMPLE: Originate a TLS connection
+                to the backends. MUTUAL: Secure connections to the backends using
+                mutual TLS by presenting client certificates for authentication.'
+              enum:
+              - DISABLE
+              - INVALID
+              - MUTUAL
+              - SIMPLE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            sni:
+              description: SNI string to present to the server during TLS handshake.
+                This field is applicable only when mode is SIMPLE or MUTUAL.
+              type: string
+            subjectAltNames:
+              description: A list of alternate names to verify the subject identity
+                in the certificate.If specified, the proxy will verify that the server
+                certificate's subject alt name matches one of the specified values.
+                This field is applicable only when mode is SIMPLE or MUTUAL.
+              items:
+                type: string
+              type: array
+          type: object
+        ConnectionDraining:
+          description: Message containing connection draining configuration.
+          id: ConnectionDraining
+          properties:
+            drainingTimeoutSec:
+              description: Time for which instance will be drained (not accept new
+                connections, but still work to finish started).
+              format: int32
+              type: integer
+          type: object
+        ConsistentHashLoadBalancerSettings:
+          description: This message defines settings for a consistent hash style load
+            balancer.
+          id: ConsistentHashLoadBalancerSettings
+          properties:
+            httpCookie:
+              $ref: '#/schemas/ConsistentHashLoadBalancerSettingsHttpCookie'
+              description: Hash is based on HTTP Cookie. This field describes a HTTP
+                cookie that will be used as the hash key for the consistent hash load
+                balancer. If the cookie is not present, it will be generated. This
+                field is applicable if the sessionAffinity is set to HTTP_COOKIE.
+            httpHeaderName:
+              description: The hash based on the value of the specified header field.
+                This field is applicable if the sessionAffinity is set to HEADER_FIELD.
+              type: string
+            minimumRingSize:
+              description: The minimum number of virtual nodes to use for the hash
+                ring. Defaults to 1024. Larger ring sizes result in more granular
+                load distributions. If the number of hosts in the load balancing pool
+                is larger than the ring size, each host will be assigned a single
+                virtual node.
+              format: int64
+              type: string
+          type: object
+        ConsistentHashLoadBalancerSettingsHttpCookie:
+          description: The information about the HTTP Cookie on which the hash function
+            is based for load balancing policies that use a consistent hash.
+          id: ConsistentHashLoadBalancerSettingsHttpCookie
+          properties:
+            name:
+              description: Name of the cookie.
+              type: string
+            path:
+              description: Path to set for the cookie.
+              type: string
+            ttl:
+              $ref: '#/schemas/Duration'
+              description: Lifetime of the cookie.
+          type: object
+        Duration:
+          description: A Duration represents a fixed-length span of time represented
+            as a count of seconds and fractions of seconds at nanosecond resolution.
+            It is independent of any calendar and concepts like "day" or "month".
+            Range is approximately 10,000 years.
+          id: Duration
+          properties:
+            nanos:
+              description: Span of time that's a fraction of a second at nanosecond
+                resolution. Durations less than one second are represented with a
+                0 `seconds` field and a positive `nanos` field. Must be from 0 to
+                999,999,999 inclusive.
+              format: int32
+              type: integer
+            seconds:
+              description: 'Span of time at a resolution of a second. Must be from
+                0 to 315,576,000,000 inclusive. Note: these bounds are computed from:
+                60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years'
+              format: int64
+              type: string
+          type: object
+        GrpcServiceConfig:
+          description: gRPC config to access the SDS server.
+          id: GrpcServiceConfig
+          properties:
+            callCredentials:
+              $ref: '#/schemas/CallCredentials'
+              description: The call credentials to access the SDS server.
+            channelCredentials:
+              $ref: '#/schemas/ChannelCredentials'
+              description: The channel credentials to access the SDS server.
+            targetUri:
+              description: The target URI of the SDS server.
+              type: string
+          type: object
+        Jwt:
+          description: JWT configuration for origin authentication.
+          id: Jwt
+          properties:
+            audiences:
+              description: 'A JWT containing any of these audiences will be accepted.
+                The service name will be accepted if audiences is empty. Examples:
+                bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com'
+              items:
+                type: string
+              type: array
+            issuer:
+              description: 'Identifies the issuer that issued the JWT, which is usually
+                a URL or an email address. Examples: https://securetoken.google.com,
+                1234567-compute@developer.gserviceaccount.com'
+              type: string
+            jwksPublicKeys:
+              description: The provider?s public key set to validate the signature
+                of the JWT.
+              type: string
+            jwtHeaders:
+              description: |-
+                jwt_headers and jwt_params define where to extract the JWT from an HTTP request. If no explicit location is specified, the following default locations are tried in order:
+
+                1. The Authorization header using the Bearer schema. See `here `_. Example:
+
+                Authorization: Bearer .
+
+                2. `access_token` query parameter. See `this `_
+
+                Multiple JWTs can be verified for a request. Each JWT has to be extracted from the locations its issuer specified or from the default locations.
+
+                This field is set if JWT is sent in a request header. This field specifies the header name. For example, if `header=x-goog-iap-jwt-assertion`, the header format will be x-goog-iap-jwt-assertion: .
+              items:
+                $ref: '#/schemas/JwtHeader'
+              type: array
+            jwtParams:
+              description: This field is set if JWT is sent in a query parameter.
+                This field specifies the query parameter name. For example, if jwt_params[0]
+                is jwt_token, the JWT format in the query parameter is /path?jwt_token=.
+              items:
+                type: string
+              type: array
+          type: object
+        JwtHeader:
+          description: This message specifies a header location to extract JWT token.
+          id: JwtHeader
+          properties:
+            name:
+              description: The HTTP header name.
+              type: string
+            valuePrefix:
+              description: 'The value prefix. The value format is "value_prefix" For
+                example, for "Authorization: Bearer ", value_prefix="Bearer " with
+                a space at the end.'
+              type: string
+          type: object
+        MetadataCredentialsFromPlugin:
+          description: Custom authenticator credentials.
+          id: MetadataCredentialsFromPlugin
+          properties:
+            name:
+              description: Plugin name.
+              type: string
+            structConfig:
+              description: A text proto that conforms to a Struct type definition
+                interpreted by the plugin.
+              type: string
+          type: object
+        MetadataFilterLabelMatch:
+          description: MetadataFilter label name value pairs that are expected to
+            match corresponding labels presented as metadata to the loadbalancer.
+          id: MetadataFilterLabelMatch
+          properties:
+            name:
+              description: |-
+                Name of metadata label.
+                The name can have a maximum length of 1024 characters and must be at least 1 character long.
+              type: string
+            value:
+              description: |-
+                The value of the label must match the specified value.
+                value can have a maximum length of 1024 characters.
+              type: string
+          type: object
+        MutualTls:
+          description: Configuration for the mutual Tls mode for peer authentication.
+          id: MutualTls
+          properties:
+            mode:
+              description: 'Specifies if the server TLS is configured to be strict
+                or permissive. This field can be set to one of the following: STRICT:
+                Client certificate must be presented, connection is in TLS. PERMISSIVE:
+                Client certificate can be omitted, connection can be either plaintext
+                or TLS.'
+              enum:
+              - INVALID
+              - PERMISSIVE
+              - STRICT
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        OriginAuthenticationMethod:
+          description: Configuration for the origin authentication method.
+          id: OriginAuthenticationMethod
+          properties:
+            jwt:
+              $ref: '#/schemas/Jwt'
+          type: object
+        OutlierDetection:
+          description: Settings controlling eviction of unhealthy hosts from the load
+            balancing pool.
+          id: OutlierDetection
+          properties:
+            baseEjectionTime:
+              $ref: '#/schemas/Duration'
+              description: The base time that a host is ejected for. The real time
+                is equal to the base time multiplied by the number of times the host
+                has been ejected. Defaults to 30000ms or 30s.
+            consecutiveErrors:
+              description: Number of errors before a host is ejected from the connection
+                pool. When the backend host is accessed over HTTP, a 5xx return code
+                qualifies as an error. Defaults to 5.
+              format: int32
+              type: integer
+            consecutiveGatewayFailure:
+              description: The number of consecutive gateway failures (502, 503, 504
+                status or connection errors that are mapped to one of those status
+                codes) before a consecutive gateway failure ejection occurs. Defaults
+                to 5.
+              format: int32
+              type: integer
+            enforcingConsecutiveErrors:
+              description: The percentage chance that a host will be actually ejected
+                when an outlier status is detected through consecutive 5xx. This setting
+                can be used to disable ejection or to ramp it up slowly. Defaults
+                to 100.
+              format: int32
+              type: integer
+            enforcingConsecutiveGatewayFailure:
+              description: The percentage chance that a host will be actually ejected
+                when an outlier status is detected through consecutive gateway failures.
+                This setting can be used to disable ejection or to ramp it up slowly.
+                Defaults to 0.
+              format: int32
+              type: integer
+            enforcingSuccessRate:
+              description: The percentage chance that a host will be actually ejected
+                when an outlier status is detected through success rate statistics.
+                This setting can be used to disable ejection or to ramp it up slowly.
+                Defaults to 100.
+              format: int32
+              type: integer
+            interval:
+              $ref: '#/schemas/Duration'
+              description: Time interval between ejection sweep analysis. This can
+                result in both new ejections as well as hosts being returned to service.
+                Defaults to 10 seconds.
+            maxEjectionPercent:
+              description: Maximum percentage of hosts in the load balancing pool
+                for the backend service that can be ejected. Defaults to 10%.
+              format: int32
+              type: integer
+            successRateMinimumHosts:
+              description: The number of hosts in a cluster that must have enough
+                request volume to detect success rate outliers. If the number of hosts
+                is less than this setting, outlier detection via success rate statistics
+                is not performed for any host in the cluster. Defaults to 5.
+              format: int32
+              type: integer
+            successRateRequestVolume:
+              description: The minimum number of total requests that must be collected
+                in one interval (as defined by the interval duration above) to include
+                this host in success rate based outlier detection. If the volume is
+                lower than this setting, outlier detection via success rate statistics
+                is not performed for that host. Defaults to 100.
+              format: int32
+              type: integer
+            successRateStdevFactor:
+              description: 'This factor is used to determine the ejection threshold
+                for success rate outlier ejection. The ejection threshold is the difference
+                between the mean success rate, and the product of this factor and
+                the standard deviation of the mean success rate: mean - (stdev * success_rate_stdev_factor).
+                This factor is divided by a thousand to get a double. That is, if
+                the desired factor is 1.9, the runtime value should be 1900. Defaults
+                to 1900.'
+              format: int32
+              type: integer
+          type: object
+        PeerAuthenticationMethod:
+          description: Configuration for the peer authentication method.
+          id: PeerAuthenticationMethod
+          properties:
+            mtls:
+              $ref: '#/schemas/MutualTls'
+              description: Set if mTLS is used for peer authentication.
+          type: object
+        Permission:
+          description: All fields defined in a permission are ANDed.
+          id: Permission
+          properties:
+            constraints:
+              description: Extra custom constraints. The constraints are ANDed together.
+              items:
+                $ref: '#/schemas/PermissionConstraint'
+              type: array
+            hosts:
+              description: Used in Ingress or Egress Gateway cases to specify hosts
+                that the policy applies to. Exact match, prefix match, and suffix
+                match are supported.
+              items:
+                type: string
+              type: array
+            methods:
+              description: HTTP method.
+              items:
+                type: string
+              type: array
+            notHosts:
+              description: Negate of hosts. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notMethods:
+              description: Negate of methods. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notPaths:
+              description: Negate of paths. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notPorts:
+              description: Negate of ports. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            paths:
+              description: HTTP request paths or gRPC methods. Exact match, prefix
+                match, and suffix match are supported.
+              items:
+                type: string
+              type: array
+            ports:
+              description: Port names or numbers.
+              items:
+                type: string
+              type: array
+          type: object
+        PermissionConstraint:
+          description: Custom constraint that specifies a key and a list of allowed
+            values for Istio attributes.
+          id: PermissionConstraint
+          properties:
+            key:
+              description: Key of the constraint.
+              type: string
+            values:
+              description: A list of allowed values.
+              items:
+                type: string
+              type: array
+          type: object
+        Principal:
+          description: All fields defined in a principal are ANDed.
+          id: Principal
+          properties:
+            condition:
+              description: An expression to specify custom condition.
+              type: string
+            groups:
+              description: The groups the principal belongs to. Exact match, prefix
+                match, and suffix match are supported.
+              items:
+                type: string
+              type: array
+            ips:
+              description: IPv4 or IPv6 address or range (In CIDR format)
+              items:
+                type: string
+              type: array
+            namespaces:
+              description: The namespaces. Exact match, prefix match, and suffix match
+                are supported.
+              items:
+                type: string
+              type: array
+            notGroups:
+              description: Negate of groups. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notIps:
+              description: Negate of IPs. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notNamespaces:
+              description: Negate of namespaces. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notUsers:
+              description: Negate of users. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            properties:
+              additionalProperties:
+                type: string
+              description: 'A map of Istio attribute to expected values. Exact match,
+                prefix match, and suffix match are supported for values. For example,
+                `request.headers[version]: ?v1?`. The properties are ANDed together.'
+              type: object
+            users:
+              description: The user names/IDs or service accounts. Exact match, prefix
+                match, and suffix match are supported.
+              items:
+                type: string
+              type: array
+          type: object
+        RbacPolicy:
+          id: RbacPolicy
+          properties:
+            name:
+              description: Name of the RbacPolicy.
+              type: string
+            permissions:
+              description: The list of permissions.
+              items:
+                $ref: '#/schemas/Permission'
+              type: array
+            principals:
+              description: The list of principals.
+              items:
+                $ref: '#/schemas/Principal'
+              type: array
+          type: object
+        SdsConfig:
+          description: The configuration to access the SDS server.
+          id: SdsConfig
+          properties:
+            grpcServiceConfig:
+              $ref: '#/schemas/GrpcServiceConfig'
+              description: The configuration to access the SDS server over GRPC.
+          type: object
+        SecuritySettings:
+          description: The authentication and authorization settings for a BackendService.
+          id: SecuritySettings
+          properties:
+            authenticationPolicy:
+              $ref: '#/schemas/AuthenticationPolicy'
+              description: Authentication policy defines what authentication methods
+                can be accepted on backends, and if authenticated, which method/certificate
+                will set the request principal.
+            authorizationConfig:
+              $ref: '#/schemas/AuthorizationConfig'
+              description: Authorization config defines the Role Based Access Control
+                (RBAC) config.
+            clientTlsSettings:
+              $ref: '#/schemas/ClientTlsSettings'
+              description: TLS Settings for the backend service.
+            serverSettingsSelector:
+              $ref: '#/schemas/ServerSecuritySettingsSelector'
+              description: The listener config of the XDS client is generated if the
+                selector matches the client.
+          type: object
+        ServerSecuritySettingsSelector:
+          description: A selector associated with the SecuritySettings. If the labels
+            and port in this selector match the Envoy's label and port, the server
+            side authentication and authorization settings are applied to the Envoy.
+          id: ServerSecuritySettingsSelector
+          properties:
+            labelMatches:
+              description: The labels associated with the XDS client.
+              items:
+                $ref: '#/schemas/MetadataFilterLabelMatch'
+              type: array
+            port:
+              description: The listener port of the XDS client.
+              format: int32
+              type: integer
+          type: object
+        ServiceAccountJwtAccessCredentials:
+          description: JWT credentials for a service account.
+          id: ServiceAccountJwtAccessCredentials
+          properties:
+            jsonKey:
+              description: Service account key.
+              type: string
+            tokenLifetimeSeconds:
+              description: The token lifetime seconds.
+              format: int64
+              type: string
+          type: object
+        TlsCertificateContext:
+          description: Defines the mechanism to obtain the client or server certificate.
+          id: TlsCertificateContext
+          properties:
+            certificatePaths:
+              $ref: '#/schemas/TlsCertificatePaths'
+              description: Specifies the certificate and private key paths. This field
+                is applicable only if tlsCertificateSource is set to USE_PATH.
+            certificateSource:
+              description: Defines how TLS certificates are obtained.
+              enum:
+              - INVALID
+              - USE_PATH
+              - USE_SDS
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            sdsConfig:
+              $ref: '#/schemas/SdsConfig'
+              description: Specifies the config to retrieve certificates through SDS.
+                This field is applicable only if tlsCertificateSource is set to USE_SDS.
+          type: object
+        TlsCertificatePaths:
+          description: The paths to the mounted TLS Certificates and private key.
+          id: TlsCertificatePaths
+          properties:
+            certificatePath:
+              description: The path to the file holding the client or server TLS certificate
+                to use.
+              type: string
+            privateKeyPath:
+              description: The path to the file holding the client or server private
+                key.
+              type: string
+          type: object
+        TlsContext:
+          description: The TLS settings for the client or server.
+          id: TlsContext
+          properties:
+            certificateContext:
+              $ref: '#/schemas/TlsCertificateContext'
+              description: Defines the mechanism to obtain the client or server certificate.
+            validationContext:
+              $ref: '#/schemas/TlsValidationContext'
+              description: Defines the mechanism to obtain the Certificate Authority
+                certificate to validate the client/server certificate. If omitted,
+                the proxy will not validate the server or client certificate.
+          type: object
+        TlsValidationContext:
+          description: Defines the mechanism to obtain the Certificate Authority certificate
+            to validate the client/server certificate.
+          id: TlsValidationContext
+          properties:
+            certificatePath:
+              description: The path to the file holding the CA certificate to validate
+                the client or server certificate.
+              type: string
+            sdsConfig:
+              $ref: '#/schemas/SdsConfig'
+              description: Specifies the config to retrieve certificates through SDS.
+                This field is applicable only if tlsCertificateSource is set to USE_SDS.
+            validationSource:
+              description: Defines how TLS certificates are obtained.
+              enum:
+              - INVALID
+              - USE_PATH
+              - USE_SDS
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/BackendService'
+      methodName: get
+      schemas:
+        AuthenticationPolicy:
+          description: The authentication settings for the backend service.
+          id: AuthenticationPolicy
+          properties:
+            origins:
+              description: List of authentication methods that can be used for origin
+                authentication. Similar to peers, these will be evaluated in order
+                the first valid one will be used to set origin identity. If none of
+                these methods pass, the request will be rejected with authentication
+                failed error (401). Leave the list empty if origin authentication
+                is not required.
+              items:
+                $ref: '#/schemas/OriginAuthenticationMethod'
+              type: array
+            peers:
+              description: List of authentication methods that can be used for peer
+                authentication. They will be evaluated in order the first valid one
+                will be used to set peer identity. If none of these methods pass,
+                the request will be rejected with authentication failed error (401).
+                Leave the list empty if peer authentication is not required.
+              items:
+                $ref: '#/schemas/PeerAuthenticationMethod'
+              type: array
+            principalBinding:
+              description: 'Define whether peer or origin identity should be used
+                for principal. Default value is USE_PEER. If peer (or origin) identity
+                is not available, either because peer/origin authentication is not
+                defined, or failed, principal will be left unset. In other words,
+                binding rule does not affect the decision to accept or reject request.
+                This field can be set to one of the following: USE_PEER: Principal
+                will be set to the identity from peer authentication. USE_ORIGIN:
+                Principal will be set to the identity from origin authentication.'
+              enum:
+              - INVALID
+              - USE_ORIGIN
+              - USE_PEER
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            serverTlsContext:
+              $ref: '#/schemas/TlsContext'
+              description: Configures the mechanism to obtain server-side security
+                certificates and identity information.
+          type: object
+        AuthorizationConfig:
+          description: Authorization configuration provides service-level and method-level
+            access control for a service.
+          id: AuthorizationConfig
+          properties:
+            policies:
+              description: List of RbacPolicies.
+              items:
+                $ref: '#/schemas/RbacPolicy'
+              type: array
+          type: object
+        Backend:
+          description: Message containing information of one individual backend.
+          id: Backend
+          properties:
+            balancingMode:
+              description: |-
+                Specifies the balancing mode for this backend. For global HTTP(S) or TCP/SSL load balancing, the default is UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S)) and CONNECTION (for TCP/SSL).
+
+                For Internal Load Balancing, the default and only supported mode is CONNECTION.
+              enum:
+              - CONNECTION
+              - RATE
+              - UTILIZATION
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            capacityScaler:
+              description: |-
+                A multiplier applied to the group's maximum servicing capacity (based on UTILIZATION, RATE or CONNECTION). Default value is 1, which means the group will serve up to 100% of its configured capacity (depending on balancingMode). A setting of 0 means the group is completely drained, offering 0% of its available Capacity. Valid range is [0.0,1.0].
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            failover:
+              description: This field designates whether this is a failover backend.
+                More than one failover backend can be configured for a given BackendService.
+              type: boolean
+            group:
+              description: |-
+                The fully-qualified URL of an Instance Group or Network Endpoint Group resource. In case of instance group this defines the list of instances that serve traffic. Member virtual machine instances from each instance group must live in the same zone as the instance group itself. No two backends in a backend service are allowed to use same Instance Group resource.
+
+                For Network Endpoint Groups this defines list of endpoints. All endpoints of Network Endpoint Group must be hosted on instances located in the same zone as the Network Endpoint Group.
+
+                Backend service can not contain mix of Instance Group and Network Endpoint Group backends.
+
+                Note that you must specify an Instance Group or Network Endpoint Group resource using the fully-qualified URL, rather than a partial URL.
+
+                When the BackendService has load balancing scheme INTERNAL, the instance group must be within the same region as the BackendService. Network Endpoint Groups are not supported for INTERNAL load balancing scheme.
+              type: string
+            maxConnections:
+              description: |-
+                The max number of simultaneous connections for the group. Can be used with either CONNECTION or UTILIZATION balancing modes. For CONNECTION mode, either maxConnections or maxConnectionsPerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxConnectionsPerEndpoint:
+              description: |-
+                The max number of simultaneous connections that a single backend network endpoint can handle. This is used to calculate the capacity of the group. Can be used in either CONNECTION or UTILIZATION balancing modes. For CONNECTION mode, either maxConnections or maxConnectionsPerEndpoint must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxConnectionsPerInstance:
+              description: |-
+                The max number of simultaneous connections that a single backend instance can handle. This is used to calculate the capacity of the group. Can be used in either CONNECTION or UTILIZATION balancing modes. For CONNECTION mode, either maxConnections or maxConnectionsPerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxRate:
+              description: |-
+                The max requests per second (RPS) of the group. Can be used with either RATE or UTILIZATION balancing modes, but required if RATE mode. For RATE mode, either maxRate or maxRatePerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            maxRatePerEndpoint:
+              description: |-
+                The max requests per second (RPS) that a single backend network endpoint can handle. This is used to calculate the capacity of the group. Can be used in either balancing mode. For RATE mode, either maxRate or maxRatePerEndpoint must be set.
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+            maxRatePerInstance:
+              description: |-
+                The max requests per second (RPS) that a single backend instance can handle. This is used to calculate the capacity of the group. Can be used in either balancing mode. For RATE mode, either maxRate or maxRatePerInstance must be set.
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+            maxUtilization:
+              description: |-
+                Used when balancingMode is UTILIZATION. This ratio defines the CPU utilization target for the group. The default is 0.8. Valid range is [0.0, 1.0].
+
+                This cannot be used for internal load balancing.
+              format: float
+              type: number
+          type: object
+        BackendService:
+          description: A BackendService resource. This resource defines a group of
+            backend virtual machines and their serving capacity. (== resource_for
+            v1.backendService ==) (== resource_for beta.backendService ==)
+          id: BackendService
+          properties:
+            affinityCookieTtlSec:
+              description: |-
+                Lifetime of cookies in seconds if session_affinity is GENERATED_COOKIE. If set to 0, the cookie is non-persistent and lasts only until the end of the browser session (or equivalent). The maximum allowed value for TTL is one day.
+
+                When the load balancing scheme is INTERNAL, this field is not used.
+              format: int32
+              type: integer
+            appEngineBackend:
+              $ref: '#/schemas/BackendServiceAppEngineBackend'
+              description: Directs request to an App Engine app. cloudFunctionBackend
+                and backends[] must be empty if this is set.
+            backends:
+              description: The list of backends that serve this BackendService.
+              items:
+                $ref: '#/schemas/Backend'
+              type: array
+            cdnPolicy:
+              $ref: '#/schemas/BackendServiceCdnPolicy'
+              description: Cloud CDN configuration for this BackendService.
+            circuitBreakers:
+              $ref: '#/schemas/CircuitBreakers'
+              description: |-
+                Settings controlling the volume of connections to a backend service.
+
+                This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            cloudFunctionBackend:
+              $ref: '#/schemas/BackendServiceCloudFunctionBackend'
+              description: Directs request to a cloud function. appEngineBackend and
+                backends[] must be empty if this is set.
+            connectionDraining:
+              $ref: '#/schemas/ConnectionDraining'
+            consistentHash:
+              $ref: '#/schemas/ConsistentHashLoadBalancerSettings'
+              description: |-
+                Consistent Hash-based load balancing can be used to provide soft session affinity based on HTTP headers, cookies or other properties. This load balancing policy is applicable only for HTTP connections. The affinity to a particular destination host will be lost when one or more hosts are added/removed from the destination service. This field specifies parameters that control consistent hashing. This field is only applicable when localityLbPolicy is set to MAGLEV or RING_HASH.
+
+                This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            customRequestHeaders:
+              description: Headers that the HTTP/S load balancer should add to proxied
+                requests.
+              items:
+                type: string
+              type: array
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            enableCDN:
+              description: |-
+                If true, enable Cloud CDN for this BackendService.
+
+                When the load balancing scheme is INTERNAL, this field is not used.
+              type: boolean
+            failoverPolicy:
+              $ref: '#/schemas/BackendServiceFailoverPolicy'
+            fingerprint:
+              description: |-
+                Fingerprint of this resource. A hash of the contents stored in this object. This field is used in optimistic locking. This field will be ignored when inserting a BackendService. An up-to-date fingerprint must be provided in order to update the BackendService, otherwise the request will fail with error 412 conditionNotMet.
+
+                To see the latest fingerprint, make a get() request to retrieve a BackendService.
+              format: byte
+              type: string
+            healthChecks:
+              description: |-
+                The list of URLs to the HttpHealthCheck or HttpsHealthCheck resource for health checking this BackendService. Currently at most one health check can be specified, and a health check is required for Compute Engine backend services. A health check must not be specified for App Engine backend and Cloud Function backend.
+
+                For internal load balancing, a URL to a HealthCheck resource must be specified instead.
+              items:
+                type: string
+              type: array
+            iap:
+              $ref: '#/schemas/BackendServiceIAP'
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#backendService
+              description: '[Output Only] Type of resource. Always compute#backendService
+                for backend services.'
+              type: string
+            loadBalancingScheme:
+              description: Indicates whether the backend service will be used with
+                internal or external load balancing. A backend service created for
+                one type of load balancing cannot be used with the other. Possible
+                values are INTERNAL and EXTERNAL.
+              enum:
+              - EXTERNAL
+              - INTERNAL
+              - INTERNAL_MANAGED
+              - INTERNAL_SELF_MANAGED
+              - INVALID_LOAD_BALANCING_SCHEME
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            localityLbPolicy:
+              description: |-
+                The load balancing algorithm used within the scope of the locality. The possible values are:  
+                - ROUND_ROBIN: This is a simple policy in which each healthy backend is selected in round robin order. This is the default. 
+                - LEAST_REQUEST: An O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests. 
+                - RING_HASH: The ring/modulo hash load balancer implements consistent hashing to backends. The algorithm has the property that the addition/removal of a host from a set of N hosts only affects 1/N of the requests. 
+                - RANDOM: The load balancer selects a random healthy host. 
+                - ORIGINAL_DESTINATION: Backend host is selected based on the client connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection before the connection was redirected to the load balancer. 
+                - MAGLEV: used as a drop in replacement for the ring hash load balancer. Maglev is not as stable as ring hash but has faster table lookup build times and host selection times. For more information about Maglev, refer to https://ai.google/research/pubs/pub44824 
+
+                This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+              enum:
+              - INVALID_LB_POLICY
+              - LEAST_REQUEST
+              - MAGLEV
+              - ORINGINAL_DESTINATION
+              - RANDOM
+              - RING_HASH
+              - ROUND_ROBIN
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            logConfig:
+              $ref: '#/schemas/BackendServiceLogConfig'
+              description: This field denotes the logging options for the load balancer
+                traffic served by this backend service. If logging is enabled, logs
+                will be exported to Stackdriver.
+            name:
+              description: Name of the resource. Provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            outlierDetection:
+              $ref: '#/schemas/OutlierDetection'
+              description: |-
+                Settings controlling eviction of unhealthy hosts from the load balancing pool. This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            port:
+              description: |-
+                Deprecated in favor of portName. The TCP port to connect on the backend. The default value is 80.
+
+                This cannot be used for internal load balancing.
+              format: int32
+              type: integer
+            portName:
+              description: |-
+                Name of backend port. The same name should appear in the instance groups referenced by this service. Required when the load balancing scheme is EXTERNAL.
+
+                When the load balancing scheme is INTERNAL, this field is not used.
+              type: string
+            protocol:
+              description: |-
+                The protocol this BackendService uses to communicate with backends.
+
+                Possible values are HTTP, HTTPS, TCP, and SSL. The default is HTTP.
+
+                For internal load balancing, the possible values are TCP and UDP, and the default is TCP.
+              enum:
+              - HTTP
+              - HTTP2
+              - HTTPS
+              - SSL
+              - TCP
+              - UDP
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            region:
+              description: '[Output Only] URL of the region where the regional backend
+                service resides. This field is not applicable to global backend services.
+                You must specify this field as part of the HTTP request URL. It is
+                not settable as a field in the request body.'
+              type: string
+            securityPolicy:
+              description: '[Output Only] The resource URL for the security policy
+                associated with this backend service.'
+              type: string
+            securitySettings:
+              $ref: '#/schemas/SecuritySettings'
+              description: |-
+                This field specifies the security policy that applies to this backend service. This field is applicable to either:  
+                - A regional backend service with the service_protocol set to HTTP, HTTPS, or HTTP2, and load_balancing_scheme set to INTERNAL_MANAGED. 
+                - A global backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            selfLinkWithId:
+              description: '[Output Only] Server-defined URL for this resource with
+                the resource id.'
+              type: string
+            sessionAffinity:
+              description: |-
+                Type of session affinity to use. The default is NONE.
+
+                When the load balancing scheme is EXTERNAL, can be NONE, CLIENT_IP, or GENERATED_COOKIE.
+
+                When the load balancing scheme is INTERNAL, can be NONE, CLIENT_IP, CLIENT_IP_PROTO, or CLIENT_IP_PORT_PROTO.
+
+                When the protocol is UDP, this field is not used.
+              enum:
+              - CLIENT_IP
+              - CLIENT_IP_PORT_PROTO
+              - CLIENT_IP_PROTO
+              - GENERATED_COOKIE
+              - HEADER_FIELD
+              - HTTP_COOKIE
+              - NONE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            timeoutSec:
+              description: How many seconds to wait for the backend before considering
+                it a failed request. Default is 30 seconds.
+              format: int32
+              type: integer
+          type: object
+        BackendServiceAppEngineBackend:
+          description: Configuration of a App Engine backend.
+          id: BackendServiceAppEngineBackend
+          properties:
+            appEngineService:
+              description: Optional. App Engine app service name.
+              type: string
+            targetProject:
+              description: Required. Project ID of the project hosting the app. This
+                is the project ID of this project. Reference to another project is
+                not allowed.
+              type: string
+            version:
+              description: Optional. Version of App Engine app service. When empty,
+                App Engine will do its normal traffic split.
+              type: string
+          type: object
+        BackendServiceCdnPolicy:
+          description: Message containing Cloud CDN configuration for a backend service.
+          id: BackendServiceCdnPolicy
+          properties:
+            cacheKeyPolicy:
+              $ref: '#/schemas/CacheKeyPolicy'
+              description: The CacheKeyPolicy for this CdnPolicy.
+            signedUrlCacheMaxAgeSec:
+              description: 'Maximum number of seconds the response to a signed URL
+                request will be considered fresh. After this time period, the response
+                will be revalidated before being served. Defaults to 1hr (3600s).
+                When serving responses to signed URL requests, Cloud CDN will internally
+                behave as though all responses from this backend had a "Cache-Control:
+                public, max-age=[TTL]" header, regardless of any existing Cache-Control
+                header. The actual headers served in responses will not be altered.'
+              format: int64
+              type: string
+            signedUrlKeyNames:
+              description: '[Output Only] Names of the keys for signing request URLs.'
+              items:
+                type: string
+              type: array
+          type: object
+        BackendServiceCloudFunctionBackend:
+          description: Configuration of a Cloud Function backend.
+          id: BackendServiceCloudFunctionBackend
+          properties:
+            functionName:
+              description: Required. A cloud function name. Special value ?*? represents
+                all cloud functions in the project.
+              type: string
+            targetProject:
+              description: Required. Project ID of the project hosting the cloud function.
+              type: string
+          type: object
+        BackendServiceFailoverPolicy:
+          id: BackendServiceFailoverPolicy
+          properties:
+            disableConnectionDrainOnFailover:
+              description: |-
+                On failover or failback, this field indicates whether connection drain will be honored. Setting this to true has the following effect: connections to the old active pool are not drained. Connections to the new active pool use the timeout of 10 min (currently fixed). Setting to false has the following effect: both old and new connections will have a drain timeout of 10 min.
+
+                This can be set to true only if the protocol is TCP.
+
+                The default is false.
+              type: boolean
+            dropTrafficIfUnhealthy:
+              description: |-
+                This option is used only when no healthy VMs are detected in the primary and backup instance groups. When set to true, traffic is dropped. When set to false, new connections are sent across all VMs in the primary group.
+
+                The default is false.
+              type: boolean
+            failoverRatio:
+              description: |-
+                The value of the field must be in [0, 1]. If the ratio of the healthy VMs in the primary backend is at or below this number, traffic arriving at the load-balanced IP will be directed to the failover backend.
+
+                In case where 'failoverRatio' is not set or all the VMs in the backup backend are unhealthy, the traffic will be directed back to the primary backend in the "force" mode, where traffic will be spread to the healthy VMs with the best effort, or to all VMs when no VM is healthy.
+
+                This field is only used with l4 load balancing.
+              format: float
+              type: number
+          type: object
+        BackendServiceIAP:
+          description: Identity-Aware Proxy
+          id: BackendServiceIAP
+          properties:
+            enabled:
+              type: boolean
+            oauth2ClientId:
+              type: string
+            oauth2ClientInfo:
+              $ref: '#/schemas/BackendServiceIAPOAuth2ClientInfo'
+              description: '[Input Only] OAuth client info required to generate client
+                id to be used for IAP.'
+            oauth2ClientSecret:
+              type: string
+            oauth2ClientSecretSha256:
+              description: '[Output Only] SHA256 hash value for the field oauth2_client_secret
+                above.'
+              type: string
+          type: object
+        BackendServiceIAPOAuth2ClientInfo:
+          id: BackendServiceIAPOAuth2ClientInfo
+          properties:
+            applicationName:
+              description: Application name to be used in OAuth consent screen.
+              type: string
+            clientName:
+              description: Name of the client to be generated. Optional - If not provided,
+                the name will be autogenerated by the backend.
+              type: string
+            developerEmailAddress:
+              description: Developer's information to be used in OAuth consent screen.
+              type: string
+          type: object
+        BackendServiceLogConfig:
+          description: The available logging options for the load balancer traffic
+            served by this backend service.
+          id: BackendServiceLogConfig
+          properties:
+            enable:
+              description: This field denotes whether to enable logging for the load
+                balancer traffic served by this backend service.
+              type: boolean
+            sampleRate:
+              description: This field can only be specified if logging is enabled
+                for this backend service. The value of the field must be in [0, 1].
+                This configures the sampling rate of requests to the load balancer
+                where 1.0 means all logged requests are reported and 0.0 means no
+                logged requests are reported. The default value is 1.0.
+              format: float
+              type: number
+          type: object
+        CacheKeyPolicy:
+          description: Message containing what to include in the cache key for a request
+            for Cloud CDN.
+          id: CacheKeyPolicy
+          properties:
+            includeHost:
+              description: If true, requests to different hosts will be cached separately.
+              type: boolean
+            includeProtocol:
+              description: If true, http and https requests will be cached separately.
+              type: boolean
+            includeQueryString:
+              description: If true, include query string parameters in the cache key
+                according to query_string_whitelist and query_string_blacklist. If
+                neither is set, the entire query string will be included. If false,
+                the query string will be excluded from the cache key entirely.
+              type: boolean
+            queryStringBlacklist:
+              description: Names of query string parameters to exclude in cache keys.
+                All other parameters will be included. Either specify query_string_whitelist
+                or query_string_blacklist, not both. '&' and '=' will be percent encoded
+                and not treated as delimiters.
+              items:
+                type: string
+              type: array
+            queryStringWhitelist:
+              description: Names of query string parameters to include in cache keys.
+                All other parameters will be excluded. Either specify query_string_whitelist
+                or query_string_blacklist, not both. '&' and '=' will be percent encoded
+                and not treated as delimiters.
+              items:
+                type: string
+              type: array
+          type: object
+        CallCredentials:
+          description: gRPC call credentials to access the SDS server.
+          id: CallCredentials
+          properties:
+            accessToken:
+              description: The access token that is used as call credential for the
+                SDS server. This field is used only if callCredentialType is ACCESS_TOKEN.
+              type: string
+            callCredentialType:
+              description: 'The type of call credentials to use for GRPC requests
+                to the SDS server. This field can be set to one of the following:
+                ACCESS_TOKEN: An access token is used as call credentials for the
+                SDS server. GCE_VM: The local GCE VM service account credentials are
+                used to access the SDS server. JWT_SERVICE_TOKEN: The user provisioned
+                service account credentials are used to access the SDS server. FROM_PLUGIN:
+                Custom authenticator credentials are used to access the SDS server.'
+              enum:
+              - ACCESS_TOKEN
+              - FROM_PLUGIN
+              - GCE_VM
+              - INVALID
+              - JWT_SERVICE_ACCOUNT
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            fromPlugin:
+              $ref: '#/schemas/MetadataCredentialsFromPlugin'
+              description: Custom authenticator credentials.
+            jwtServiceAccount:
+              $ref: '#/schemas/ServiceAccountJwtAccessCredentials'
+              description: This service account credentials are used as call credentials
+                for the SDS server. This field is used only if callCredentialType
+                is JWT_SERVICE_ACCOUNT.
+          type: object
+        ChannelCredentials:
+          description: gRPC channel credentials to access the SDS server.
+          id: ChannelCredentials
+          properties:
+            certificates:
+              $ref: '#/schemas/TlsCertificatePaths'
+              description: The call credentials to access the SDS server.
+            channelCredentialType:
+              description: 'The channel credentials to access the SDS server. This
+                field can be set to one of the following: CERTIFICATES: Use TLS certificates
+                to access the SDS server. GCE_VM: Use local GCE VM credentials to
+                access the SDS server.'
+              enum:
+              - CERTIFICATES
+              - GCE_VM
+              - INVALID
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        CircuitBreakers:
+          description: Settings controlling the volume of connections to a backend
+            service.
+          id: CircuitBreakers
+          properties:
+            connectTimeout:
+              $ref: '#/schemas/Duration'
+              description: The timeout for new network connections to hosts.
+            maxConnections:
+              description: The maximum number of connections to the backend cluster.
+                If not specified, the default is 1024.
+              format: int32
+              type: integer
+            maxPendingRequests:
+              description: The maximum number of pending requests allowed to the backend
+                cluster. If not specified, the default is 1024.
+              format: int32
+              type: integer
+            maxRequests:
+              description: The maximum number of parallel requests that allowed to
+                the backend cluster. If not specified, the default is 1024.
+              format: int32
+              type: integer
+            maxRequestsPerConnection:
+              description: Maximum requests for a single backend connection. This
+                parameter is respected by both the HTTP/1.1 and HTTP/2 implementations.
+                If not specified, there is no limit. Setting this parameter to 1 will
+                effectively disable keep alive.
+              format: int32
+              type: integer
+            maxRetries:
+              description: The maximum number of parallel retries allowed to the backend
+                cluster. If not specified, the default is 3.
+              format: int32
+              type: integer
+          type: object
+        ClientTlsSettings:
+          description: The client side authentication settings for connection originating
+            from the backend service.
+          id: ClientTlsSettings
+          properties:
+            clientTlsContext:
+              $ref: '#/schemas/TlsContext'
+              description: Configures the mechanism to obtain client-side security
+                certificates and identity information. This field is only applicable
+                when mode is set to MUTUAL.
+            mode:
+              description: 'Indicates whether connections to this port should be secured
+                using TLS. The value of this field determines how TLS is enforced.
+                This can be set to one of the following values: DISABLE: Do not setup
+                a TLS connection to the backends. SIMPLE: Originate a TLS connection
+                to the backends. MUTUAL: Secure connections to the backends using
+                mutual TLS by presenting client certificates for authentication.'
+              enum:
+              - DISABLE
+              - INVALID
+              - MUTUAL
+              - SIMPLE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            sni:
+              description: SNI string to present to the server during TLS handshake.
+                This field is applicable only when mode is SIMPLE or MUTUAL.
+              type: string
+            subjectAltNames:
+              description: A list of alternate names to verify the subject identity
+                in the certificate.If specified, the proxy will verify that the server
+                certificate's subject alt name matches one of the specified values.
+                This field is applicable only when mode is SIMPLE or MUTUAL.
+              items:
+                type: string
+              type: array
+          type: object
+        ConnectionDraining:
+          description: Message containing connection draining configuration.
+          id: ConnectionDraining
+          properties:
+            drainingTimeoutSec:
+              description: Time for which instance will be drained (not accept new
+                connections, but still work to finish started).
+              format: int32
+              type: integer
+          type: object
+        ConsistentHashLoadBalancerSettings:
+          description: This message defines settings for a consistent hash style load
+            balancer.
+          id: ConsistentHashLoadBalancerSettings
+          properties:
+            httpCookie:
+              $ref: '#/schemas/ConsistentHashLoadBalancerSettingsHttpCookie'
+              description: Hash is based on HTTP Cookie. This field describes a HTTP
+                cookie that will be used as the hash key for the consistent hash load
+                balancer. If the cookie is not present, it will be generated. This
+                field is applicable if the sessionAffinity is set to HTTP_COOKIE.
+            httpHeaderName:
+              description: The hash based on the value of the specified header field.
+                This field is applicable if the sessionAffinity is set to HEADER_FIELD.
+              type: string
+            minimumRingSize:
+              description: The minimum number of virtual nodes to use for the hash
+                ring. Defaults to 1024. Larger ring sizes result in more granular
+                load distributions. If the number of hosts in the load balancing pool
+                is larger than the ring size, each host will be assigned a single
+                virtual node.
+              format: int64
+              type: string
+          type: object
+        ConsistentHashLoadBalancerSettingsHttpCookie:
+          description: The information about the HTTP Cookie on which the hash function
+            is based for load balancing policies that use a consistent hash.
+          id: ConsistentHashLoadBalancerSettingsHttpCookie
+          properties:
+            name:
+              description: Name of the cookie.
+              type: string
+            path:
+              description: Path to set for the cookie.
+              type: string
+            ttl:
+              $ref: '#/schemas/Duration'
+              description: Lifetime of the cookie.
+          type: object
+        Duration:
+          description: A Duration represents a fixed-length span of time represented
+            as a count of seconds and fractions of seconds at nanosecond resolution.
+            It is independent of any calendar and concepts like "day" or "month".
+            Range is approximately 10,000 years.
+          id: Duration
+          properties:
+            nanos:
+              description: Span of time that's a fraction of a second at nanosecond
+                resolution. Durations less than one second are represented with a
+                0 `seconds` field and a positive `nanos` field. Must be from 0 to
+                999,999,999 inclusive.
+              format: int32
+              type: integer
+            seconds:
+              description: 'Span of time at a resolution of a second. Must be from
+                0 to 315,576,000,000 inclusive. Note: these bounds are computed from:
+                60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years'
+              format: int64
+              type: string
+          type: object
+        GrpcServiceConfig:
+          description: gRPC config to access the SDS server.
+          id: GrpcServiceConfig
+          properties:
+            callCredentials:
+              $ref: '#/schemas/CallCredentials'
+              description: The call credentials to access the SDS server.
+            channelCredentials:
+              $ref: '#/schemas/ChannelCredentials'
+              description: The channel credentials to access the SDS server.
+            targetUri:
+              description: The target URI of the SDS server.
+              type: string
+          type: object
+        Jwt:
+          description: JWT configuration for origin authentication.
+          id: Jwt
+          properties:
+            audiences:
+              description: 'A JWT containing any of these audiences will be accepted.
+                The service name will be accepted if audiences is empty. Examples:
+                bookstore_android.apps.googleusercontent.com, bookstore_web.apps.googleusercontent.com'
+              items:
+                type: string
+              type: array
+            issuer:
+              description: 'Identifies the issuer that issued the JWT, which is usually
+                a URL or an email address. Examples: https://securetoken.google.com,
+                1234567-compute@developer.gserviceaccount.com'
+              type: string
+            jwksPublicKeys:
+              description: The provider?s public key set to validate the signature
+                of the JWT.
+              type: string
+            jwtHeaders:
+              description: |-
+                jwt_headers and jwt_params define where to extract the JWT from an HTTP request. If no explicit location is specified, the following default locations are tried in order:
+
+                1. The Authorization header using the Bearer schema. See `here `_. Example:
+
+                Authorization: Bearer .
+
+                2. `access_token` query parameter. See `this `_
+
+                Multiple JWTs can be verified for a request. Each JWT has to be extracted from the locations its issuer specified or from the default locations.
+
+                This field is set if JWT is sent in a request header. This field specifies the header name. For example, if `header=x-goog-iap-jwt-assertion`, the header format will be x-goog-iap-jwt-assertion: .
+              items:
+                $ref: '#/schemas/JwtHeader'
+              type: array
+            jwtParams:
+              description: This field is set if JWT is sent in a query parameter.
+                This field specifies the query parameter name. For example, if jwt_params[0]
+                is jwt_token, the JWT format in the query parameter is /path?jwt_token=.
+              items:
+                type: string
+              type: array
+          type: object
+        JwtHeader:
+          description: This message specifies a header location to extract JWT token.
+          id: JwtHeader
+          properties:
+            name:
+              description: The HTTP header name.
+              type: string
+            valuePrefix:
+              description: 'The value prefix. The value format is "value_prefix" For
+                example, for "Authorization: Bearer ", value_prefix="Bearer " with
+                a space at the end.'
+              type: string
+          type: object
+        MetadataCredentialsFromPlugin:
+          description: Custom authenticator credentials.
+          id: MetadataCredentialsFromPlugin
+          properties:
+            name:
+              description: Plugin name.
+              type: string
+            structConfig:
+              description: A text proto that conforms to a Struct type definition
+                interpreted by the plugin.
+              type: string
+          type: object
+        MetadataFilterLabelMatch:
+          description: MetadataFilter label name value pairs that are expected to
+            match corresponding labels presented as metadata to the loadbalancer.
+          id: MetadataFilterLabelMatch
+          properties:
+            name:
+              description: |-
+                Name of metadata label.
+                The name can have a maximum length of 1024 characters and must be at least 1 character long.
+              type: string
+            value:
+              description: |-
+                The value of the label must match the specified value.
+                value can have a maximum length of 1024 characters.
+              type: string
+          type: object
+        MutualTls:
+          description: Configuration for the mutual Tls mode for peer authentication.
+          id: MutualTls
+          properties:
+            mode:
+              description: 'Specifies if the server TLS is configured to be strict
+                or permissive. This field can be set to one of the following: STRICT:
+                Client certificate must be presented, connection is in TLS. PERMISSIVE:
+                Client certificate can be omitted, connection can be either plaintext
+                or TLS.'
+              enum:
+              - INVALID
+              - PERMISSIVE
+              - STRICT
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        OriginAuthenticationMethod:
+          description: Configuration for the origin authentication method.
+          id: OriginAuthenticationMethod
+          properties:
+            jwt:
+              $ref: '#/schemas/Jwt'
+          type: object
+        OutlierDetection:
+          description: Settings controlling eviction of unhealthy hosts from the load
+            balancing pool.
+          id: OutlierDetection
+          properties:
+            baseEjectionTime:
+              $ref: '#/schemas/Duration'
+              description: The base time that a host is ejected for. The real time
+                is equal to the base time multiplied by the number of times the host
+                has been ejected. Defaults to 30000ms or 30s.
+            consecutiveErrors:
+              description: Number of errors before a host is ejected from the connection
+                pool. When the backend host is accessed over HTTP, a 5xx return code
+                qualifies as an error. Defaults to 5.
+              format: int32
+              type: integer
+            consecutiveGatewayFailure:
+              description: The number of consecutive gateway failures (502, 503, 504
+                status or connection errors that are mapped to one of those status
+                codes) before a consecutive gateway failure ejection occurs. Defaults
+                to 5.
+              format: int32
+              type: integer
+            enforcingConsecutiveErrors:
+              description: The percentage chance that a host will be actually ejected
+                when an outlier status is detected through consecutive 5xx. This setting
+                can be used to disable ejection or to ramp it up slowly. Defaults
+                to 100.
+              format: int32
+              type: integer
+            enforcingConsecutiveGatewayFailure:
+              description: The percentage chance that a host will be actually ejected
+                when an outlier status is detected through consecutive gateway failures.
+                This setting can be used to disable ejection or to ramp it up slowly.
+                Defaults to 0.
+              format: int32
+              type: integer
+            enforcingSuccessRate:
+              description: The percentage chance that a host will be actually ejected
+                when an outlier status is detected through success rate statistics.
+                This setting can be used to disable ejection or to ramp it up slowly.
+                Defaults to 100.
+              format: int32
+              type: integer
+            interval:
+              $ref: '#/schemas/Duration'
+              description: Time interval between ejection sweep analysis. This can
+                result in both new ejections as well as hosts being returned to service.
+                Defaults to 10 seconds.
+            maxEjectionPercent:
+              description: Maximum percentage of hosts in the load balancing pool
+                for the backend service that can be ejected. Defaults to 10%.
+              format: int32
+              type: integer
+            successRateMinimumHosts:
+              description: The number of hosts in a cluster that must have enough
+                request volume to detect success rate outliers. If the number of hosts
+                is less than this setting, outlier detection via success rate statistics
+                is not performed for any host in the cluster. Defaults to 5.
+              format: int32
+              type: integer
+            successRateRequestVolume:
+              description: The minimum number of total requests that must be collected
+                in one interval (as defined by the interval duration above) to include
+                this host in success rate based outlier detection. If the volume is
+                lower than this setting, outlier detection via success rate statistics
+                is not performed for that host. Defaults to 100.
+              format: int32
+              type: integer
+            successRateStdevFactor:
+              description: 'This factor is used to determine the ejection threshold
+                for success rate outlier ejection. The ejection threshold is the difference
+                between the mean success rate, and the product of this factor and
+                the standard deviation of the mean success rate: mean - (stdev * success_rate_stdev_factor).
+                This factor is divided by a thousand to get a double. That is, if
+                the desired factor is 1.9, the runtime value should be 1900. Defaults
+                to 1900.'
+              format: int32
+              type: integer
+          type: object
+        PeerAuthenticationMethod:
+          description: Configuration for the peer authentication method.
+          id: PeerAuthenticationMethod
+          properties:
+            mtls:
+              $ref: '#/schemas/MutualTls'
+              description: Set if mTLS is used for peer authentication.
+          type: object
+        Permission:
+          description: All fields defined in a permission are ANDed.
+          id: Permission
+          properties:
+            constraints:
+              description: Extra custom constraints. The constraints are ANDed together.
+              items:
+                $ref: '#/schemas/PermissionConstraint'
+              type: array
+            hosts:
+              description: Used in Ingress or Egress Gateway cases to specify hosts
+                that the policy applies to. Exact match, prefix match, and suffix
+                match are supported.
+              items:
+                type: string
+              type: array
+            methods:
+              description: HTTP method.
+              items:
+                type: string
+              type: array
+            notHosts:
+              description: Negate of hosts. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notMethods:
+              description: Negate of methods. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notPaths:
+              description: Negate of paths. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notPorts:
+              description: Negate of ports. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            paths:
+              description: HTTP request paths or gRPC methods. Exact match, prefix
+                match, and suffix match are supported.
+              items:
+                type: string
+              type: array
+            ports:
+              description: Port names or numbers.
+              items:
+                type: string
+              type: array
+          type: object
+        PermissionConstraint:
+          description: Custom constraint that specifies a key and a list of allowed
+            values for Istio attributes.
+          id: PermissionConstraint
+          properties:
+            key:
+              description: Key of the constraint.
+              type: string
+            values:
+              description: A list of allowed values.
+              items:
+                type: string
+              type: array
+          type: object
+        Principal:
+          description: All fields defined in a principal are ANDed.
+          id: Principal
+          properties:
+            condition:
+              description: An expression to specify custom condition.
+              type: string
+            groups:
+              description: The groups the principal belongs to. Exact match, prefix
+                match, and suffix match are supported.
+              items:
+                type: string
+              type: array
+            ips:
+              description: IPv4 or IPv6 address or range (In CIDR format)
+              items:
+                type: string
+              type: array
+            namespaces:
+              description: The namespaces. Exact match, prefix match, and suffix match
+                are supported.
+              items:
+                type: string
+              type: array
+            notGroups:
+              description: Negate of groups. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notIps:
+              description: Negate of IPs. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notNamespaces:
+              description: Negate of namespaces. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            notUsers:
+              description: Negate of users. Specifies exclusions.
+              items:
+                type: string
+              type: array
+            properties:
+              additionalProperties:
+                type: string
+              description: 'A map of Istio attribute to expected values. Exact match,
+                prefix match, and suffix match are supported for values. For example,
+                `request.headers[version]: ?v1?`. The properties are ANDed together.'
+              type: object
+            users:
+              description: The user names/IDs or service accounts. Exact match, prefix
+                match, and suffix match are supported.
+              items:
+                type: string
+              type: array
+          type: object
+        RbacPolicy:
+          id: RbacPolicy
+          properties:
+            name:
+              description: Name of the RbacPolicy.
+              type: string
+            permissions:
+              description: The list of permissions.
+              items:
+                $ref: '#/schemas/Permission'
+              type: array
+            principals:
+              description: The list of principals.
+              items:
+                $ref: '#/schemas/Principal'
+              type: array
+          type: object
+        SdsConfig:
+          description: The configuration to access the SDS server.
+          id: SdsConfig
+          properties:
+            grpcServiceConfig:
+              $ref: '#/schemas/GrpcServiceConfig'
+              description: The configuration to access the SDS server over GRPC.
+          type: object
+        SecuritySettings:
+          description: The authentication and authorization settings for a BackendService.
+          id: SecuritySettings
+          properties:
+            authenticationPolicy:
+              $ref: '#/schemas/AuthenticationPolicy'
+              description: Authentication policy defines what authentication methods
+                can be accepted on backends, and if authenticated, which method/certificate
+                will set the request principal.
+            authorizationConfig:
+              $ref: '#/schemas/AuthorizationConfig'
+              description: Authorization config defines the Role Based Access Control
+                (RBAC) config.
+            clientTlsSettings:
+              $ref: '#/schemas/ClientTlsSettings'
+              description: TLS Settings for the backend service.
+            serverSettingsSelector:
+              $ref: '#/schemas/ServerSecuritySettingsSelector'
+              description: The listener config of the XDS client is generated if the
+                selector matches the client.
+          type: object
+        ServerSecuritySettingsSelector:
+          description: A selector associated with the SecuritySettings. If the labels
+            and port in this selector match the Envoy's label and port, the server
+            side authentication and authorization settings are applied to the Envoy.
+          id: ServerSecuritySettingsSelector
+          properties:
+            labelMatches:
+              description: The labels associated with the XDS client.
+              items:
+                $ref: '#/schemas/MetadataFilterLabelMatch'
+              type: array
+            port:
+              description: The listener port of the XDS client.
+              format: int32
+              type: integer
+          type: object
+        ServiceAccountJwtAccessCredentials:
+          description: JWT credentials for a service account.
+          id: ServiceAccountJwtAccessCredentials
+          properties:
+            jsonKey:
+              description: Service account key.
+              type: string
+            tokenLifetimeSeconds:
+              description: The token lifetime seconds.
+              format: int64
+              type: string
+          type: object
+        TlsCertificateContext:
+          description: Defines the mechanism to obtain the client or server certificate.
+          id: TlsCertificateContext
+          properties:
+            certificatePaths:
+              $ref: '#/schemas/TlsCertificatePaths'
+              description: Specifies the certificate and private key paths. This field
+                is applicable only if tlsCertificateSource is set to USE_PATH.
+            certificateSource:
+              description: Defines how TLS certificates are obtained.
+              enum:
+              - INVALID
+              - USE_PATH
+              - USE_SDS
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            sdsConfig:
+              $ref: '#/schemas/SdsConfig'
+              description: Specifies the config to retrieve certificates through SDS.
+                This field is applicable only if tlsCertificateSource is set to USE_SDS.
+          type: object
+        TlsCertificatePaths:
+          description: The paths to the mounted TLS Certificates and private key.
+          id: TlsCertificatePaths
+          properties:
+            certificatePath:
+              description: The path to the file holding the client or server TLS certificate
+                to use.
+              type: string
+            privateKeyPath:
+              description: The path to the file holding the client or server private
+                key.
+              type: string
+          type: object
+        TlsContext:
+          description: The TLS settings for the client or server.
+          id: TlsContext
+          properties:
+            certificateContext:
+              $ref: '#/schemas/TlsCertificateContext'
+              description: Defines the mechanism to obtain the client or server certificate.
+            validationContext:
+              $ref: '#/schemas/TlsValidationContext'
+              description: Defines the mechanism to obtain the Certificate Authority
+                certificate to validate the client/server certificate. If omitted,
+                the proxy will not validate the server or client certificate.
+          type: object
+        TlsValidationContext:
+          description: Defines the mechanism to obtain the Certificate Authority certificate
+            to validate the client/server certificate.
+          id: TlsValidationContext
+          properties:
+            certificatePath:
+              description: The path to the file holding the CA certificate to validate
+                the client or server certificate.
+              type: string
+            sdsConfig:
+              $ref: '#/schemas/SdsConfig'
+              description: Specifies the config to retrieve certificates through SDS.
+                This field is applicable only if tlsCertificateSource is set to USE_SDS.
+            validationSource:
+              description: Defines how TLS certificates are obtained.
+              enum:
+              - INVALID
+              - USE_PATH
+              - USE_SDS
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-alpha/types/regionBackendServices?alt=json
+  title: Compute Engine API

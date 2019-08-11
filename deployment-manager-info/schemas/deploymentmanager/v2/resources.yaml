@@ -1,0 +1,197 @@
+type_info:
+  documentationLink: https://cloud.google.com/deployment-manager/
+  kind: deploymentmanager#typeInfo
+  name: resources
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Resource'
+      methodName: get
+      schemas:
+        Resource:
+          description: ''
+          id: Resource
+          properties:
+            accessControl:
+              $ref: '#/schemas/ResourceAccessControl'
+              description: The Access Control Policy set on this resource.
+            finalProperties:
+              description: Output only. The evaluated properties of the resource with
+                references expanded. Returned as serialized YAML.
+              type: string
+            id:
+              format: uint64
+              type: string
+            insertTime:
+              description: Output only. Creation timestamp in RFC3339 text format.
+              type: string
+            manifest:
+              description: Output only. URL of the manifest representing the current
+                configuration of this resource.
+              type: string
+            name:
+              description: Output only. The name of the resource as it appears in
+                the YAML config.
+              type: string
+            properties:
+              description: Output only. The current properties of the resource before
+                any references have been filled in. Returned as serialized YAML.
+              type: string
+            type:
+              description: Output only. The type of the resource, for example compute.v1.instance,
+                or cloudfunctions.v1beta1.function.
+              type: string
+            update:
+              $ref: '#/schemas/ResourceUpdate'
+              description: Output only. If Deployment Manager is currently updating
+                or previewing an update to this resource, the updated configuration
+                appears here.
+            updateTime:
+              description: Output only. Update timestamp in RFC3339 text format.
+              type: string
+            url:
+              description: Output only. The URL of the actual resource.
+              type: string
+            warnings:
+              description: Output only. If warning messages are generated during processing
+                of this resource, this field will be populated.
+              items:
+                properties:
+                  code:
+                    description: '[Output Only] A warning code, if applicable. For
+                      example, Compute Engine returns NO_RESULTS_ON_PAGE if there
+                      are no results in the response.'
+                    type: string
+                  data:
+                    description: |-
+                      [Output Only] Metadata about this warning in key: value format. For example:
+                      "data": [ { "key": "scope", "value": "zones/us-east1-d" }
+                    items:
+                      properties:
+                        key:
+                          description: '[Output Only] A key that provides more detail
+                            on the warning being returned. For example, for warnings
+                            where there are no results in a list request for a particular
+                            zone, this key might be scope and the key value might
+                            be the zone name. Other examples might be a key indicating
+                            a deprecated resource and a suggested replacement, or
+                            a warning about invalid network settings (for example,
+                            if an instance attempts to perform IP forwarding but is
+                            not enabled for IP forwarding).'
+                          type: string
+                        value:
+                          description: '[Output Only] A warning data value corresponding
+                            to the key.'
+                          type: string
+                      type: object
+                    type: array
+                  message:
+                    description: '[Output Only] A human-readable description of the
+                      warning code.'
+                    type: string
+                type: object
+              type: array
+          type: object
+        ResourceAccessControl:
+          description: The access controls set on the resource.
+          id: ResourceAccessControl
+          properties:
+            gcpIamPolicy:
+              description: The GCP IAM Policy to set on the resource.
+              type: string
+          type: object
+        ResourceUpdate:
+          description: ''
+          id: ResourceUpdate
+          properties:
+            accessControl:
+              $ref: '#/schemas/ResourceAccessControl'
+              description: The Access Control Policy to set on this resource after
+                updating the resource itself.
+            error:
+              description: Output only. If errors are generated during update of the
+                resource, this field will be populated.
+              properties:
+                errors:
+                  description: '[Output Only] The array of errors encountered while
+                    processing this operation.'
+                  items:
+                    properties:
+                      code:
+                        description: '[Output Only] The error type identifier for
+                          this error.'
+                        type: string
+                      location:
+                        description: '[Output Only] Indicates the field in the request
+                          that caused the error. This property is optional.'
+                        type: string
+                      message:
+                        description: '[Output Only] An optional, human-readable error
+                          message.'
+                        type: string
+                    type: object
+                  type: array
+              type: object
+            finalProperties:
+              description: Output only. The expanded properties of the resource with
+                reference values expanded. Returned as serialized YAML.
+              type: string
+            intent:
+              description: 'Output only. The intent of the resource: PREVIEW, UPDATE,
+                or CANCEL.'
+              type: string
+            manifest:
+              description: Output only. URL of the manifest representing the update
+                configuration of this resource.
+              type: string
+            properties:
+              description: Output only. The set of updated properties for this resource,
+                before references are expanded. Returned as serialized YAML.
+              type: string
+            state:
+              description: Output only. The state of the resource.
+              type: string
+            warnings:
+              description: Output only. If warning messages are generated during processing
+                of this resource, this field will be populated.
+              items:
+                properties:
+                  code:
+                    description: '[Output Only] A warning code, if applicable. For
+                      example, Compute Engine returns NO_RESULTS_ON_PAGE if there
+                      are no results in the response.'
+                    type: string
+                  data:
+                    description: |-
+                      [Output Only] Metadata about this warning in key: value format. For example:
+                      "data": [ { "key": "scope", "value": "zones/us-east1-d" }
+                    items:
+                      properties:
+                        key:
+                          description: '[Output Only] A key that provides more detail
+                            on the warning being returned. For example, for warnings
+                            where there are no results in a list request for a particular
+                            zone, this key might be scope and the key value might
+                            be the zone name. Other examples might be a key indicating
+                            a deprecated resource and a suggested replacement, or
+                            a warning about invalid network settings (for example,
+                            if an instance attempts to perform IP forwarding but is
+                            not enabled for IP forwarding).'
+                          type: string
+                        value:
+                          description: '[Output Only] A warning data value corresponding
+                            to the key.'
+                          type: string
+                      type: object
+                    type: array
+                  message:
+                    description: '[Output Only] A human-readable description of the
+                      warning code.'
+                    type: string
+                type: object
+              type: array
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/deploymentmanager-v2/types/resources?alt=json
+  title: Google Cloud Deployment Manager API

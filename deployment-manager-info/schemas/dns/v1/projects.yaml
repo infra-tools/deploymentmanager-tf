@@ -1,0 +1,141 @@
+type_info:
+  documentationLink: https://developers.google.com/cloud-dns
+  kind: deploymentmanager#typeInfo
+  name: projects
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Project'
+      methodName: get
+      schemas:
+        DnsKeySpec:
+          description: Parameters for DnsKey key generation. Used for generating initial
+            keys for a new ManagedZone and as default when adding a new DnsKey.
+          id: DnsKeySpec
+          properties:
+            algorithm:
+              description: String mnemonic specifying the DNSSEC algorithm of this
+                key.
+              enum:
+              - ecdsap256sha256
+              - ecdsap384sha384
+              - rsasha1
+              - rsasha256
+              - rsasha512
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            keyLength:
+              description: Length of the keys in bits.
+              format: uint32
+              type: integer
+            keyType:
+              description: Specifies whether this is a key signing key (KSK) or a
+                zone signing key (ZSK). Key signing keys have the Secure Entry Point
+                flag set and, when active, will only be used to sign resource record
+                sets of type DNSKEY. Zone signing keys do not have the Secure Entry
+                Point flag set and will be used to sign all other types of resource
+                record sets.
+              enum:
+              - keySigning
+              - zoneSigning
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            kind:
+              default: dns#dnsKeySpec
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#dnsKeySpec".'
+              type: string
+          type: object
+        Project:
+          description: A project resource. The project is a top level container for
+            resources including Cloud DNS ManagedZones. Projects can be created only
+            in the APIs console.
+          id: Project
+          properties:
+            id:
+              description: User assigned unique identifier for the resource (output
+                only).
+              type: string
+            kind:
+              default: dns#project
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#project".'
+              type: string
+            number:
+              description: Unique numeric identifier for the resource; defined by
+                the server (output only).
+              format: uint64
+              type: string
+            quota:
+              $ref: '#/schemas/Quota'
+              description: Quotas assigned to this project (output only).
+          type: object
+        Quota:
+          description: Limits associated with a Project.
+          id: Quota
+          properties:
+            dnsKeysPerManagedZone:
+              description: Maximum allowed number of DnsKeys per ManagedZone.
+              format: int32
+              type: integer
+            kind:
+              default: dns#quota
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#quota".'
+              type: string
+            managedZones:
+              description: Maximum allowed number of managed zones in the project.
+              format: int32
+              type: integer
+            managedZonesPerNetwork:
+              description: Maximum allowed number of managed zones which can be attached
+                to a network.
+              format: int32
+              type: integer
+            networksPerManagedZone:
+              description: Maximum allowed number of networks to which a privately
+                scoped zone can be attached.
+              format: int32
+              type: integer
+            resourceRecordsPerRrset:
+              description: Maximum allowed number of ResourceRecords per ResourceRecordSet.
+              format: int32
+              type: integer
+            rrsetAdditionsPerChange:
+              description: Maximum allowed number of ResourceRecordSets to add per
+                ChangesCreateRequest.
+              format: int32
+              type: integer
+            rrsetDeletionsPerChange:
+              description: Maximum allowed number of ResourceRecordSets to delete
+                per ChangesCreateRequest.
+              format: int32
+              type: integer
+            rrsetsPerManagedZone:
+              description: Maximum allowed number of ResourceRecordSets per zone in
+                the project.
+              format: int32
+              type: integer
+            totalRrdataSizePerChange:
+              description: Maximum allowed size for total rrdata in one ChangesCreateRequest
+                in bytes.
+              format: int32
+              type: integer
+            whitelistedKeySpecs:
+              description: DNSSEC algorithm and key length types that can be used
+                for DnsKeys.
+              items:
+                $ref: '#/schemas/DnsKeySpec'
+              type: array
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/dns-v1/types/projects?alt=json
+  title: Google Cloud DNS API

@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/appengine/docs/admin-api/
+  kind: deploymentmanager#typeInfo
+  name: apps.authorizedDomains
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/appengine-v1/types/apps.authorizedDomains?alt=json
+  title: App Engine Admin API

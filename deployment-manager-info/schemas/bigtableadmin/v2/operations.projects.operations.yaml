@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/bigtable/
+  kind: deploymentmanager#typeInfo
+  name: operations.projects.operations
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/bigtableadmin-v2/types/operations.projects.operations?alt=json
+  title: Cloud Bigtable Admin API

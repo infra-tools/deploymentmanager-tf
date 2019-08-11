@@ -1,0 +1,1277 @@
+type_info:
+  documentationLink: https://developers.google.com/storage/docs/json_api/
+  kind: deploymentmanager#typeInfo
+  name: buckets
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          acl:
+            annotations:
+              required:
+              - storage.buckets.update
+            description: Access controls on the bucket.
+            items:
+              $ref: '#/schemas/BucketAccessControl'
+            type: array
+          billing:
+            description: The bucket's billing configuration.
+            properties:
+              requesterPays:
+                description: When set to true, Requester Pays is enabled for this
+                  bucket.
+                type: boolean
+            type: object
+          cors:
+            description: The bucket's Cross-Origin Resource Sharing (CORS) configuration.
+            items:
+              properties:
+                maxAgeSeconds:
+                  description: The value, in seconds, to return in the  Access-Control-Max-Age
+                    header used in preflight responses.
+                  format: int32
+                  type: integer
+                method:
+                  description: 'The list of HTTP methods on which to include CORS
+                    response headers, (GET, OPTIONS, POST, etc) Note: "*" is permitted
+                    in the list of methods, and means "any method".'
+                  items:
+                    type: string
+                  type: array
+                origin:
+                  description: 'The list of Origins eligible to receive CORS response
+                    headers. Note: "*" is permitted in the list of origins, and means
+                    "any Origin".'
+                  items:
+                    type: string
+                  type: array
+                responseHeader:
+                  description: The list of HTTP headers other than the simple response
+                    headers to give permission for the user-agent to share across
+                    domains.
+                  items:
+                    type: string
+                  type: array
+              type: object
+            type: array
+          defaultEventBasedHold:
+            description: The default value for event-based hold on newly created objects
+              in this bucket. Event-based hold is a way to retain objects indefinitely
+              until an event occurs, signified by the hold's release. After being
+              released, such objects will be subject to bucket-level retention (if
+              any). One sample use case of this flag is for banks to hold loan documents
+              for at least 3 years after loan is paid in full. Here, bucket-level
+              retention is 3 years and the event is loan being paid in full. In this
+              example, these objects will be held intact for any number of years until
+              the event has occurred (event-based hold on the object is released)
+              and then 3 more years after that. That means retention duration of the
+              objects begins from the moment event-based hold transitioned from true
+              to false. Objects under event-based hold cannot be deleted, overwritten
+              or archived until the hold is removed.
+            type: boolean
+          defaultObjectAcl:
+            description: Default access controls to apply to new objects when no ACL
+              is provided.
+            items:
+              $ref: '#/schemas/ObjectAccessControl'
+            type: array
+          encryption:
+            description: Encryption configuration for a bucket.
+            properties:
+              defaultKmsKeyName:
+                description: A Cloud KMS key that will be used to encrypt objects
+                  inserted into this bucket, if no encryption method is specified.
+                type: string
+            type: object
+          etag:
+            description: HTTP 1.1 Entity tag for the bucket.
+            type: string
+          iamConfiguration:
+            description: The bucket's IAM configuration.
+            properties:
+              bucketPolicyOnly:
+                description: The bucket's Bucket Policy Only configuration.
+                properties:
+                  enabled:
+                    description: If set, access checks only use bucket-level IAM policies
+                      or above.
+                    type: boolean
+                  lockedTime:
+                    description: The deadline time for changing iamConfiguration.bucketPolicyOnly.enabled
+                      from true to false in RFC 3339 format. iamConfiguration.bucketPolicyOnly.enabled
+                      may be changed from true to false until the locked time, after
+                      which the field is immutable.
+                    format: date-time
+                    type: string
+                type: object
+            type: object
+          id:
+            description: The ID of the bucket. For buckets, the id and name properties
+              are the same.
+            type: string
+          kind:
+            default: storage#bucket
+            description: The kind of item this is. For buckets, this is always storage#bucket.
+            type: string
+          labels:
+            additionalProperties:
+              description: An individual label entry.
+              type: string
+            description: User-provided labels, in key/value pairs.
+            type: object
+          lifecycle:
+            description: The bucket's lifecycle configuration. See lifecycle management
+              for more information.
+            properties:
+              rule:
+                description: A lifecycle management rule, which is made of an action
+                  to take and the condition(s) under which the action will be taken.
+                items:
+                  properties:
+                    action:
+                      description: The action to take.
+                      properties:
+                        storageClass:
+                          description: Target storage class. Required iff the type
+                            of the action is SetStorageClass.
+                          type: string
+                        type:
+                          description: Type of the action. Currently, only Delete
+                            and SetStorageClass are supported.
+                          type: string
+                      type: object
+                    condition:
+                      description: The condition(s) under which the action will be
+                        taken.
+                      properties:
+                        age:
+                          description: Age of an object (in days). This condition
+                            is satisfied when an object reaches the specified age.
+                          format: int32
+                          type: integer
+                        createdBefore:
+                          description: A date in RFC 3339 format with only the date
+                            part (for instance, "2013-01-15"). This condition is satisfied
+                            when an object is created before midnight of the specified
+                            date in UTC.
+                          format: date
+                          type: string
+                        isLive:
+                          description: Relevant only for versioned objects. If the
+                            value is true, this condition matches live objects; if
+                            the value is false, it matches archived objects.
+                          type: boolean
+                        matchesPattern:
+                          description: 'A regular expression that satisfies the RE2
+                            syntax. This condition is satisfied when the name of the
+                            object matches the RE2 pattern. Note: This feature is
+                            currently in the "Early Access" launch stage and is only
+                            available to a whitelisted set of users; that means that
+                            this feature may be changed in backward-incompatible ways
+                            and that it is not guaranteed to be released.'
+                          type: string
+                        matchesStorageClass:
+                          description: Objects having any of the storage classes specified
+                            by this condition will be matched. Values include MULTI_REGIONAL,
+                            REGIONAL, NEARLINE, COLDLINE, STANDARD, and DURABLE_REDUCED_AVAILABILITY.
+                          items:
+                            type: string
+                          type: array
+                        numNewerVersions:
+                          description: Relevant only for versioned objects. If the
+                            value is N, this condition is satisfied when there are
+                            at least N versions (including the live version) newer
+                            than this version of the object.
+                          format: int32
+                          type: integer
+                      type: object
+                  type: object
+                type: array
+            type: object
+          location:
+            description: The location of the bucket. Object data for objects in the
+              bucket resides in physical storage within this region. Defaults to US.
+              See the developer's guide for the authoritative list.
+            type: string
+          locationType:
+            description: The type of the bucket location.
+            type: string
+          logging:
+            description: The bucket's logging configuration, which defines the destination
+              bucket and optional name prefix for the current bucket's logs.
+            properties:
+              logBucket:
+                description: The destination bucket where the current bucket's logs
+                  should be placed.
+                type: string
+              logObjectPrefix:
+                description: A prefix for log object names.
+                type: string
+            type: object
+          metageneration:
+            description: The metadata generation of this bucket.
+            format: int64
+            type: string
+          name:
+            annotations:
+              required:
+              - storage.buckets.insert
+            description: The name of the bucket.
+            type: string
+          owner:
+            description: The owner of the bucket. This is always the project team's
+              owner group.
+            properties:
+              entity:
+                description: The entity, in the form project-owner-projectId.
+                type: string
+              entityId:
+                description: The ID for the entity.
+                type: string
+            type: object
+          predefinedAcl:
+            description: Apply a predefined set of access controls to this bucket.
+            enum:
+            - authenticatedRead
+            - private
+            - projectPrivate
+            - publicRead
+            - publicReadWrite
+            enumDescriptions:
+            - Project team owners get OWNER access, and allAuthenticatedUsers get
+              READER access.
+            - Project team owners get OWNER access.
+            - Project team members get access according to their roles.
+            - Project team owners get OWNER access, and allUsers get READER access.
+            - Project team owners get OWNER access, and allUsers get WRITER access.
+            location: query
+            type: string
+          predefinedDefaultObjectAcl:
+            description: Apply a predefined set of default object access controls
+              to this bucket.
+            enum:
+            - authenticatedRead
+            - bucketOwnerFullControl
+            - bucketOwnerRead
+            - private
+            - projectPrivate
+            - publicRead
+            enumDescriptions:
+            - Object owner gets OWNER access, and allAuthenticatedUsers get READER
+              access.
+            - Object owner gets OWNER access, and project team owners get OWNER access.
+            - Object owner gets OWNER access, and project team owners get READER access.
+            - Object owner gets OWNER access.
+            - Object owner gets OWNER access, and project team members get access
+              according to their roles.
+            - Object owner gets OWNER access, and allUsers get READER access.
+            location: query
+            type: string
+          projectNumber:
+            description: The project number of the project the bucket belongs to.
+            format: uint64
+            type: string
+          projection:
+            description: Set of properties to return. Defaults to noAcl, unless the
+              bucket resource specifies acl or defaultObjectAcl properties, when it
+              defaults to full.
+            enum:
+            - full
+            - noAcl
+            enumDescriptions:
+            - Include all properties.
+            - Omit owner, acl and defaultObjectAcl properties.
+            location: query
+            type: string
+          provisionalUserProject:
+            description: The project to be billed for this request if the target bucket
+              is requester-pays bucket.
+            location: query
+            type: string
+          retentionPolicy:
+            description: The bucket's retention policy. The retention policy enforces
+              a minimum retention time for all objects contained in the bucket, based
+              on their creation time. Any attempt to overwrite or delete objects younger
+              than the retention period will result in a PERMISSION_DENIED error.
+              An unlocked retention policy can be modified or removed from the bucket
+              via a storage.buckets.update operation. A locked retention policy cannot
+              be removed or shortened in duration for the lifetime of the bucket.
+              Attempting to remove or decrease period of a locked retention policy
+              will result in a PERMISSION_DENIED error.
+            properties:
+              effectiveTime:
+                description: Server-determined value that indicates the time from
+                  which policy was enforced and effective. This value is in RFC 3339
+                  format.
+                format: date-time
+                type: string
+              isLocked:
+                description: Once locked, an object retention policy cannot be modified.
+                type: boolean
+              retentionPeriod:
+                description: The duration in seconds that objects need to be retained.
+                  Retention duration must be greater than zero and less than 100 years.
+                  Note that enforcement of retention periods less than a day is not
+                  guaranteed. Such periods should only be used for testing purposes.
+                format: int64
+                type: string
+            type: object
+          selfLink:
+            description: The URI of this bucket.
+            type: string
+          storageClass:
+            description: The bucket's default storage class, used whenever no storageClass
+              is specified for a newly-created object. This defines how objects in
+              the bucket are stored and determines the SLA and the cost of storage.
+              Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE,
+              and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when
+              the bucket is created, it will default to STANDARD. For more information,
+              see storage classes.
+            type: string
+          timeCreated:
+            description: The creation time of the bucket in RFC 3339 format.
+            format: date-time
+            type: string
+          updated:
+            description: The modification time of the bucket in RFC 3339 format.
+            format: date-time
+            type: string
+          userProject:
+            description: The project to be billed for this request.
+            location: query
+            type: string
+          versioning:
+            description: The bucket's versioning configuration.
+            properties:
+              enabled:
+                description: While set to true, versioning is fully enabled for this
+                  bucket.
+                type: boolean
+            type: object
+          website:
+            description: The bucket's website configuration, controlling how the service
+              behaves when accessing bucket contents as a web site. See the Static
+              Website Examples for more information.
+            properties:
+              mainPageSuffix:
+                description: If the requested object path is missing, the service
+                  will ensure the path has a trailing '/', append this suffix, and
+                  attempt to retrieve the resulting object. This allows the creation
+                  of index.html objects to represent directory pages.
+                type: string
+              notFoundPage:
+                description: If the requested object path is missing, and any mainPageSuffix
+                  object is missing, if applicable, the service will return the named
+                  object from this bucket as the content for a 404 Not Found result.
+                type: string
+            type: object
+        type: object
+      methodName: insert
+      schemas:
+        Bucket:
+          description: A bucket.
+          id: Bucket
+          properties:
+            acl:
+              annotations:
+                required:
+                - storage.buckets.update
+              description: Access controls on the bucket.
+              items:
+                $ref: '#/schemas/BucketAccessControl'
+              type: array
+            billing:
+              description: The bucket's billing configuration.
+              properties:
+                requesterPays:
+                  description: When set to true, Requester Pays is enabled for this
+                    bucket.
+                  type: boolean
+              type: object
+            cors:
+              description: The bucket's Cross-Origin Resource Sharing (CORS) configuration.
+              items:
+                properties:
+                  maxAgeSeconds:
+                    description: The value, in seconds, to return in the  Access-Control-Max-Age
+                      header used in preflight responses.
+                    format: int32
+                    type: integer
+                  method:
+                    description: 'The list of HTTP methods on which to include CORS
+                      response headers, (GET, OPTIONS, POST, etc) Note: "*" is permitted
+                      in the list of methods, and means "any method".'
+                    items:
+                      type: string
+                    type: array
+                  origin:
+                    description: 'The list of Origins eligible to receive CORS response
+                      headers. Note: "*" is permitted in the list of origins, and
+                      means "any Origin".'
+                    items:
+                      type: string
+                    type: array
+                  responseHeader:
+                    description: The list of HTTP headers other than the simple response
+                      headers to give permission for the user-agent to share across
+                      domains.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              type: array
+            defaultEventBasedHold:
+              description: The default value for event-based hold on newly created
+                objects in this bucket. Event-based hold is a way to retain objects
+                indefinitely until an event occurs, signified by the hold's release.
+                After being released, such objects will be subject to bucket-level
+                retention (if any). One sample use case of this flag is for banks
+                to hold loan documents for at least 3 years after loan is paid in
+                full. Here, bucket-level retention is 3 years and the event is loan
+                being paid in full. In this example, these objects will be held intact
+                for any number of years until the event has occurred (event-based
+                hold on the object is released) and then 3 more years after that.
+                That means retention duration of the objects begins from the moment
+                event-based hold transitioned from true to false. Objects under event-based
+                hold cannot be deleted, overwritten or archived until the hold is
+                removed.
+              type: boolean
+            defaultObjectAcl:
+              description: Default access controls to apply to new objects when no
+                ACL is provided.
+              items:
+                $ref: '#/schemas/ObjectAccessControl'
+              type: array
+            encryption:
+              description: Encryption configuration for a bucket.
+              properties:
+                defaultKmsKeyName:
+                  description: A Cloud KMS key that will be used to encrypt objects
+                    inserted into this bucket, if no encryption method is specified.
+                  type: string
+              type: object
+            etag:
+              description: HTTP 1.1 Entity tag for the bucket.
+              type: string
+            iamConfiguration:
+              description: The bucket's IAM configuration.
+              properties:
+                bucketPolicyOnly:
+                  description: The bucket's Bucket Policy Only configuration.
+                  properties:
+                    enabled:
+                      description: If set, access checks only use bucket-level IAM
+                        policies or above.
+                      type: boolean
+                    lockedTime:
+                      description: The deadline time for changing iamConfiguration.bucketPolicyOnly.enabled
+                        from true to false in RFC 3339 format. iamConfiguration.bucketPolicyOnly.enabled
+                        may be changed from true to false until the locked time, after
+                        which the field is immutable.
+                      format: date-time
+                      type: string
+                  type: object
+              type: object
+            id:
+              description: The ID of the bucket. For buckets, the id and name properties
+                are the same.
+              type: string
+            kind:
+              default: storage#bucket
+              description: The kind of item this is. For buckets, this is always storage#bucket.
+              type: string
+            labels:
+              additionalProperties:
+                description: An individual label entry.
+                type: string
+              description: User-provided labels, in key/value pairs.
+              type: object
+            lifecycle:
+              description: The bucket's lifecycle configuration. See lifecycle management
+                for more information.
+              properties:
+                rule:
+                  description: A lifecycle management rule, which is made of an action
+                    to take and the condition(s) under which the action will be taken.
+                  items:
+                    properties:
+                      action:
+                        description: The action to take.
+                        properties:
+                          storageClass:
+                            description: Target storage class. Required iff the type
+                              of the action is SetStorageClass.
+                            type: string
+                          type:
+                            description: Type of the action. Currently, only Delete
+                              and SetStorageClass are supported.
+                            type: string
+                        type: object
+                      condition:
+                        description: The condition(s) under which the action will
+                          be taken.
+                        properties:
+                          age:
+                            description: Age of an object (in days). This condition
+                              is satisfied when an object reaches the specified age.
+                            format: int32
+                            type: integer
+                          createdBefore:
+                            description: A date in RFC 3339 format with only the date
+                              part (for instance, "2013-01-15"). This condition is
+                              satisfied when an object is created before midnight
+                              of the specified date in UTC.
+                            format: date
+                            type: string
+                          isLive:
+                            description: Relevant only for versioned objects. If the
+                              value is true, this condition matches live objects;
+                              if the value is false, it matches archived objects.
+                            type: boolean
+                          matchesPattern:
+                            description: 'A regular expression that satisfies the
+                              RE2 syntax. This condition is satisfied when the name
+                              of the object matches the RE2 pattern. Note: This feature
+                              is currently in the "Early Access" launch stage and
+                              is only available to a whitelisted set of users; that
+                              means that this feature may be changed in backward-incompatible
+                              ways and that it is not guaranteed to be released.'
+                            type: string
+                          matchesStorageClass:
+                            description: Objects having any of the storage classes
+                              specified by this condition will be matched. Values
+                              include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
+                              STANDARD, and DURABLE_REDUCED_AVAILABILITY.
+                            items:
+                              type: string
+                            type: array
+                          numNewerVersions:
+                            description: Relevant only for versioned objects. If the
+                              value is N, this condition is satisfied when there are
+                              at least N versions (including the live version) newer
+                              than this version of the object.
+                            format: int32
+                            type: integer
+                        type: object
+                    type: object
+                  type: array
+              type: object
+            location:
+              description: The location of the bucket. Object data for objects in
+                the bucket resides in physical storage within this region. Defaults
+                to US. See the developer's guide for the authoritative list.
+              type: string
+            locationType:
+              description: The type of the bucket location.
+              type: string
+            logging:
+              description: The bucket's logging configuration, which defines the destination
+                bucket and optional name prefix for the current bucket's logs.
+              properties:
+                logBucket:
+                  description: The destination bucket where the current bucket's logs
+                    should be placed.
+                  type: string
+                logObjectPrefix:
+                  description: A prefix for log object names.
+                  type: string
+              type: object
+            metageneration:
+              description: The metadata generation of this bucket.
+              format: int64
+              type: string
+            name:
+              annotations:
+                required:
+                - storage.buckets.insert
+              description: The name of the bucket.
+              type: string
+            owner:
+              description: The owner of the bucket. This is always the project team's
+                owner group.
+              properties:
+                entity:
+                  description: The entity, in the form project-owner-projectId.
+                  type: string
+                entityId:
+                  description: The ID for the entity.
+                  type: string
+              type: object
+            projectNumber:
+              description: The project number of the project the bucket belongs to.
+              format: uint64
+              type: string
+            retentionPolicy:
+              description: The bucket's retention policy. The retention policy enforces
+                a minimum retention time for all objects contained in the bucket,
+                based on their creation time. Any attempt to overwrite or delete objects
+                younger than the retention period will result in a PERMISSION_DENIED
+                error. An unlocked retention policy can be modified or removed from
+                the bucket via a storage.buckets.update operation. A locked retention
+                policy cannot be removed or shortened in duration for the lifetime
+                of the bucket. Attempting to remove or decrease period of a locked
+                retention policy will result in a PERMISSION_DENIED error.
+              properties:
+                effectiveTime:
+                  description: Server-determined value that indicates the time from
+                    which policy was enforced and effective. This value is in RFC
+                    3339 format.
+                  format: date-time
+                  type: string
+                isLocked:
+                  description: Once locked, an object retention policy cannot be modified.
+                  type: boolean
+                retentionPeriod:
+                  description: The duration in seconds that objects need to be retained.
+                    Retention duration must be greater than zero and less than 100
+                    years. Note that enforcement of retention periods less than a
+                    day is not guaranteed. Such periods should only be used for testing
+                    purposes.
+                  format: int64
+                  type: string
+              type: object
+            selfLink:
+              description: The URI of this bucket.
+              type: string
+            storageClass:
+              description: The bucket's default storage class, used whenever no storageClass
+                is specified for a newly-created object. This defines how objects
+                in the bucket are stored and determines the SLA and the cost of storage.
+                Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE,
+                and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when
+                the bucket is created, it will default to STANDARD. For more information,
+                see storage classes.
+              type: string
+            timeCreated:
+              description: The creation time of the bucket in RFC 3339 format.
+              format: date-time
+              type: string
+            updated:
+              description: The modification time of the bucket in RFC 3339 format.
+              format: date-time
+              type: string
+            versioning:
+              description: The bucket's versioning configuration.
+              properties:
+                enabled:
+                  description: While set to true, versioning is fully enabled for
+                    this bucket.
+                  type: boolean
+              type: object
+            website:
+              description: The bucket's website configuration, controlling how the
+                service behaves when accessing bucket contents as a web site. See
+                the Static Website Examples for more information.
+              properties:
+                mainPageSuffix:
+                  description: If the requested object path is missing, the service
+                    will ensure the path has a trailing '/', append this suffix, and
+                    attempt to retrieve the resulting object. This allows the creation
+                    of index.html objects to represent directory pages.
+                  type: string
+                notFoundPage:
+                  description: If the requested object path is missing, and any mainPageSuffix
+                    object is missing, if applicable, the service will return the
+                    named object from this bucket as the content for a 404 Not Found
+                    result.
+                  type: string
+              type: object
+          type: object
+        BucketAccessControl:
+          description: An access-control entry.
+          id: BucketAccessControl
+          properties:
+            bucket:
+              description: The name of the bucket.
+              type: string
+            domain:
+              description: The domain associated with the entity, if any.
+              type: string
+            email:
+              description: The email address associated with the entity, if any.
+              type: string
+            entity:
+              annotations:
+                required:
+                - storage.bucketAccessControls.insert
+              description: |-
+                The entity holding the permission, in one of the following forms: 
+                - user-userId 
+                - user-email 
+                - group-groupId 
+                - group-email 
+                - domain-domain 
+                - project-team-projectId 
+                - allUsers 
+                - allAuthenticatedUsers Examples: 
+                - The user liz@example.com would be user-liz@example.com. 
+                - The group example@googlegroups.com would be group-example@googlegroups.com. 
+                - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com.
+              type: string
+            entityId:
+              description: The ID for the entity, if any.
+              type: string
+            etag:
+              description: HTTP 1.1 Entity tag for the access-control entry.
+              type: string
+            id:
+              description: The ID of the access-control entry.
+              type: string
+            kind:
+              default: storage#bucketAccessControl
+              description: The kind of item this is. For bucket access control entries,
+                this is always storage#bucketAccessControl.
+              type: string
+            projectTeam:
+              description: The project team associated with the entity, if any.
+              properties:
+                projectNumber:
+                  description: The project number.
+                  type: string
+                team:
+                  description: The team.
+                  type: string
+              type: object
+            role:
+              annotations:
+                required:
+                - storage.bucketAccessControls.insert
+              description: The access permission for the entity.
+              type: string
+            selfLink:
+              description: The link to this access-control entry.
+              type: string
+          type: object
+        ObjectAccessControl:
+          description: An access-control entry.
+          id: ObjectAccessControl
+          properties:
+            bucket:
+              description: The name of the bucket.
+              type: string
+            domain:
+              description: The domain associated with the entity, if any.
+              type: string
+            email:
+              description: The email address associated with the entity, if any.
+              type: string
+            entity:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: |-
+                The entity holding the permission, in one of the following forms: 
+                - user-userId 
+                - user-email 
+                - group-groupId 
+                - group-email 
+                - domain-domain 
+                - project-team-projectId 
+                - allUsers 
+                - allAuthenticatedUsers Examples: 
+                - The user liz@example.com would be user-liz@example.com. 
+                - The group example@googlegroups.com would be group-example@googlegroups.com. 
+                - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com.
+              type: string
+            entityId:
+              description: The ID for the entity, if any.
+              type: string
+            etag:
+              description: HTTP 1.1 Entity tag for the access-control entry.
+              type: string
+            generation:
+              description: The content generation of the object, if applied to an
+                object.
+              format: int64
+              type: string
+            id:
+              description: The ID of the access-control entry.
+              type: string
+            kind:
+              default: storage#objectAccessControl
+              description: The kind of item this is. For object access control entries,
+                this is always storage#objectAccessControl.
+              type: string
+            object:
+              description: The name of the object, if applied to an object.
+              type: string
+            projectTeam:
+              description: The project team associated with the entity, if any.
+              properties:
+                projectNumber:
+                  description: The project number.
+                  type: string
+                team:
+                  description: The team.
+                  type: string
+              type: object
+            role:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: The access permission for the entity.
+              type: string
+            selfLink:
+              description: The link to this access-control entry.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Bucket'
+      methodName: get
+      schemas:
+        Bucket:
+          description: A bucket.
+          id: Bucket
+          properties:
+            acl:
+              annotations:
+                required:
+                - storage.buckets.update
+              description: Access controls on the bucket.
+              items:
+                $ref: '#/schemas/BucketAccessControl'
+              type: array
+            billing:
+              description: The bucket's billing configuration.
+              properties:
+                requesterPays:
+                  description: When set to true, Requester Pays is enabled for this
+                    bucket.
+                  type: boolean
+              type: object
+            cors:
+              description: The bucket's Cross-Origin Resource Sharing (CORS) configuration.
+              items:
+                properties:
+                  maxAgeSeconds:
+                    description: The value, in seconds, to return in the  Access-Control-Max-Age
+                      header used in preflight responses.
+                    format: int32
+                    type: integer
+                  method:
+                    description: 'The list of HTTP methods on which to include CORS
+                      response headers, (GET, OPTIONS, POST, etc) Note: "*" is permitted
+                      in the list of methods, and means "any method".'
+                    items:
+                      type: string
+                    type: array
+                  origin:
+                    description: 'The list of Origins eligible to receive CORS response
+                      headers. Note: "*" is permitted in the list of origins, and
+                      means "any Origin".'
+                    items:
+                      type: string
+                    type: array
+                  responseHeader:
+                    description: The list of HTTP headers other than the simple response
+                      headers to give permission for the user-agent to share across
+                      domains.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              type: array
+            defaultEventBasedHold:
+              description: The default value for event-based hold on newly created
+                objects in this bucket. Event-based hold is a way to retain objects
+                indefinitely until an event occurs, signified by the hold's release.
+                After being released, such objects will be subject to bucket-level
+                retention (if any). One sample use case of this flag is for banks
+                to hold loan documents for at least 3 years after loan is paid in
+                full. Here, bucket-level retention is 3 years and the event is loan
+                being paid in full. In this example, these objects will be held intact
+                for any number of years until the event has occurred (event-based
+                hold on the object is released) and then 3 more years after that.
+                That means retention duration of the objects begins from the moment
+                event-based hold transitioned from true to false. Objects under event-based
+                hold cannot be deleted, overwritten or archived until the hold is
+                removed.
+              type: boolean
+            defaultObjectAcl:
+              description: Default access controls to apply to new objects when no
+                ACL is provided.
+              items:
+                $ref: '#/schemas/ObjectAccessControl'
+              type: array
+            encryption:
+              description: Encryption configuration for a bucket.
+              properties:
+                defaultKmsKeyName:
+                  description: A Cloud KMS key that will be used to encrypt objects
+                    inserted into this bucket, if no encryption method is specified.
+                  type: string
+              type: object
+            etag:
+              description: HTTP 1.1 Entity tag for the bucket.
+              type: string
+            iamConfiguration:
+              description: The bucket's IAM configuration.
+              properties:
+                bucketPolicyOnly:
+                  description: The bucket's Bucket Policy Only configuration.
+                  properties:
+                    enabled:
+                      description: If set, access checks only use bucket-level IAM
+                        policies or above.
+                      type: boolean
+                    lockedTime:
+                      description: The deadline time for changing iamConfiguration.bucketPolicyOnly.enabled
+                        from true to false in RFC 3339 format. iamConfiguration.bucketPolicyOnly.enabled
+                        may be changed from true to false until the locked time, after
+                        which the field is immutable.
+                      format: date-time
+                      type: string
+                  type: object
+              type: object
+            id:
+              description: The ID of the bucket. For buckets, the id and name properties
+                are the same.
+              type: string
+            kind:
+              default: storage#bucket
+              description: The kind of item this is. For buckets, this is always storage#bucket.
+              type: string
+            labels:
+              additionalProperties:
+                description: An individual label entry.
+                type: string
+              description: User-provided labels, in key/value pairs.
+              type: object
+            lifecycle:
+              description: The bucket's lifecycle configuration. See lifecycle management
+                for more information.
+              properties:
+                rule:
+                  description: A lifecycle management rule, which is made of an action
+                    to take and the condition(s) under which the action will be taken.
+                  items:
+                    properties:
+                      action:
+                        description: The action to take.
+                        properties:
+                          storageClass:
+                            description: Target storage class. Required iff the type
+                              of the action is SetStorageClass.
+                            type: string
+                          type:
+                            description: Type of the action. Currently, only Delete
+                              and SetStorageClass are supported.
+                            type: string
+                        type: object
+                      condition:
+                        description: The condition(s) under which the action will
+                          be taken.
+                        properties:
+                          age:
+                            description: Age of an object (in days). This condition
+                              is satisfied when an object reaches the specified age.
+                            format: int32
+                            type: integer
+                          createdBefore:
+                            description: A date in RFC 3339 format with only the date
+                              part (for instance, "2013-01-15"). This condition is
+                              satisfied when an object is created before midnight
+                              of the specified date in UTC.
+                            format: date
+                            type: string
+                          isLive:
+                            description: Relevant only for versioned objects. If the
+                              value is true, this condition matches live objects;
+                              if the value is false, it matches archived objects.
+                            type: boolean
+                          matchesPattern:
+                            description: 'A regular expression that satisfies the
+                              RE2 syntax. This condition is satisfied when the name
+                              of the object matches the RE2 pattern. Note: This feature
+                              is currently in the "Early Access" launch stage and
+                              is only available to a whitelisted set of users; that
+                              means that this feature may be changed in backward-incompatible
+                              ways and that it is not guaranteed to be released.'
+                            type: string
+                          matchesStorageClass:
+                            description: Objects having any of the storage classes
+                              specified by this condition will be matched. Values
+                              include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
+                              STANDARD, and DURABLE_REDUCED_AVAILABILITY.
+                            items:
+                              type: string
+                            type: array
+                          numNewerVersions:
+                            description: Relevant only for versioned objects. If the
+                              value is N, this condition is satisfied when there are
+                              at least N versions (including the live version) newer
+                              than this version of the object.
+                            format: int32
+                            type: integer
+                        type: object
+                    type: object
+                  type: array
+              type: object
+            location:
+              description: The location of the bucket. Object data for objects in
+                the bucket resides in physical storage within this region. Defaults
+                to US. See the developer's guide for the authoritative list.
+              type: string
+            locationType:
+              description: The type of the bucket location.
+              type: string
+            logging:
+              description: The bucket's logging configuration, which defines the destination
+                bucket and optional name prefix for the current bucket's logs.
+              properties:
+                logBucket:
+                  description: The destination bucket where the current bucket's logs
+                    should be placed.
+                  type: string
+                logObjectPrefix:
+                  description: A prefix for log object names.
+                  type: string
+              type: object
+            metageneration:
+              description: The metadata generation of this bucket.
+              format: int64
+              type: string
+            name:
+              annotations:
+                required:
+                - storage.buckets.insert
+              description: The name of the bucket.
+              type: string
+            owner:
+              description: The owner of the bucket. This is always the project team's
+                owner group.
+              properties:
+                entity:
+                  description: The entity, in the form project-owner-projectId.
+                  type: string
+                entityId:
+                  description: The ID for the entity.
+                  type: string
+              type: object
+            projectNumber:
+              description: The project number of the project the bucket belongs to.
+              format: uint64
+              type: string
+            retentionPolicy:
+              description: The bucket's retention policy. The retention policy enforces
+                a minimum retention time for all objects contained in the bucket,
+                based on their creation time. Any attempt to overwrite or delete objects
+                younger than the retention period will result in a PERMISSION_DENIED
+                error. An unlocked retention policy can be modified or removed from
+                the bucket via a storage.buckets.update operation. A locked retention
+                policy cannot be removed or shortened in duration for the lifetime
+                of the bucket. Attempting to remove or decrease period of a locked
+                retention policy will result in a PERMISSION_DENIED error.
+              properties:
+                effectiveTime:
+                  description: Server-determined value that indicates the time from
+                    which policy was enforced and effective. This value is in RFC
+                    3339 format.
+                  format: date-time
+                  type: string
+                isLocked:
+                  description: Once locked, an object retention policy cannot be modified.
+                  type: boolean
+                retentionPeriod:
+                  description: The duration in seconds that objects need to be retained.
+                    Retention duration must be greater than zero and less than 100
+                    years. Note that enforcement of retention periods less than a
+                    day is not guaranteed. Such periods should only be used for testing
+                    purposes.
+                  format: int64
+                  type: string
+              type: object
+            selfLink:
+              description: The URI of this bucket.
+              type: string
+            storageClass:
+              description: The bucket's default storage class, used whenever no storageClass
+                is specified for a newly-created object. This defines how objects
+                in the bucket are stored and determines the SLA and the cost of storage.
+                Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE,
+                and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when
+                the bucket is created, it will default to STANDARD. For more information,
+                see storage classes.
+              type: string
+            timeCreated:
+              description: The creation time of the bucket in RFC 3339 format.
+              format: date-time
+              type: string
+            updated:
+              description: The modification time of the bucket in RFC 3339 format.
+              format: date-time
+              type: string
+            versioning:
+              description: The bucket's versioning configuration.
+              properties:
+                enabled:
+                  description: While set to true, versioning is fully enabled for
+                    this bucket.
+                  type: boolean
+              type: object
+            website:
+              description: The bucket's website configuration, controlling how the
+                service behaves when accessing bucket contents as a web site. See
+                the Static Website Examples for more information.
+              properties:
+                mainPageSuffix:
+                  description: If the requested object path is missing, the service
+                    will ensure the path has a trailing '/', append this suffix, and
+                    attempt to retrieve the resulting object. This allows the creation
+                    of index.html objects to represent directory pages.
+                  type: string
+                notFoundPage:
+                  description: If the requested object path is missing, and any mainPageSuffix
+                    object is missing, if applicable, the service will return the
+                    named object from this bucket as the content for a 404 Not Found
+                    result.
+                  type: string
+              type: object
+          type: object
+        BucketAccessControl:
+          description: An access-control entry.
+          id: BucketAccessControl
+          properties:
+            bucket:
+              description: The name of the bucket.
+              type: string
+            domain:
+              description: The domain associated with the entity, if any.
+              type: string
+            email:
+              description: The email address associated with the entity, if any.
+              type: string
+            entity:
+              annotations:
+                required:
+                - storage.bucketAccessControls.insert
+              description: |-
+                The entity holding the permission, in one of the following forms: 
+                - user-userId 
+                - user-email 
+                - group-groupId 
+                - group-email 
+                - domain-domain 
+                - project-team-projectId 
+                - allUsers 
+                - allAuthenticatedUsers Examples: 
+                - The user liz@example.com would be user-liz@example.com. 
+                - The group example@googlegroups.com would be group-example@googlegroups.com. 
+                - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com.
+              type: string
+            entityId:
+              description: The ID for the entity, if any.
+              type: string
+            etag:
+              description: HTTP 1.1 Entity tag for the access-control entry.
+              type: string
+            id:
+              description: The ID of the access-control entry.
+              type: string
+            kind:
+              default: storage#bucketAccessControl
+              description: The kind of item this is. For bucket access control entries,
+                this is always storage#bucketAccessControl.
+              type: string
+            projectTeam:
+              description: The project team associated with the entity, if any.
+              properties:
+                projectNumber:
+                  description: The project number.
+                  type: string
+                team:
+                  description: The team.
+                  type: string
+              type: object
+            role:
+              annotations:
+                required:
+                - storage.bucketAccessControls.insert
+              description: The access permission for the entity.
+              type: string
+            selfLink:
+              description: The link to this access-control entry.
+              type: string
+          type: object
+        ObjectAccessControl:
+          description: An access-control entry.
+          id: ObjectAccessControl
+          properties:
+            bucket:
+              description: The name of the bucket.
+              type: string
+            domain:
+              description: The domain associated with the entity, if any.
+              type: string
+            email:
+              description: The email address associated with the entity, if any.
+              type: string
+            entity:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: |-
+                The entity holding the permission, in one of the following forms: 
+                - user-userId 
+                - user-email 
+                - group-groupId 
+                - group-email 
+                - domain-domain 
+                - project-team-projectId 
+                - allUsers 
+                - allAuthenticatedUsers Examples: 
+                - The user liz@example.com would be user-liz@example.com. 
+                - The group example@googlegroups.com would be group-example@googlegroups.com. 
+                - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com.
+              type: string
+            entityId:
+              description: The ID for the entity, if any.
+              type: string
+            etag:
+              description: HTTP 1.1 Entity tag for the access-control entry.
+              type: string
+            generation:
+              description: The content generation of the object, if applied to an
+                object.
+              format: int64
+              type: string
+            id:
+              description: The ID of the access-control entry.
+              type: string
+            kind:
+              default: storage#objectAccessControl
+              description: The kind of item this is. For object access control entries,
+                this is always storage#objectAccessControl.
+              type: string
+            object:
+              description: The name of the object, if applied to an object.
+              type: string
+            projectTeam:
+              description: The project team associated with the entity, if any.
+              properties:
+                projectNumber:
+                  description: The project number.
+                  type: string
+                team:
+                  description: The team.
+                  type: string
+              type: object
+            role:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: The access permission for the entity.
+              type: string
+            selfLink:
+              description: The link to this access-control entry.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/storage-v1/types/buckets?alt=json
+  title: Cloud Storage JSON API

@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/bigquery/
+  kind: deploymentmanager#typeInfo
+  name: projects
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/bigquery-v2/types/projects?alt=json
+  title: BigQuery API

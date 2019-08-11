@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/resource-manager
+  kind: deploymentmanager#typeInfo
+  name: folders
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/cloudresourcemanager-v1/types/folders?alt=json
+  title: Cloud Resource Manager API

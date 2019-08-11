@@ -1,0 +1,58 @@
+type_info:
+  documentationLink: https://cloud.google.com/service-management/
+  kind: deploymentmanager#typeInfo
+  name: services
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          producerProjectId:
+            description: ID of the project that produces and owns this service.
+            type: string
+          serviceName:
+            description: |-
+              The name of the service. See the [overview](/service-management/overview)
+              for naming requirements.
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        ManagedService:
+          description: |-
+            The full representation of a Service that is managed by
+            Google Service Management.
+          id: ManagedService
+          properties:
+            producerProjectId:
+              description: ID of the project that produces and owns this service.
+              type: string
+            serviceName:
+              description: |-
+                The name of the service. See the [overview](/service-management/overview)
+                for naming requirements.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/ManagedService'
+      methodName: get
+      schemas:
+        ManagedService:
+          description: |-
+            The full representation of a Service that is managed by
+            Google Service Management.
+          id: ManagedService
+          properties:
+            producerProjectId:
+              description: ID of the project that produces and owns this service.
+              type: string
+            serviceName:
+              description: |-
+                The name of the service. See the [overview](/service-management/overview)
+                for naming requirements.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/servicemanagement-v1/types/services?alt=json
+  title: Service Management API

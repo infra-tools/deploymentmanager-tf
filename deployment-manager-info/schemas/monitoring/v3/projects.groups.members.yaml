@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/monitoring/api/
+  kind: deploymentmanager#typeInfo
+  name: projects.groups.members
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/monitoring-v3/types/projects.groups.members?alt=json
+  title: Stackdriver Monitoring API

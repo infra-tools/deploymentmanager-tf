@@ -1,0 +1,251 @@
+type_info:
+  documentationLink: https://developers.google.com/storage/docs/json_api/
+  kind: deploymentmanager#typeInfo
+  name: defaultObjectAccessControls
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          bucket:
+            description: Name of a bucket.
+            location: path
+            required: true
+            type: string
+          domain:
+            description: The domain associated with the entity, if any.
+            type: string
+          email:
+            description: The email address associated with the entity, if any.
+            type: string
+          entity:
+            annotations:
+              required:
+              - storage.defaultObjectAccessControls.insert
+              - storage.objectAccessControls.insert
+            description: |-
+              The entity holding the permission, in one of the following forms: 
+              - user-userId 
+              - user-email 
+              - group-groupId 
+              - group-email 
+              - domain-domain 
+              - project-team-projectId 
+              - allUsers 
+              - allAuthenticatedUsers Examples: 
+              - The user liz@example.com would be user-liz@example.com. 
+              - The group example@googlegroups.com would be group-example@googlegroups.com. 
+              - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com.
+            type: string
+          entityId:
+            description: The ID for the entity, if any.
+            type: string
+          etag:
+            description: HTTP 1.1 Entity tag for the access-control entry.
+            type: string
+          generation:
+            description: The content generation of the object, if applied to an object.
+            format: int64
+            type: string
+          id:
+            description: The ID of the access-control entry.
+            type: string
+          kind:
+            default: storage#objectAccessControl
+            description: The kind of item this is. For object access control entries,
+              this is always storage#objectAccessControl.
+            type: string
+          object:
+            description: The name of the object, if applied to an object.
+            type: string
+          projectTeam:
+            description: The project team associated with the entity, if any.
+            properties:
+              projectNumber:
+                description: The project number.
+                type: string
+              team:
+                description: The team.
+                type: string
+            type: object
+          provisionalUserProject:
+            description: The project to be billed for this request if the target bucket
+              is requester-pays bucket.
+            location: query
+            type: string
+          role:
+            annotations:
+              required:
+              - storage.defaultObjectAccessControls.insert
+              - storage.objectAccessControls.insert
+            description: The access permission for the entity.
+            type: string
+          selfLink:
+            description: The link to this access-control entry.
+            type: string
+          userProject:
+            description: The project to be billed for this request. Required for Requester
+              Pays buckets.
+            location: query
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        ObjectAccessControl:
+          description: An access-control entry.
+          id: ObjectAccessControl
+          properties:
+            bucket:
+              description: The name of the bucket.
+              type: string
+            domain:
+              description: The domain associated with the entity, if any.
+              type: string
+            email:
+              description: The email address associated with the entity, if any.
+              type: string
+            entity:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: |-
+                The entity holding the permission, in one of the following forms: 
+                - user-userId 
+                - user-email 
+                - group-groupId 
+                - group-email 
+                - domain-domain 
+                - project-team-projectId 
+                - allUsers 
+                - allAuthenticatedUsers Examples: 
+                - The user liz@example.com would be user-liz@example.com. 
+                - The group example@googlegroups.com would be group-example@googlegroups.com. 
+                - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com.
+              type: string
+            entityId:
+              description: The ID for the entity, if any.
+              type: string
+            etag:
+              description: HTTP 1.1 Entity tag for the access-control entry.
+              type: string
+            generation:
+              description: The content generation of the object, if applied to an
+                object.
+              format: int64
+              type: string
+            id:
+              description: The ID of the access-control entry.
+              type: string
+            kind:
+              default: storage#objectAccessControl
+              description: The kind of item this is. For object access control entries,
+                this is always storage#objectAccessControl.
+              type: string
+            object:
+              description: The name of the object, if applied to an object.
+              type: string
+            projectTeam:
+              description: The project team associated with the entity, if any.
+              properties:
+                projectNumber:
+                  description: The project number.
+                  type: string
+                team:
+                  description: The team.
+                  type: string
+              type: object
+            role:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: The access permission for the entity.
+              type: string
+            selfLink:
+              description: The link to this access-control entry.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/ObjectAccessControl'
+      methodName: get
+      schemas:
+        ObjectAccessControl:
+          description: An access-control entry.
+          id: ObjectAccessControl
+          properties:
+            bucket:
+              description: The name of the bucket.
+              type: string
+            domain:
+              description: The domain associated with the entity, if any.
+              type: string
+            email:
+              description: The email address associated with the entity, if any.
+              type: string
+            entity:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: |-
+                The entity holding the permission, in one of the following forms: 
+                - user-userId 
+                - user-email 
+                - group-groupId 
+                - group-email 
+                - domain-domain 
+                - project-team-projectId 
+                - allUsers 
+                - allAuthenticatedUsers Examples: 
+                - The user liz@example.com would be user-liz@example.com. 
+                - The group example@googlegroups.com would be group-example@googlegroups.com. 
+                - To refer to all members of the Google Apps for Business domain example.com, the entity would be domain-example.com.
+              type: string
+            entityId:
+              description: The ID for the entity, if any.
+              type: string
+            etag:
+              description: HTTP 1.1 Entity tag for the access-control entry.
+              type: string
+            generation:
+              description: The content generation of the object, if applied to an
+                object.
+              format: int64
+              type: string
+            id:
+              description: The ID of the access-control entry.
+              type: string
+            kind:
+              default: storage#objectAccessControl
+              description: The kind of item this is. For object access control entries,
+                this is always storage#objectAccessControl.
+              type: string
+            object:
+              description: The name of the object, if applied to an object.
+              type: string
+            projectTeam:
+              description: The project team associated with the entity, if any.
+              properties:
+                projectNumber:
+                  description: The project number.
+                  type: string
+                team:
+                  description: The team.
+                  type: string
+              type: object
+            role:
+              annotations:
+                required:
+                - storage.defaultObjectAccessControls.insert
+                - storage.objectAccessControls.insert
+              description: The access permission for the entity.
+              type: string
+            selfLink:
+              description: The link to this access-control entry.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/storage-v1/types/defaultObjectAccessControls?alt=json
+  title: Cloud Storage JSON API

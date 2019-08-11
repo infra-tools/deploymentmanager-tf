@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/container-engine/
+  kind: deploymentmanager#typeInfo
+  name: projects.zones
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/container-v1beta1/types/projects.zones?alt=json
+  title: Kubernetes Engine API

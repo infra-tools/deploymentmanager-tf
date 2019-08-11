@@ -1,0 +1,211 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: targetHttpsProxies
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          description:
+            description: An optional description of this resource. Provide this property
+              when you create the resource.
+            type: string
+          name:
+            description: Name of the resource. Provided by the client when the resource
+              is created. The name must be 1-63 characters long, and comply with RFC1035.
+              Specifically, the name must be 1-63 characters long and match the regular
+              expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
+              must be a lowercase letter, and all following characters must be a dash,
+              lowercase letter, or digit, except the last character, which cannot
+              be a dash.
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            type: string
+          quicOverride:
+            description: Specifies the QUIC override policy for this TargetHttpsProxy
+              resource. This determines whether the load balancer will attempt to
+              negotiate QUIC with clients or not. Can specify one of NONE, ENABLE,
+              or DISABLE. Specify ENABLE to always enable QUIC, Enables QUIC when
+              set to ENABLE, and disables QUIC when set to DISABLE. If NONE is specified,
+              uses the QUIC policy with no user overrides, which is equivalent to
+              DISABLE. Not specifying this field is equivalent to specifying NONE.
+            enum:
+            - DISABLE
+            - ENABLE
+            - NONE
+            enumDescriptions:
+            - ''
+            - ''
+            - ''
+            type: string
+          requestId:
+            description: |-
+              An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+              For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+              The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+            location: query
+            type: string
+          sslCertificates:
+            description: URLs to SslCertificate resources that are used to authenticate
+              connections between users and the load balancer. At least one SSL certificate
+              must be specified. Currently, you may specify up to 15 SSL certificates.
+            items:
+              type: string
+            type: array
+          sslPolicy:
+            description: URL of SslPolicy resource that will be associated with the
+              TargetHttpsProxy resource. If not set, the TargetHttpsProxy resource
+              will not have any SSL policy configured.
+            type: string
+          urlMap:
+            description: |-
+              A fully-qualified or valid partial URL to the UrlMap resource that defines the mapping from URL to the BackendService. For example, the following are all valid URLs for specifying a URL map:  
+              - https://www.googleapis.compute/v1/projects/project/global/urlMaps/url-map 
+              - projects/project/global/urlMaps/url-map 
+              - global/urlMaps/url-map
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        TargetHttpsProxy:
+          description: A TargetHttpsProxy resource. This resource defines an HTTPS
+            proxy. (== resource_for beta.targetHttpsProxies ==) (== resource_for v1.targetHttpsProxies
+            ==)
+          id: TargetHttpsProxy
+          properties:
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            name:
+              description: Name of the resource. Provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            quicOverride:
+              description: Specifies the QUIC override policy for this TargetHttpsProxy
+                resource. This determines whether the load balancer will attempt to
+                negotiate QUIC with clients or not. Can specify one of NONE, ENABLE,
+                or DISABLE. Specify ENABLE to always enable QUIC, Enables QUIC when
+                set to ENABLE, and disables QUIC when set to DISABLE. If NONE is specified,
+                uses the QUIC policy with no user overrides, which is equivalent to
+                DISABLE. Not specifying this field is equivalent to specifying NONE.
+              enum:
+              - DISABLE
+              - ENABLE
+              - NONE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            sslCertificates:
+              description: URLs to SslCertificate resources that are used to authenticate
+                connections between users and the load balancer. At least one SSL
+                certificate must be specified. Currently, you may specify up to 15
+                SSL certificates.
+              items:
+                type: string
+              type: array
+            sslPolicy:
+              description: URL of SslPolicy resource that will be associated with
+                the TargetHttpsProxy resource. If not set, the TargetHttpsProxy resource
+                will not have any SSL policy configured.
+              type: string
+            urlMap:
+              description: |-
+                A fully-qualified or valid partial URL to the UrlMap resource that defines the mapping from URL to the BackendService. For example, the following are all valid URLs for specifying a URL map:  
+                - https://www.googleapis.compute/v1/projects/project/global/urlMaps/url-map 
+                - projects/project/global/urlMaps/url-map 
+                - global/urlMaps/url-map
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/TargetHttpsProxy'
+      methodName: get
+      schemas:
+        TargetHttpsProxy:
+          description: A TargetHttpsProxy resource. This resource defines an HTTPS
+            proxy. (== resource_for beta.targetHttpsProxies ==) (== resource_for v1.targetHttpsProxies
+            ==)
+          id: TargetHttpsProxy
+          properties:
+            creationTimestamp:
+              description: '[Output Only] Creation timestamp in RFC3339 text format.'
+              type: string
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            id:
+              description: '[Output Only] The unique identifier for the resource.
+                This identifier is defined by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#targetHttpsProxy
+              description: '[Output Only] Type of resource. Always compute#targetHttpsProxy
+                for target HTTPS proxies.'
+              type: string
+            name:
+              description: Name of the resource. Provided by the client when the resource
+                is created. The name must be 1-63 characters long, and comply with
+                RFC1035. Specifically, the name must be 1-63 characters long and match
+                the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+                first character must be a lowercase letter, and all following characters
+                must be a dash, lowercase letter, or digit, except the last character,
+                which cannot be a dash.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            quicOverride:
+              description: Specifies the QUIC override policy for this TargetHttpsProxy
+                resource. This determines whether the load balancer will attempt to
+                negotiate QUIC with clients or not. Can specify one of NONE, ENABLE,
+                or DISABLE. Specify ENABLE to always enable QUIC, Enables QUIC when
+                set to ENABLE, and disables QUIC when set to DISABLE. If NONE is specified,
+                uses the QUIC policy with no user overrides, which is equivalent to
+                DISABLE. Not specifying this field is equivalent to specifying NONE.
+              enum:
+              - DISABLE
+              - ENABLE
+              - NONE
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+            selfLink:
+              description: '[Output Only] Server-defined URL for the resource.'
+              type: string
+            sslCertificates:
+              description: URLs to SslCertificate resources that are used to authenticate
+                connections between users and the load balancer. At least one SSL
+                certificate must be specified. Currently, you may specify up to 15
+                SSL certificates.
+              items:
+                type: string
+              type: array
+            sslPolicy:
+              description: URL of SslPolicy resource that will be associated with
+                the TargetHttpsProxy resource. If not set, the TargetHttpsProxy resource
+                will not have any SSL policy configured.
+              type: string
+            urlMap:
+              description: |-
+                A fully-qualified or valid partial URL to the UrlMap resource that defines the mapping from URL to the BackendService. For example, the following are all valid URLs for specifying a URL map:  
+                - https://www.googleapis.compute/v1/projects/project/global/urlMaps/url-map 
+                - projects/project/global/urlMaps/url-map 
+                - global/urlMaps/url-map
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-v1/types/targetHttpsProxies?alt=json
+  title: Compute Engine API

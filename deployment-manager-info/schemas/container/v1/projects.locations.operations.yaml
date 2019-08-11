@@ -1,0 +1,154 @@
+type_info:
+  documentationLink: https://cloud.google.com/container-engine/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations.operations
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Operation'
+      methodName: get
+      schemas:
+        Operation:
+          description: |-
+            This operation resource represents operations that may have happened or are
+            happening on the cluster. All fields are output only.
+          id: Operation
+          properties:
+            clusterConditions:
+              description: Which conditions caused the current cluster state.
+              items:
+                $ref: '#/schemas/StatusCondition'
+              type: array
+            detail:
+              description: Detailed operation progress, if available.
+              type: string
+            endTime:
+              description: |-
+                [Output only] The time the operation completed, in
+                [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+              type: string
+            location:
+              description: |-
+                [Output only] The name of the Google Compute Engine
+                [zone](/compute/docs/regions-zones/regions-zones#available) or
+                [region](/compute/docs/regions-zones/regions-zones#available) in which
+                the cluster resides.
+              type: string
+            name:
+              description: The server-assigned ID for the operation.
+              type: string
+            nodepoolConditions:
+              description: Which conditions caused the current node pool state.
+              items:
+                $ref: '#/schemas/StatusCondition'
+              type: array
+            operationType:
+              description: The operation type.
+              enum:
+              - TYPE_UNSPECIFIED
+              - CREATE_CLUSTER
+              - DELETE_CLUSTER
+              - UPGRADE_MASTER
+              - UPGRADE_NODES
+              - REPAIR_CLUSTER
+              - UPDATE_CLUSTER
+              - CREATE_NODE_POOL
+              - DELETE_NODE_POOL
+              - SET_NODE_POOL_MANAGEMENT
+              - AUTO_REPAIR_NODES
+              - AUTO_UPGRADE_NODES
+              - SET_LABELS
+              - SET_MASTER_AUTH
+              - SET_NODE_POOL_SIZE
+              - SET_NETWORK_POLICY
+              - SET_MAINTENANCE_POLICY
+              enumDescriptions:
+              - Not set.
+              - Cluster create.
+              - Cluster delete.
+              - A master upgrade.
+              - A node upgrade.
+              - Cluster repair.
+              - Cluster update.
+              - Node pool create.
+              - Node pool delete.
+              - Set node pool management.
+              - Automatic node pool repair.
+              - Automatic node upgrade.
+              - Set labels.
+              - Set/generate master auth materials
+              - Set node pool size.
+              - Updates network policy for a cluster.
+              - Set the maintenance policy.
+              type: string
+            selfLink:
+              description: Server-defined URL for the resource.
+              type: string
+            startTime:
+              description: |-
+                [Output only] The time the operation started, in
+                [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format.
+              type: string
+            status:
+              description: The current status of the operation.
+              enum:
+              - STATUS_UNSPECIFIED
+              - PENDING
+              - RUNNING
+              - DONE
+              - ABORTING
+              enumDescriptions:
+              - Not set.
+              - The operation has been created.
+              - The operation is currently running.
+              - The operation is done, either cancelled or completed.
+              - The operation is aborting.
+              type: string
+            statusMessage:
+              description: If an error has occurred, a textual description of the
+                error.
+              type: string
+            targetLink:
+              description: Server-defined URL for the target of the operation.
+              type: string
+            zone:
+              description: |-
+                The name of the Google Compute Engine
+                [zone](/compute/docs/zones#available) in which the operation
+                is taking place.
+                This field is deprecated, use location instead.
+              type: string
+          type: object
+        StatusCondition:
+          description: |-
+            StatusCondition describes why a cluster or a node pool has a certain status
+            (e.g., ERROR or DEGRADED).
+          id: StatusCondition
+          properties:
+            code:
+              description: Machine-friendly representation of the condition
+              enum:
+              - UNKNOWN
+              - GCE_STOCKOUT
+              - GKE_SERVICE_ACCOUNT_DELETED
+              - GCE_QUOTA_EXCEEDED
+              - SET_BY_OPERATOR
+              enumDescriptions:
+              - UNKNOWN indicates a generic condition.
+              - GCE_STOCKOUT indicates a Google Compute Engine stockout.
+              - |-
+                GKE_SERVICE_ACCOUNT_DELETED indicates that the user deleted their robot
+                service account.
+              - Google Compute Engine quota was exceeded.
+              - |-
+                Cluster state was manually changed by an SRE due to a system logic error.
+                More codes TBA
+              type: string
+            message:
+              description: Human-friendly representation of the condition
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/container-v1/types/projects.locations.operations?alt=json
+  title: Kubernetes Engine API

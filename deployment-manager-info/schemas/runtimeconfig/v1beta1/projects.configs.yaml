@@ -1,0 +1,113 @@
+type_info:
+  documentationLink: https://cloud.google.com/deployment-manager/runtime-configurator/
+  kind: deploymentmanager#typeInfo
+  name: projects.configs
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          description:
+            description: An optional description of the RuntimeConfig object.
+            type: string
+          name:
+            description: |-
+              The resource name of a runtime config. The name must have the format:
+
+                  projects/[PROJECT_ID]/configs/[CONFIG_NAME]
+
+              The `[PROJECT_ID]` must be a valid project ID, and `[CONFIG_NAME]` is an
+              arbitrary name that matches the
+              `[0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])?` regular expression.
+              The length of `[CONFIG_NAME]` must be less than 64 characters.
+
+              You pick the RuntimeConfig resource name, but the server will validate that
+              the name adheres to this format. After you create the resource, you cannot
+              change the resource's name.
+            type: string
+          parent:
+            description: |-
+              The [project
+              ID](https://support.google.com/cloud/answer/6158840?hl=en&ref_topic=6158848)
+              for this request, in the format `projects/[PROJECT_ID]`.
+            location: path
+            pattern: ^projects/[^/]+$
+            required: true
+            type: string
+          requestId:
+            description: |-
+              An optional but recommended unique `request_id`. If the server
+              receives two `create()` requests  with the same
+              `request_id`, then the second request will be ignored and the
+              first resource created and stored in the backend is returned.
+              Empty `request_id` fields are ignored.
+
+              It is responsibility of the client to ensure uniqueness of the
+              `request_id` strings.
+
+              `request_id` strings are limited to 64 characters.
+            location: query
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        RuntimeConfig:
+          description: |-
+            A RuntimeConfig resource is the primary resource in the Cloud RuntimeConfig
+            service. A RuntimeConfig resource consists of metadata and a hierarchy of
+            variables.
+          id: RuntimeConfig
+          properties:
+            description:
+              description: An optional description of the RuntimeConfig object.
+              type: string
+            name:
+              description: |-
+                The resource name of a runtime config. The name must have the format:
+
+                    projects/[PROJECT_ID]/configs/[CONFIG_NAME]
+
+                The `[PROJECT_ID]` must be a valid project ID, and `[CONFIG_NAME]` is an
+                arbitrary name that matches the
+                `[0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])?` regular expression.
+                The length of `[CONFIG_NAME]` must be less than 64 characters.
+
+                You pick the RuntimeConfig resource name, but the server will validate that
+                the name adheres to this format. After you create the resource, you cannot
+                change the resource's name.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/RuntimeConfig'
+      methodName: get
+      schemas:
+        RuntimeConfig:
+          description: |-
+            A RuntimeConfig resource is the primary resource in the Cloud RuntimeConfig
+            service. A RuntimeConfig resource consists of metadata and a hierarchy of
+            variables.
+          id: RuntimeConfig
+          properties:
+            description:
+              description: An optional description of the RuntimeConfig object.
+              type: string
+            name:
+              description: |-
+                The resource name of a runtime config. The name must have the format:
+
+                    projects/[PROJECT_ID]/configs/[CONFIG_NAME]
+
+                The `[PROJECT_ID]` must be a valid project ID, and `[CONFIG_NAME]` is an
+                arbitrary name that matches the
+                `[0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])?` regular expression.
+                The length of `[CONFIG_NAME]` must be less than 64 characters.
+
+                You pick the RuntimeConfig resource name, but the server will validate that
+                the name adheres to this format. After you create the resource, you cannot
+                change the resource's name.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/runtimeconfig-v1beta1/types/projects.configs?alt=json
+  title: Cloud Runtime Configuration API

@@ -1,0 +1,219 @@
+type_info:
+  documentationLink: https://cloud.google.com/sql/docs/reference/latest
+  kind: deploymentmanager#typeInfo
+  name: backupRuns
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          description:
+            description: The description of this run, only applicable to on-demand
+              backups.
+            type: string
+          endTime:
+            description: The time the backup operation completed in UTC timezone in
+              RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+            format: date-time
+            type: string
+          enqueuedTime:
+            description: The time the run was enqueued in UTC timezone in RFC 3339
+              format, for example 2012-11-15T16:19:00.094Z.
+            format: date-time
+            type: string
+          error:
+            $ref: '#/schemas/OperationError'
+            description: Information about why the backup operation failed. This is
+              only present if the run has the FAILED status.
+          id:
+            description: The identifier for this backup run. Unique only for a specific
+              Cloud SQL instance.
+            format: int64
+            type: string
+          instance:
+            description: Cloud SQL instance ID. This does not include the project
+              ID.
+            location: path
+            required: true
+            type: string
+          kind:
+            default: sql#backupRun
+            description: This is always sql#backupRun.
+            type: string
+          location:
+            description: The location of the backup.
+            type: string
+          selfLink:
+            description: The URI of this resource.
+            type: string
+          startTime:
+            description: The time the backup operation actually started in UTC timezone
+              in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+            format: date-time
+            type: string
+          status:
+            description: The status of this run.
+            type: string
+          type:
+            description: The type of this run; can be either "AUTOMATED" or "ON_DEMAND".
+            type: string
+          windowStartTime:
+            description: The start time of the backup window during which this the
+              backup was attempted in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+            format: date-time
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        BackupRun:
+          description: A BackupRun resource.
+          id: BackupRun
+          properties:
+            description:
+              description: The description of this run, only applicable to on-demand
+                backups.
+              type: string
+            endTime:
+              description: The time the backup operation completed in UTC timezone
+                in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+            enqueuedTime:
+              description: The time the run was enqueued in UTC timezone in RFC 3339
+                format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+            error:
+              $ref: '#/schemas/OperationError'
+              description: Information about why the backup operation failed. This
+                is only present if the run has the FAILED status.
+            id:
+              description: The identifier for this backup run. Unique only for a specific
+                Cloud SQL instance.
+              format: int64
+              type: string
+            instance:
+              description: Name of the database instance.
+              type: string
+            kind:
+              default: sql#backupRun
+              description: This is always sql#backupRun.
+              type: string
+            location:
+              description: The location of the backup.
+              type: string
+            selfLink:
+              description: The URI of this resource.
+              type: string
+            startTime:
+              description: The time the backup operation actually started in UTC timezone
+                in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+            status:
+              description: The status of this run.
+              type: string
+            type:
+              description: The type of this run; can be either "AUTOMATED" or "ON_DEMAND".
+              type: string
+            windowStartTime:
+              description: The start time of the backup window during which this the
+                backup was attempted in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+          type: object
+        OperationError:
+          description: Database instance operation error.
+          id: OperationError
+          properties:
+            code:
+              description: Identifies the specific error that occurred.
+              type: string
+            kind:
+              default: sql#operationError
+              description: This is always sql#operationError.
+              type: string
+            message:
+              description: Additional information about the error encountered.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/BackupRun'
+      methodName: get
+      schemas:
+        BackupRun:
+          description: A BackupRun resource.
+          id: BackupRun
+          properties:
+            description:
+              description: The description of this run, only applicable to on-demand
+                backups.
+              type: string
+            endTime:
+              description: The time the backup operation completed in UTC timezone
+                in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+            enqueuedTime:
+              description: The time the run was enqueued in UTC timezone in RFC 3339
+                format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+            error:
+              $ref: '#/schemas/OperationError'
+              description: Information about why the backup operation failed. This
+                is only present if the run has the FAILED status.
+            id:
+              description: The identifier for this backup run. Unique only for a specific
+                Cloud SQL instance.
+              format: int64
+              type: string
+            instance:
+              description: Name of the database instance.
+              type: string
+            kind:
+              default: sql#backupRun
+              description: This is always sql#backupRun.
+              type: string
+            location:
+              description: The location of the backup.
+              type: string
+            selfLink:
+              description: The URI of this resource.
+              type: string
+            startTime:
+              description: The time the backup operation actually started in UTC timezone
+                in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+            status:
+              description: The status of this run.
+              type: string
+            type:
+              description: The type of this run; can be either "AUTOMATED" or "ON_DEMAND".
+              type: string
+            windowStartTime:
+              description: The start time of the backup window during which this the
+                backup was attempted in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+          type: object
+        OperationError:
+          description: Database instance operation error.
+          id: OperationError
+          properties:
+            code:
+              description: Identifies the specific error that occurred.
+              type: string
+            kind:
+              default: sql#operationError
+              description: This is always sql#operationError.
+              type: string
+            message:
+              description: Additional information about the error encountered.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/sqladmin-v1beta4/types/backupRuns?alt=json
+  title: Cloud SQL Admin API

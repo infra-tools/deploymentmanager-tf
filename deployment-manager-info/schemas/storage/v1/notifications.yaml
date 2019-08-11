@@ -1,0 +1,177 @@
+type_info:
+  documentationLink: https://developers.google.com/storage/docs/json_api/
+  kind: deploymentmanager#typeInfo
+  name: notifications
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          bucket:
+            description: The parent bucket of the notification.
+            location: path
+            required: true
+            type: string
+          custom_attributes:
+            additionalProperties:
+              type: string
+            description: An optional list of additional attributes to attach to each
+              Cloud PubSub message published for this notification subscription.
+            type: object
+          etag:
+            description: HTTP 1.1 Entity tag for this subscription notification.
+            type: string
+          event_types:
+            description: If present, only send notifications about listed event types.
+              If empty, sent notifications for all event types.
+            items:
+              type: string
+            type: array
+          id:
+            description: The ID of the notification.
+            type: string
+          kind:
+            default: storage#notification
+            description: The kind of item this is. For notifications, this is always
+              storage#notification.
+            type: string
+          object_name_prefix:
+            description: If present, only apply this notification configuration to
+              object names that begin with this prefix.
+            type: string
+          payload_format:
+            annotations:
+              required:
+              - storage.notifications.insert
+            default: JSON_API_V1
+            description: The desired content of the Payload.
+            type: string
+          provisionalUserProject:
+            description: The project to be billed for this request if the target bucket
+              is requester-pays bucket.
+            location: query
+            type: string
+          selfLink:
+            description: The canonical URL of this notification.
+            type: string
+          topic:
+            annotations:
+              required:
+              - storage.notifications.insert
+            description: "The Cloud PubSub topic to which this subscription publishes.\
+              \ Formatted as: '//pubsub.googleapis.com/projects/{project-identifier}/topics/{my-topic}'"
+            type: string
+          userProject:
+            description: The project to be billed for this request. Required for Requester
+              Pays buckets.
+            location: query
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        Notification:
+          description: A subscription to receive Google PubSub notifications.
+          id: Notification
+          properties:
+            custom_attributes:
+              additionalProperties:
+                type: string
+              description: An optional list of additional attributes to attach to
+                each Cloud PubSub message published for this notification subscription.
+              type: object
+            etag:
+              description: HTTP 1.1 Entity tag for this subscription notification.
+              type: string
+            event_types:
+              description: If present, only send notifications about listed event
+                types. If empty, sent notifications for all event types.
+              items:
+                type: string
+              type: array
+            id:
+              description: The ID of the notification.
+              type: string
+            kind:
+              default: storage#notification
+              description: The kind of item this is. For notifications, this is always
+                storage#notification.
+              type: string
+            object_name_prefix:
+              description: If present, only apply this notification configuration
+                to object names that begin with this prefix.
+              type: string
+            payload_format:
+              annotations:
+                required:
+                - storage.notifications.insert
+              default: JSON_API_V1
+              description: The desired content of the Payload.
+              type: string
+            selfLink:
+              description: The canonical URL of this notification.
+              type: string
+            topic:
+              annotations:
+                required:
+                - storage.notifications.insert
+              description: "The Cloud PubSub topic to which this subscription publishes.\
+                \ Formatted as: '//pubsub.googleapis.com/projects/{project-identifier}/topics/{my-topic}'"
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Notification'
+      methodName: get
+      schemas:
+        Notification:
+          description: A subscription to receive Google PubSub notifications.
+          id: Notification
+          properties:
+            custom_attributes:
+              additionalProperties:
+                type: string
+              description: An optional list of additional attributes to attach to
+                each Cloud PubSub message published for this notification subscription.
+              type: object
+            etag:
+              description: HTTP 1.1 Entity tag for this subscription notification.
+              type: string
+            event_types:
+              description: If present, only send notifications about listed event
+                types. If empty, sent notifications for all event types.
+              items:
+                type: string
+              type: array
+            id:
+              description: The ID of the notification.
+              type: string
+            kind:
+              default: storage#notification
+              description: The kind of item this is. For notifications, this is always
+                storage#notification.
+              type: string
+            object_name_prefix:
+              description: If present, only apply this notification configuration
+                to object names that begin with this prefix.
+              type: string
+            payload_format:
+              annotations:
+                required:
+                - storage.notifications.insert
+              default: JSON_API_V1
+              description: The desired content of the Payload.
+              type: string
+            selfLink:
+              description: The canonical URL of this notification.
+              type: string
+            topic:
+              annotations:
+                required:
+                - storage.notifications.insert
+              description: "The Cloud PubSub topic to which this subscription publishes.\
+                \ Formatted as: '//pubsub.googleapis.com/projects/{project-identifier}/topics/{my-topic}'"
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/storage-v1/types/notifications?alt=json
+  title: Cloud Storage JSON API

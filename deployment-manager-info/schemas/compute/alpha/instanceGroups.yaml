@@ -1,0 +1,198 @@
+type_info:
+  documentationLink: https://developers.google.com/compute/docs/reference/latest/
+  kind: deploymentmanager#typeInfo
+  name: instanceGroups
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          description:
+            description: An optional description of this resource. Provide this property
+              when you create the resource.
+            type: string
+          name:
+            annotations:
+              required:
+              - compute.instanceGroupManagers.insert
+            description: The name of the instance group. The name must be 1-63 characters
+              long, and comply with RFC1035.
+            pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+            type: string
+          namedPorts:
+            description: |-
+              Assigns a name to a port number. For example: {name: "http", port: 80}
+
+              This allows the system to reference ports by the assigned name instead of a port number. Named ports can also contain multiple ports. For example: [{name: "http", port: 80},{name: "http", port: 8080}] 
+
+              Named ports apply to all instances in this instance group.
+            items:
+              $ref: '#/schemas/NamedPort'
+            type: array
+          network:
+            description: The URL of the network to which all instances in the instance
+              group belong.
+            type: string
+          requestId:
+            description: |-
+              An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.
+
+              For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.
+
+              The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+            location: query
+            type: string
+          zone:
+            description: The name of the zone where you want to create the instance
+              group.
+            location: path
+            required: true
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        InstanceGroup:
+          description: InstanceGroups (== resource_for beta.instanceGroups ==) (==
+            resource_for v1.instanceGroups ==) (== resource_for beta.regionInstanceGroups
+            ==) (== resource_for v1.regionInstanceGroups ==)
+          id: InstanceGroup
+          properties:
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            name:
+              annotations:
+                required:
+                - compute.instanceGroupManagers.insert
+              description: The name of the instance group. The name must be 1-63 characters
+                long, and comply with RFC1035.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            namedPorts:
+              description: |-
+                Assigns a name to a port number. For example: {name: "http", port: 80}
+
+                This allows the system to reference ports by the assigned name instead of a port number. Named ports can also contain multiple ports. For example: [{name: "http", port: 80},{name: "http", port: 8080}] 
+
+                Named ports apply to all instances in this instance group.
+              items:
+                $ref: '#/schemas/NamedPort'
+              type: array
+            network:
+              description: The URL of the network to which all instances in the instance
+                group belong.
+              type: string
+          type: object
+        NamedPort:
+          description: 'The named port. For example: .'
+          id: NamedPort
+          properties:
+            name:
+              description: The name for this named port. The name must be 1-63 characters
+                long, and comply with RFC1035.
+              type: string
+            port:
+              description: The port number, which can be a value between 1 and 65535.
+              format: int32
+              type: integer
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/InstanceGroup'
+      methodName: get
+      schemas:
+        InstanceGroup:
+          description: InstanceGroups (== resource_for beta.instanceGroups ==) (==
+            resource_for v1.instanceGroups ==) (== resource_for beta.regionInstanceGroups
+            ==) (== resource_for v1.regionInstanceGroups ==)
+          id: InstanceGroup
+          properties:
+            creationTimestamp:
+              description: '[Output Only] The creation timestamp for this instance
+                group in RFC3339 text format.'
+              type: string
+            description:
+              description: An optional description of this resource. Provide this
+                property when you create the resource.
+              type: string
+            fingerprint:
+              description: '[Output Only] The fingerprint of the named ports. The
+                system uses this fingerprint to detect conflicts when multiple users
+                change the named ports concurrently.'
+              format: byte
+              type: string
+            id:
+              description: '[Output Only] A unique identifier for this instance group,
+                generated by the server.'
+              format: uint64
+              type: string
+            kind:
+              default: compute#instanceGroup
+              description: '[Output Only] The resource type, which is always compute#instanceGroup
+                for instance groups.'
+              type: string
+            name:
+              annotations:
+                required:
+                - compute.instanceGroupManagers.insert
+              description: The name of the instance group. The name must be 1-63 characters
+                long, and comply with RFC1035.
+              pattern: '[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?'
+              type: string
+            namedPorts:
+              description: |-
+                Assigns a name to a port number. For example: {name: "http", port: 80}
+
+                This allows the system to reference ports by the assigned name instead of a port number. Named ports can also contain multiple ports. For example: [{name: "http", port: 80},{name: "http", port: 8080}] 
+
+                Named ports apply to all instances in this instance group.
+              items:
+                $ref: '#/schemas/NamedPort'
+              type: array
+            network:
+              description: The URL of the network to which all instances in the instance
+                group belong.
+              type: string
+            region:
+              description: '[Output Only] The URL of the region where the instance
+                group is located (for regional resources).'
+              type: string
+            selfLink:
+              description: '[Output Only] The URL for this instance group. The server
+                generates this URL.'
+              type: string
+            selfLinkWithId:
+              description: '[Output Only] Server-defined URL for this resource with
+                the resource id.'
+              type: string
+            size:
+              description: '[Output Only] The total number of instances in the instance
+                group.'
+              format: int32
+              type: integer
+            subnetwork:
+              description: '[Output Only] The URL of the subnetwork to which all instances
+                in the instance group belong.'
+              type: string
+            zone:
+              description: '[Output Only] The URL of the zone where the instance group
+                is located (for zonal resources).'
+              type: string
+          type: object
+        NamedPort:
+          description: 'The named port. For example: .'
+          id: NamedPort
+          properties:
+            name:
+              description: The name for this named port. The name must be 1-63 characters
+                long, and comply with RFC1035.
+              type: string
+            port:
+              description: The port number, which can be a value between 1 and 65535.
+              format: int32
+              type: integer
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/compute-alpha/types/instanceGroups?alt=json
+  title: Compute Engine API

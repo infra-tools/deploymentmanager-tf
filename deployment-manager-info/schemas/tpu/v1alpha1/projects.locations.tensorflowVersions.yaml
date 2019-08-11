@@ -1,0 +1,25 @@
+type_info:
+  documentationLink: https://cloud.google.com/tpu/
+  kind: deploymentmanager#typeInfo
+  name: projects.locations.tensorflowVersions
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/TensorFlowVersion'
+      methodName: get
+      schemas:
+        TensorFlowVersion:
+          description: A tensorflow version that a Node can be configured with.
+          id: TensorFlowVersion
+          properties:
+            name:
+              description: The resource name.
+              type: string
+            version:
+              description: the tensorflow version.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/tpu-v1alpha1/types/projects.locations.tensorflowVersions?alt=json
+  title: Cloud TPU API

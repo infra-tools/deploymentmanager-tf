@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/iam/
+  kind: deploymentmanager#typeInfo
+  name: iamPolicies
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/iam-v1/types/iamPolicies?alt=json
+  title: Identity and Access Management (IAM) API

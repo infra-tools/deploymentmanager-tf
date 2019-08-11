@@ -1,0 +1,76 @@
+type_info:
+  documentationLink: https://cloud.google.com/appengine/docs/admin-api/
+  kind: deploymentmanager#typeInfo
+  name: apps.services
+  schema:
+    input: '{}'
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Service'
+      methodName: get
+      schemas:
+        Service:
+          description: A Service resource is a logical component of an application
+            that can share state and communicate in a secure fashion with other services.
+            For example, an application that handles customer requests might include
+            separate services to handle tasks such as backend data analysis or API
+            requests from mobile devices. Each service has a collection of versions
+            that define a specific set of code used to implement the functionality
+            of that service.
+          id: Service
+          properties:
+            id:
+              description: 'Relative name of the service within the application. Example:
+                default.@OutputOnly'
+              type: string
+            name:
+              description: 'Full path to the Service resource in the API. Example:
+                apps/myapp/services/default.@OutputOnly'
+              type: string
+            split:
+              $ref: '#/schemas/TrafficSplit'
+              description: Mapping that defines fractional HTTP traffic diversion
+                to different versions within the service.
+          type: object
+        TrafficSplit:
+          description: Traffic routing configuration for versions within a single
+            service. Traffic splits define how traffic directed to the service is
+            assigned to versions.
+          id: TrafficSplit
+          properties:
+            allocations:
+              additionalProperties:
+                format: double
+                type: number
+              description: Mapping from version IDs within the service to fractional
+                (0.000, 1] allocations of traffic for that version. Each version can
+                be specified only once, but some versions in the service may not have
+                any traffic allocation. Services that have traffic allocated cannot
+                be deleted until either the service is deleted or their traffic allocation
+                is removed. Allocations must sum to 1. Up to two decimal place precision
+                is supported for IP-based splits and up to three decimal places is
+                supported for cookie-based splits.
+              type: object
+            shardBy:
+              description: Mechanism used to determine which version a request is
+                sent to. The traffic selection algorithm will be stable for either
+                type until allocations are changed.
+              enum:
+              - UNSPECIFIED
+              - COOKIE
+              - IP
+              - RANDOM
+              enumDescriptions:
+              - Diversion method unspecified.
+              - Diversion based on a specially named cookie, "GOOGAPPUID." The cookie
+                must be set by the application itself or no diversion will occur.
+              - Diversion based on applying the modulus operation to a fingerprint
+                of the IP address.
+              - Diversion based on weighted random assignment. An incoming request
+                is randomly routed to a version in the traffic split, with probability
+                proportional to the version's traffic share.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/appengine-v1/types/apps.services?alt=json
+  title: App Engine Admin API

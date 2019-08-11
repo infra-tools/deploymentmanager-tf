@@ -1,0 +1,90 @@
+type_info:
+  documentationLink: https://cloud.google.com/access-context-manager/docs/reference/rest/
+  kind: deploymentmanager#typeInfo
+  name: accessPolicies
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          name:
+            description: |-
+              Output only. Resource name of the `AccessPolicy`. Format:
+              `accessPolicies/{policy_id}`
+            type: string
+          parent:
+            description: |-
+              Required. The parent of this `AccessPolicy` in the Cloud Resource
+              Hierarchy. Currently immutable once created. Format:
+              `organizations/{organization_id}`
+            type: string
+          title:
+            description: Required. Human readable title. Does not affect behavior.
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        AccessPolicy:
+          description: |-
+            `AccessPolicy` is a container for `AccessLevels` (which define the necessary
+            attributes to use GCP services) and `ServicePerimeters` (which define regions
+            of services able to freely pass data within a perimeter). An access policy is
+            globally visible within an organization, and the restrictions it specifies
+            apply to all projects within an organization.
+          id: AccessPolicy
+          properties:
+            name:
+              description: |-
+                Output only. Resource name of the `AccessPolicy`. Format:
+                `accessPolicies/{policy_id}`
+              type: string
+            parent:
+              description: |-
+                Required. The parent of this `AccessPolicy` in the Cloud Resource
+                Hierarchy. Currently immutable once created. Format:
+                `organizations/{organization_id}`
+              type: string
+            title:
+              description: Required. Human readable title. Does not affect behavior.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/AccessPolicy'
+      methodName: get
+      schemas:
+        AccessPolicy:
+          description: |-
+            `AccessPolicy` is a container for `AccessLevels` (which define the necessary
+            attributes to use GCP services) and `ServicePerimeters` (which define regions
+            of services able to freely pass data within a perimeter). An access policy is
+            globally visible within an organization, and the restrictions it specifies
+            apply to all projects within an organization.
+          id: AccessPolicy
+          properties:
+            createTime:
+              description: Output only. Time the `AccessPolicy` was created in UTC.
+              format: google-datetime
+              type: string
+            name:
+              description: |-
+                Output only. Resource name of the `AccessPolicy`. Format:
+                `accessPolicies/{policy_id}`
+              type: string
+            parent:
+              description: |-
+                Required. The parent of this `AccessPolicy` in the Cloud Resource
+                Hierarchy. Currently immutable once created. Format:
+                `organizations/{organization_id}`
+              type: string
+            title:
+              description: Required. Human readable title. Does not affect behavior.
+              type: string
+            updateTime:
+              description: Output only. Time the `AccessPolicy` was updated in UTC.
+              format: google-datetime
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/accesscontextmanager-v1beta/types/accessPolicies?alt=json
+  title: Access Context Manager API

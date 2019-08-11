@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://cloud.google.com/service-management/
+  kind: deploymentmanager#typeInfo
+  name: services.consumers
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/servicemanagement-v1/types/services.consumers?alt=json
+  title: Service Management API

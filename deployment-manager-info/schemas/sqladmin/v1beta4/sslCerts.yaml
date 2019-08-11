@@ -1,0 +1,76 @@
+type_info:
+  documentationLink: https://cloud.google.com/sql/docs/reference/latest
+  kind: deploymentmanager#typeInfo
+  name: sslCerts
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        properties:
+          commonName:
+            description: User supplied name. Must be a distinct name from the other
+              certificates for this instance.
+            type: string
+          instance:
+            description: Cloud SQL instance ID. This does not include the project
+              ID.
+            location: path
+            required: true
+            type: string
+        type: object
+      methodName: insert
+      schemas:
+        SslCertsInsertRequest:
+          description: SslCerts insert request.
+          id: SslCertsInsertRequest
+          properties:
+            commonName:
+              description: User supplied name. Must be a distinct name from the other
+                certificates for this instance.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/SslCert'
+      methodName: get
+      schemas:
+        SslCert:
+          description: SslCerts Resource
+          id: SslCert
+          properties:
+            cert:
+              description: PEM representation.
+              type: string
+            certSerialNumber:
+              description: Serial number, as extracted from the certificate.
+              type: string
+            commonName:
+              description: User supplied name. Constrained to [a-zA-Z.-_ ]+.
+              type: string
+            createTime:
+              description: The time when the certificate was created in RFC 3339 format,
+                for example 2012-11-15T16:19:00.094Z
+              format: date-time
+              type: string
+            expirationTime:
+              description: The time when the certificate expires in RFC 3339 format,
+                for example 2012-11-15T16:19:00.094Z.
+              format: date-time
+              type: string
+            instance:
+              description: Name of the database instance.
+              type: string
+            kind:
+              default: sql#sslCert
+              description: This is always sql#sslCert.
+              type: string
+            selfLink:
+              description: The URI of this resource.
+              type: string
+            sha1Fingerprint:
+              description: Sha1 Fingerprint.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/sqladmin-v1beta4/types/sslCerts?alt=json
+  title: Cloud SQL Admin API

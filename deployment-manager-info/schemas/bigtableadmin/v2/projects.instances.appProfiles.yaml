@@ -1,0 +1,188 @@
+type_info:
+  documentationLink: https://cloud.google.com/bigtable/
+  kind: deploymentmanager#typeInfo
+  name: projects.instances.appProfiles
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          appProfileId:
+            description: |-
+              The ID to be used when referring to the new app profile within its
+              instance, e.g., just `myprofile` rather than
+              `projects/myproject/instances/myinstance/appProfiles/myprofile`.
+            location: query
+            type: string
+          description:
+            description: Optional long form description of the use case for this AppProfile.
+            type: string
+          etag:
+            description: |-
+              Strongly validated etag for optimistic concurrency control. Preserve the
+              value returned from `GetAppProfile` when calling `UpdateAppProfile` to
+              fail the request if there has been a modification in the mean time. The
+              `update_mask` of the request need not include `etag` for this protection
+              to apply.
+              See [Wikipedia](https://en.wikipedia.org/wiki/HTTP_ETag) and
+              [RFC 7232](https://tools.ietf.org/html/rfc7232#section-2.3) for more
+              details.
+            type: string
+          ignoreWarnings:
+            description: If true, ignore safety checks when creating the app profile.
+            location: query
+            type: boolean
+          multiClusterRoutingUseAny:
+            $ref: '#/schemas/MultiClusterRoutingUseAny'
+            description: Use a multi-cluster routing policy.
+          name:
+            description: |-
+              (`OutputOnly`)
+              The unique name of the app profile. Values are of the form
+              `projects/<project>/instances/<instance>/appProfiles/_a-zA-Z0-9*`.
+            type: string
+          parent:
+            description: |-
+              The unique name of the instance in which to create the new app profile.
+              Values are of the form
+              `projects/<project>/instances/<instance>`.
+            location: path
+            pattern: ^projects/[^/]+/instances/[^/]+$
+            required: true
+            type: string
+          singleClusterRouting:
+            $ref: '#/schemas/SingleClusterRouting'
+            description: Use a single-cluster routing policy.
+        type: object
+      methodName: create
+      schemas:
+        AppProfile:
+          description: |-
+            A configuration object describing how Cloud Bigtable should treat traffic
+            from a particular end user application.
+          id: AppProfile
+          properties:
+            description:
+              description: Optional long form description of the use case for this
+                AppProfile.
+              type: string
+            etag:
+              description: |-
+                Strongly validated etag for optimistic concurrency control. Preserve the
+                value returned from `GetAppProfile` when calling `UpdateAppProfile` to
+                fail the request if there has been a modification in the mean time. The
+                `update_mask` of the request need not include `etag` for this protection
+                to apply.
+                See [Wikipedia](https://en.wikipedia.org/wiki/HTTP_ETag) and
+                [RFC 7232](https://tools.ietf.org/html/rfc7232#section-2.3) for more
+                details.
+              type: string
+            multiClusterRoutingUseAny:
+              $ref: '#/schemas/MultiClusterRoutingUseAny'
+              description: Use a multi-cluster routing policy.
+            name:
+              description: |-
+                (`OutputOnly`)
+                The unique name of the app profile. Values are of the form
+                `projects/<project>/instances/<instance>/appProfiles/_a-zA-Z0-9*`.
+              type: string
+            singleClusterRouting:
+              $ref: '#/schemas/SingleClusterRouting'
+              description: Use a single-cluster routing policy.
+          type: object
+        MultiClusterRoutingUseAny:
+          description: |-
+            Read/write requests are routed to the nearest cluster in the instance, and
+            will fail over to the nearest cluster that is available in the event of
+            transient errors or delays. Clusters in a region are considered
+            equidistant. Choosing this option sacrifices read-your-writes consistency
+            to improve availability.
+          id: MultiClusterRoutingUseAny
+          properties: {}
+          type: object
+        SingleClusterRouting:
+          description: |-
+            Unconditionally routes all read/write requests to a specific cluster.
+            This option preserves read-your-writes consistency but does not improve
+            availability.
+          id: SingleClusterRouting
+          properties:
+            allowTransactionalWrites:
+              description: |-
+                Whether or not `CheckAndMutateRow` and `ReadModifyWriteRow` requests are
+                allowed by this app profile. It is unsafe to send these requests to
+                the same table/row/column in multiple clusters.
+              type: boolean
+            clusterId:
+              description: The cluster to which read/write requests should be routed.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/AppProfile'
+      methodName: get
+      schemas:
+        AppProfile:
+          description: |-
+            A configuration object describing how Cloud Bigtable should treat traffic
+            from a particular end user application.
+          id: AppProfile
+          properties:
+            description:
+              description: Optional long form description of the use case for this
+                AppProfile.
+              type: string
+            etag:
+              description: |-
+                Strongly validated etag for optimistic concurrency control. Preserve the
+                value returned from `GetAppProfile` when calling `UpdateAppProfile` to
+                fail the request if there has been a modification in the mean time. The
+                `update_mask` of the request need not include `etag` for this protection
+                to apply.
+                See [Wikipedia](https://en.wikipedia.org/wiki/HTTP_ETag) and
+                [RFC 7232](https://tools.ietf.org/html/rfc7232#section-2.3) for more
+                details.
+              type: string
+            multiClusterRoutingUseAny:
+              $ref: '#/schemas/MultiClusterRoutingUseAny'
+              description: Use a multi-cluster routing policy.
+            name:
+              description: |-
+                (`OutputOnly`)
+                The unique name of the app profile. Values are of the form
+                `projects/<project>/instances/<instance>/appProfiles/_a-zA-Z0-9*`.
+              type: string
+            singleClusterRouting:
+              $ref: '#/schemas/SingleClusterRouting'
+              description: Use a single-cluster routing policy.
+          type: object
+        MultiClusterRoutingUseAny:
+          description: |-
+            Read/write requests are routed to the nearest cluster in the instance, and
+            will fail over to the nearest cluster that is available in the event of
+            transient errors or delays. Clusters in a region are considered
+            equidistant. Choosing this option sacrifices read-your-writes consistency
+            to improve availability.
+          id: MultiClusterRoutingUseAny
+          properties: {}
+          type: object
+        SingleClusterRouting:
+          description: |-
+            Unconditionally routes all read/write requests to a specific cluster.
+            This option preserves read-your-writes consistency but does not improve
+            availability.
+          id: SingleClusterRouting
+          properties:
+            allowTransactionalWrites:
+              description: |-
+                Whether or not `CheckAndMutateRow` and `ReadModifyWriteRow` requests are
+                allowed by this app profile. It is unsafe to send these requests to
+                the same table/row/column in multiple clusters.
+              type: boolean
+            clusterId:
+              description: The cluster to which read/write requests should be routed.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/bigtableadmin-v2/types/projects.instances.appProfiles?alt=json
+  title: Cloud Bigtable Admin API

@@ -1,0 +1,166 @@
+type_info:
+  documentationLink: https://cloud.google.com/resource-manager
+  kind: deploymentmanager#typeInfo
+  name: liens
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          createTime:
+            description: The creation time of this Lien.
+            format: google-datetime
+            type: string
+          name:
+            description: |-
+              A system-generated unique identifier for this Lien.
+
+              Example: `liens/1234abcd`
+            type: string
+          origin:
+            description: |-
+              A stable, user-visible/meaningful string identifying the origin of the
+              Lien, intended to be inspected programmatically. Maximum length of 200
+              characters.
+
+              Example: 'compute.googleapis.com'
+            type: string
+          parent:
+            description: |-
+              A reference to the resource this Lien is attached to. The server will
+              validate the parent against those for which Liens are supported.
+
+              Example: `projects/1234`
+            type: string
+          reason:
+            description: |-
+              Concise user-visible strings indicating why an action cannot be performed
+              on a resource. Maximum length of 200 characters.
+
+              Example: 'Holds production API key'
+            type: string
+          restrictions:
+            description: |-
+              The types of operations which should be blocked as a result of this Lien.
+              Each value should correspond to an IAM permission. The server will
+              validate the permissions against those for which Liens are supported.
+
+              An empty list is meaningless and will be rejected.
+
+              Example: ['resourcemanager.projects.delete']
+            items:
+              type: string
+            type: array
+        type: object
+      methodName: create
+      schemas:
+        Lien:
+          description: |-
+            A Lien represents an encumbrance on the actions that can be performed on a
+            resource.
+          id: Lien
+          properties:
+            createTime:
+              description: The creation time of this Lien.
+              format: google-datetime
+              type: string
+            name:
+              description: |-
+                A system-generated unique identifier for this Lien.
+
+                Example: `liens/1234abcd`
+              type: string
+            origin:
+              description: |-
+                A stable, user-visible/meaningful string identifying the origin of the
+                Lien, intended to be inspected programmatically. Maximum length of 200
+                characters.
+
+                Example: 'compute.googleapis.com'
+              type: string
+            parent:
+              description: |-
+                A reference to the resource this Lien is attached to. The server will
+                validate the parent against those for which Liens are supported.
+
+                Example: `projects/1234`
+              type: string
+            reason:
+              description: |-
+                Concise user-visible strings indicating why an action cannot be performed
+                on a resource. Maximum length of 200 characters.
+
+                Example: 'Holds production API key'
+              type: string
+            restrictions:
+              description: |-
+                The types of operations which should be blocked as a result of this Lien.
+                Each value should correspond to an IAM permission. The server will
+                validate the permissions against those for which Liens are supported.
+
+                An empty list is meaningless and will be rejected.
+
+                Example: ['resourcemanager.projects.delete']
+              items:
+                type: string
+              type: array
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Lien'
+      methodName: get
+      schemas:
+        Lien:
+          description: |-
+            A Lien represents an encumbrance on the actions that can be performed on a
+            resource.
+          id: Lien
+          properties:
+            createTime:
+              description: The creation time of this Lien.
+              format: google-datetime
+              type: string
+            name:
+              description: |-
+                A system-generated unique identifier for this Lien.
+
+                Example: `liens/1234abcd`
+              type: string
+            origin:
+              description: |-
+                A stable, user-visible/meaningful string identifying the origin of the
+                Lien, intended to be inspected programmatically. Maximum length of 200
+                characters.
+
+                Example: 'compute.googleapis.com'
+              type: string
+            parent:
+              description: |-
+                A reference to the resource this Lien is attached to. The server will
+                validate the parent against those for which Liens are supported.
+
+                Example: `projects/1234`
+              type: string
+            reason:
+              description: |-
+                Concise user-visible strings indicating why an action cannot be performed
+                on a resource. Maximum length of 200 characters.
+
+                Example: 'Holds production API key'
+              type: string
+            restrictions:
+              description: |-
+                The types of operations which should be blocked as a result of this Lien.
+                Each value should correspond to an IAM permission. The server will
+                validate the permissions against those for which Liens are supported.
+
+                An empty list is meaningless and will be rejected.
+
+                Example: ['resourcemanager.projects.delete']
+              items:
+                type: string
+              type: array
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/cloudresourcemanager-v1/types/liens?alt=json
+  title: Cloud Resource Manager API

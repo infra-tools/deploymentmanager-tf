@@ -1,0 +1,325 @@
+type_info:
+  documentationLink: https://cloud.google.com/service-management/
+  kind: deploymentmanager#typeInfo
+  name: services.rollouts
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          baseRolloutId:
+            description: |-
+              Unimplemented. Do not use this feature until this comment is removed.
+
+              The rollout id that rollout to be created based on.
+
+              Rollout should be constructed based on current successful rollout, this
+              field indicates the current successful rollout id that new rollout based on
+              to construct, if current successful rollout changed when server receives
+              the request, request will be rejected for safety.
+            location: query
+            type: string
+          createTime:
+            description: Creation time of the rollout. Readonly.
+            format: google-datetime
+            type: string
+          createdBy:
+            description: The user who created the Rollout. Readonly.
+            type: string
+          deleteServiceStrategy:
+            $ref: '#/schemas/DeleteServiceStrategy'
+            description: |-
+              The strategy associated with a rollout to delete a `ManagedService`.
+              Readonly.
+          rolloutId:
+            description: |-
+              Optional unique identifier of this Rollout. Only lower case letters, digits
+               and '-' are allowed.
+
+              If not specified by client, the server will generate one. The generated id
+              will have the form of <date><revision number>, where "date" is the create
+              date in ISO 8601 format.  "revision number" is a monotonically increasing
+              positive number that is reset every day for each service.
+              An example of the generated rollout_id is '2016-02-16r1'
+            type: string
+          serviceName:
+            description: |-
+              The name of the service.  See the [overview](/service-management/overview)
+              for naming requirements.  For example: `example.googleapis.com`.
+            location: path
+            required: true
+            type: string
+          status:
+            description: |-
+              The status of this rollout. Readonly. In case of a failed rollout,
+              the system will automatically rollback to the current Rollout
+              version. Readonly.
+            enum:
+            - ROLLOUT_STATUS_UNSPECIFIED
+            - IN_PROGRESS
+            - SUCCESS
+            - CANCELLED
+            - FAILED
+            - PENDING
+            - FAILED_ROLLED_BACK
+            enumDescriptions:
+            - No status specified.
+            - The Rollout is in progress.
+            - The Rollout has completed successfully.
+            - |-
+              The Rollout has been cancelled. This can happen if you have overlapping
+              Rollout pushes, and the previous ones will be cancelled.
+            - The Rollout has failed and the rollback attempt has failed too.
+            - The Rollout has not started yet and is pending for execution.
+            - |-
+              The Rollout has failed and rolled back to the previous successful
+              Rollout.
+            type: string
+          trafficPercentStrategy:
+            $ref: '#/schemas/TrafficPercentStrategy'
+            description: |-
+              Google Service Control selects service configurations based on
+              traffic percentage.
+        type: object
+      methodName: create
+      schemas:
+        DeleteServiceStrategy:
+          description: |-
+            Strategy used to delete a service. This strategy is a placeholder only
+            used by the system generated rollout to delete a service.
+          id: DeleteServiceStrategy
+          properties: {}
+          type: object
+        Rollout:
+          description: |-
+            A rollout resource that defines how service configuration versions are pushed
+            to control plane systems. Typically, you create a new version of the
+            service config, and then create a Rollout to push the service config.
+          id: Rollout
+          properties:
+            createTime:
+              description: Creation time of the rollout. Readonly.
+              format: google-datetime
+              type: string
+            createdBy:
+              description: The user who created the Rollout. Readonly.
+              type: string
+            deleteServiceStrategy:
+              $ref: '#/schemas/DeleteServiceStrategy'
+              description: |-
+                The strategy associated with a rollout to delete a `ManagedService`.
+                Readonly.
+            rolloutId:
+              description: |-
+                Optional unique identifier of this Rollout. Only lower case letters, digits
+                 and '-' are allowed.
+
+                If not specified by client, the server will generate one. The generated id
+                will have the form of <date><revision number>, where "date" is the create
+                date in ISO 8601 format.  "revision number" is a monotonically increasing
+                positive number that is reset every day for each service.
+                An example of the generated rollout_id is '2016-02-16r1'
+              type: string
+            serviceName:
+              description: The name of the service associated with this Rollout.
+              type: string
+            status:
+              description: |-
+                The status of this rollout. Readonly. In case of a failed rollout,
+                the system will automatically rollback to the current Rollout
+                version. Readonly.
+              enum:
+              - ROLLOUT_STATUS_UNSPECIFIED
+              - IN_PROGRESS
+              - SUCCESS
+              - CANCELLED
+              - FAILED
+              - PENDING
+              - FAILED_ROLLED_BACK
+              enumDescriptions:
+              - No status specified.
+              - The Rollout is in progress.
+              - The Rollout has completed successfully.
+              - |-
+                The Rollout has been cancelled. This can happen if you have overlapping
+                Rollout pushes, and the previous ones will be cancelled.
+              - The Rollout has failed and the rollback attempt has failed too.
+              - The Rollout has not started yet and is pending for execution.
+              - |-
+                The Rollout has failed and rolled back to the previous successful
+                Rollout.
+              type: string
+            trafficPercentStrategy:
+              $ref: '#/schemas/TrafficPercentStrategy'
+              description: |-
+                Google Service Control selects service configurations based on
+                traffic percentage.
+          type: object
+        TrafficPercentStrategy:
+          description: |-
+            Strategy that specifies how clients of Google Service Controller want to
+            send traffic to use different config versions. This is generally
+            used by API proxy to split traffic based on your configured precentage for
+            each config version.
+
+            One example of how to gradually rollout a new service configuration using
+            this
+            strategy:
+            Day 1
+
+                Rollout {
+                  id: "example.googleapis.com/rollout_20160206"
+                  traffic_percent_strategy {
+                    percentages: {
+                      "example.googleapis.com/20160201": 70.00
+                      "example.googleapis.com/20160206": 30.00
+                    }
+                  }
+                }
+
+            Day 2
+
+                Rollout {
+                  id: "example.googleapis.com/rollout_20160207"
+                  traffic_percent_strategy: {
+                    percentages: {
+                      "example.googleapis.com/20160206": 100.00
+                    }
+                  }
+                }
+          id: TrafficPercentStrategy
+          properties:
+            percentages:
+              additionalProperties:
+                format: double
+                type: number
+              description: |-
+                Maps service configuration IDs to their corresponding traffic percentage.
+                Key is the service configuration ID, Value is the traffic percentage
+                which must be greater than 0.0 and the sum must equal to 100.0.
+              type: object
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Rollout'
+      methodName: get
+      schemas:
+        DeleteServiceStrategy:
+          description: |-
+            Strategy used to delete a service. This strategy is a placeholder only
+            used by the system generated rollout to delete a service.
+          id: DeleteServiceStrategy
+          properties: {}
+          type: object
+        Rollout:
+          description: |-
+            A rollout resource that defines how service configuration versions are pushed
+            to control plane systems. Typically, you create a new version of the
+            service config, and then create a Rollout to push the service config.
+          id: Rollout
+          properties:
+            createTime:
+              description: Creation time of the rollout. Readonly.
+              format: google-datetime
+              type: string
+            createdBy:
+              description: The user who created the Rollout. Readonly.
+              type: string
+            deleteServiceStrategy:
+              $ref: '#/schemas/DeleteServiceStrategy'
+              description: |-
+                The strategy associated with a rollout to delete a `ManagedService`.
+                Readonly.
+            rolloutId:
+              description: |-
+                Optional unique identifier of this Rollout. Only lower case letters, digits
+                 and '-' are allowed.
+
+                If not specified by client, the server will generate one. The generated id
+                will have the form of <date><revision number>, where "date" is the create
+                date in ISO 8601 format.  "revision number" is a monotonically increasing
+                positive number that is reset every day for each service.
+                An example of the generated rollout_id is '2016-02-16r1'
+              type: string
+            serviceName:
+              description: The name of the service associated with this Rollout.
+              type: string
+            status:
+              description: |-
+                The status of this rollout. Readonly. In case of a failed rollout,
+                the system will automatically rollback to the current Rollout
+                version. Readonly.
+              enum:
+              - ROLLOUT_STATUS_UNSPECIFIED
+              - IN_PROGRESS
+              - SUCCESS
+              - CANCELLED
+              - FAILED
+              - PENDING
+              - FAILED_ROLLED_BACK
+              enumDescriptions:
+              - No status specified.
+              - The Rollout is in progress.
+              - The Rollout has completed successfully.
+              - |-
+                The Rollout has been cancelled. This can happen if you have overlapping
+                Rollout pushes, and the previous ones will be cancelled.
+              - The Rollout has failed and the rollback attempt has failed too.
+              - The Rollout has not started yet and is pending for execution.
+              - |-
+                The Rollout has failed and rolled back to the previous successful
+                Rollout.
+              type: string
+            trafficPercentStrategy:
+              $ref: '#/schemas/TrafficPercentStrategy'
+              description: |-
+                Google Service Control selects service configurations based on
+                traffic percentage.
+          type: object
+        TrafficPercentStrategy:
+          description: |-
+            Strategy that specifies how clients of Google Service Controller want to
+            send traffic to use different config versions. This is generally
+            used by API proxy to split traffic based on your configured precentage for
+            each config version.
+
+            One example of how to gradually rollout a new service configuration using
+            this
+            strategy:
+            Day 1
+
+                Rollout {
+                  id: "example.googleapis.com/rollout_20160206"
+                  traffic_percent_strategy {
+                    percentages: {
+                      "example.googleapis.com/20160201": 70.00
+                      "example.googleapis.com/20160206": 30.00
+                    }
+                  }
+                }
+
+            Day 2
+
+                Rollout {
+                  id: "example.googleapis.com/rollout_20160207"
+                  traffic_percent_strategy: {
+                    percentages: {
+                      "example.googleapis.com/20160206": 100.00
+                    }
+                  }
+                }
+          id: TrafficPercentStrategy
+          properties:
+            percentages:
+              additionalProperties:
+                format: double
+                type: number
+              description: |-
+                Maps service configuration IDs to their corresponding traffic percentage.
+                Key is the service configuration ID, Value is the traffic percentage
+                which must be greater than 0.0 and the sum must equal to 100.0.
+              type: object
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/servicemanagement-v1/types/services.rollouts?alt=json
+  title: Service Management API

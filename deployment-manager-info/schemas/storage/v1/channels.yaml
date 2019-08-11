@@ -1,0 +1,9 @@
+type_info:
+  documentationLink: https://developers.google.com/storage/docs/json_api/
+  kind: deploymentmanager#typeInfo
+  name: channels
+  schema:
+    input: '{}'
+    output: '{}'
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/storage-v1/types/channels?alt=json
+  title: Cloud Storage JSON API

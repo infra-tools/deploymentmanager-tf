@@ -1,0 +1,591 @@
+type_info:
+  documentationLink: https://developers.google.com/cloud-dns
+  kind: deploymentmanager#typeInfo
+  name: managedZones
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          clientOperationId:
+            description: For mutating operation requests only. An optional identifier
+              specified by the client. Must be unique for operation resources in the
+              Operations collection.
+            location: query
+            type: string
+          creationTime:
+            description: The time that this resource was created on the server. This
+              is in RFC3339 text format. Output only.
+            type: string
+          description:
+            description: A mutable string of at most 1024 characters associated with
+              this resource for the user's convenience. Has no effect on the managed
+              zone's function.
+            type: string
+          dnsName:
+            description: The DNS name of this managed zone, for instance "example.com.".
+            type: string
+          dnssecConfig:
+            $ref: '#/schemas/ManagedZoneDnsSecConfig'
+            description: DNSSEC configuration.
+          forwardingConfig:
+            $ref: '#/schemas/ManagedZoneForwardingConfig'
+            description: The presence for this field indicates that outbound forwarding
+              is enabled for this zone. The value of this field contains the set of
+              destinations to forward to.
+          id:
+            description: Unique identifier for the resource; defined by the server
+              (output only)
+            format: uint64
+            type: string
+          kind:
+            default: dns#managedZone
+            description: 'Identifies what kind of resource this is. Value: the fixed
+              string "dns#managedZone".'
+            type: string
+          labels:
+            additionalProperties:
+              type: string
+            description: User labels.
+            type: object
+          name:
+            description: User assigned name for this resource. Must be unique within
+              the project. The name must be 1-63 characters long, must begin with
+              a letter, end with a letter or digit, and only contain lowercase letters,
+              digits or dashes.
+            type: string
+          nameServerSet:
+            description: Optionally specifies the NameServerSet for this ManagedZone.
+              A NameServerSet is a set of DNS name servers that all host the same
+              ManagedZones. Most users will leave this field unset.
+            type: string
+          nameServers:
+            description: Delegate your managed_zone to these virtual name servers;
+              defined by the server (output only)
+            items:
+              type: string
+            type: array
+          peeringConfig:
+            $ref: '#/schemas/ManagedZonePeeringConfig'
+            description: The presence of this field indicates that DNS Peering is
+              enabled for this zone. The value of this field contains the network
+              to peer with.
+          privateVisibilityConfig:
+            $ref: '#/schemas/ManagedZonePrivateVisibilityConfig'
+            description: For privately visible zones, the set of Virtual Private Cloud
+              resources that the zone is visible from.
+          visibility:
+            description: "The zone's visibility: public zones are exposed to the Internet,\
+              \ while private zones are visible only to Virtual Private Cloud resources."
+            enum:
+            - private
+            - public
+            enumDescriptions:
+            - ''
+            - ''
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        DnsKeySpec:
+          description: Parameters for DnsKey key generation. Used for generating initial
+            keys for a new ManagedZone and as default when adding a new DnsKey.
+          id: DnsKeySpec
+          properties:
+            algorithm:
+              description: String mnemonic specifying the DNSSEC algorithm of this
+                key.
+              enum:
+              - ecdsap256sha256
+              - ecdsap384sha384
+              - rsasha1
+              - rsasha256
+              - rsasha512
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            keyLength:
+              description: Length of the keys in bits.
+              format: uint32
+              type: integer
+            keyType:
+              description: Specifies whether this is a key signing key (KSK) or a
+                zone signing key (ZSK). Key signing keys have the Secure Entry Point
+                flag set and, when active, will only be used to sign resource record
+                sets of type DNSKEY. Zone signing keys do not have the Secure Entry
+                Point flag set and will be used to sign all other types of resource
+                record sets.
+              enum:
+              - keySigning
+              - zoneSigning
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            kind:
+              default: dns#dnsKeySpec
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#dnsKeySpec".'
+              type: string
+          type: object
+        ManagedZone:
+          description: A zone is a subtree of the DNS namespace under one administrative
+            responsibility. A ManagedZone is a resource that represents a DNS zone
+            hosted by the Cloud DNS service.
+          id: ManagedZone
+          properties:
+            creationTime:
+              description: The time that this resource was created on the server.
+                This is in RFC3339 text format. Output only.
+              type: string
+            description:
+              description: A mutable string of at most 1024 characters associated
+                with this resource for the user's convenience. Has no effect on the
+                managed zone's function.
+              type: string
+            dnsName:
+              description: The DNS name of this managed zone, for instance "example.com.".
+              type: string
+            dnssecConfig:
+              $ref: '#/schemas/ManagedZoneDnsSecConfig'
+              description: DNSSEC configuration.
+            forwardingConfig:
+              $ref: '#/schemas/ManagedZoneForwardingConfig'
+              description: The presence for this field indicates that outbound forwarding
+                is enabled for this zone. The value of this field contains the set
+                of destinations to forward to.
+            id:
+              description: Unique identifier for the resource; defined by the server
+                (output only)
+              format: uint64
+              type: string
+            kind:
+              default: dns#managedZone
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZone".'
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: User labels.
+              type: object
+            name:
+              description: User assigned name for this resource. Must be unique within
+                the project. The name must be 1-63 characters long, must begin with
+                a letter, end with a letter or digit, and only contain lowercase letters,
+                digits or dashes.
+              type: string
+            nameServerSet:
+              description: Optionally specifies the NameServerSet for this ManagedZone.
+                A NameServerSet is a set of DNS name servers that all host the same
+                ManagedZones. Most users will leave this field unset.
+              type: string
+            nameServers:
+              description: Delegate your managed_zone to these virtual name servers;
+                defined by the server (output only)
+              items:
+                type: string
+              type: array
+            peeringConfig:
+              $ref: '#/schemas/ManagedZonePeeringConfig'
+              description: The presence of this field indicates that DNS Peering is
+                enabled for this zone. The value of this field contains the network
+                to peer with.
+            privateVisibilityConfig:
+              $ref: '#/schemas/ManagedZonePrivateVisibilityConfig'
+              description: For privately visible zones, the set of Virtual Private
+                Cloud resources that the zone is visible from.
+            visibility:
+              description: "The zone's visibility: public zones are exposed to the\
+                \ Internet, while private zones are visible only to Virtual Private\
+                \ Cloud resources."
+              enum:
+              - private
+              - public
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        ManagedZoneDnsSecConfig:
+          id: ManagedZoneDnsSecConfig
+          properties:
+            defaultKeySpecs:
+              description: Specifies parameters that will be used for generating initial
+                DnsKeys for this ManagedZone. Output only while state is not OFF.
+              items:
+                $ref: '#/schemas/DnsKeySpec'
+              type: array
+            kind:
+              default: dns#managedZoneDnsSecConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZoneDnsSecConfig".'
+              type: string
+            nonExistence:
+              description: Specifies the mechanism used to provide authenticated denial-of-existence
+                responses. Output only while state is not OFF.
+              enum:
+              - nsec
+              - nsec3
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            state:
+              description: Specifies whether DNSSEC is enabled, and what mode it is
+                in.
+              enum:
+              - off
+              - on
+              - transfer
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        ManagedZoneForwardingConfig:
+          id: ManagedZoneForwardingConfig
+          properties:
+            kind:
+              default: dns#managedZoneForwardingConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZoneForwardingConfig".'
+              type: string
+            targetNameServers:
+              description: List of target name servers to forward to. Cloud DNS will
+                select the best available name server if more than one target is given.
+              items:
+                $ref: '#/schemas/ManagedZoneForwardingConfigNameServerTarget'
+              type: array
+          type: object
+        ManagedZoneForwardingConfigNameServerTarget:
+          id: ManagedZoneForwardingConfigNameServerTarget
+          properties:
+            ipv4Address:
+              description: IPv4 address of a target name server.
+              type: string
+            kind:
+              default: dns#managedZoneForwardingConfigNameServerTarget
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZoneForwardingConfigNameServerTarget".'
+              type: string
+          type: object
+        ManagedZonePeeringConfig:
+          id: ManagedZonePeeringConfig
+          properties:
+            kind:
+              default: dns#managedZonePeeringConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePeeringConfig".'
+              type: string
+            targetNetwork:
+              $ref: '#/schemas/ManagedZonePeeringConfigTargetNetwork'
+              description: The network with which to peer.
+          type: object
+        ManagedZonePeeringConfigTargetNetwork:
+          id: ManagedZonePeeringConfigTargetNetwork
+          properties:
+            deactivateTime:
+              description: If this zone has been deactivated due to a problem with
+                the network it targeted, the time at which it was deactivated. The
+                zone can be deactivated if, for instance, the network it targeted
+                was deleted. If the targeted network is still present, this will be
+                the empty string. This is in RFC3339 text format. Output only.
+              type: string
+            kind:
+              default: dns#managedZonePeeringConfigTargetNetwork
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePeeringConfigTargetNetwork".'
+              type: string
+            networkUrl:
+              description: The fully qualified URL of the VPC network to forward queries
+                to. This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+              type: string
+          type: object
+        ManagedZonePrivateVisibilityConfig:
+          id: ManagedZonePrivateVisibilityConfig
+          properties:
+            kind:
+              default: dns#managedZonePrivateVisibilityConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePrivateVisibilityConfig".'
+              type: string
+            networks:
+              description: The list of VPC networks that can see this zone.
+              items:
+                $ref: '#/schemas/ManagedZonePrivateVisibilityConfigNetwork'
+              type: array
+          type: object
+        ManagedZonePrivateVisibilityConfigNetwork:
+          id: ManagedZonePrivateVisibilityConfigNetwork
+          properties:
+            kind:
+              default: dns#managedZonePrivateVisibilityConfigNetwork
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePrivateVisibilityConfigNetwork".'
+              type: string
+            networkUrl:
+              description: The fully qualified URL of the VPC network to bind to.
+                This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/ManagedZone'
+      methodName: get
+      schemas:
+        DnsKeySpec:
+          description: Parameters for DnsKey key generation. Used for generating initial
+            keys for a new ManagedZone and as default when adding a new DnsKey.
+          id: DnsKeySpec
+          properties:
+            algorithm:
+              description: String mnemonic specifying the DNSSEC algorithm of this
+                key.
+              enum:
+              - ecdsap256sha256
+              - ecdsap384sha384
+              - rsasha1
+              - rsasha256
+              - rsasha512
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              - ''
+              - ''
+              type: string
+            keyLength:
+              description: Length of the keys in bits.
+              format: uint32
+              type: integer
+            keyType:
+              description: Specifies whether this is a key signing key (KSK) or a
+                zone signing key (ZSK). Key signing keys have the Secure Entry Point
+                flag set and, when active, will only be used to sign resource record
+                sets of type DNSKEY. Zone signing keys do not have the Secure Entry
+                Point flag set and will be used to sign all other types of resource
+                record sets.
+              enum:
+              - keySigning
+              - zoneSigning
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            kind:
+              default: dns#dnsKeySpec
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#dnsKeySpec".'
+              type: string
+          type: object
+        ManagedZone:
+          description: A zone is a subtree of the DNS namespace under one administrative
+            responsibility. A ManagedZone is a resource that represents a DNS zone
+            hosted by the Cloud DNS service.
+          id: ManagedZone
+          properties:
+            creationTime:
+              description: The time that this resource was created on the server.
+                This is in RFC3339 text format. Output only.
+              type: string
+            description:
+              description: A mutable string of at most 1024 characters associated
+                with this resource for the user's convenience. Has no effect on the
+                managed zone's function.
+              type: string
+            dnsName:
+              description: The DNS name of this managed zone, for instance "example.com.".
+              type: string
+            dnssecConfig:
+              $ref: '#/schemas/ManagedZoneDnsSecConfig'
+              description: DNSSEC configuration.
+            forwardingConfig:
+              $ref: '#/schemas/ManagedZoneForwardingConfig'
+              description: The presence for this field indicates that outbound forwarding
+                is enabled for this zone. The value of this field contains the set
+                of destinations to forward to.
+            id:
+              description: Unique identifier for the resource; defined by the server
+                (output only)
+              format: uint64
+              type: string
+            kind:
+              default: dns#managedZone
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZone".'
+              type: string
+            labels:
+              additionalProperties:
+                type: string
+              description: User labels.
+              type: object
+            name:
+              description: User assigned name for this resource. Must be unique within
+                the project. The name must be 1-63 characters long, must begin with
+                a letter, end with a letter or digit, and only contain lowercase letters,
+                digits or dashes.
+              type: string
+            nameServerSet:
+              description: Optionally specifies the NameServerSet for this ManagedZone.
+                A NameServerSet is a set of DNS name servers that all host the same
+                ManagedZones. Most users will leave this field unset.
+              type: string
+            nameServers:
+              description: Delegate your managed_zone to these virtual name servers;
+                defined by the server (output only)
+              items:
+                type: string
+              type: array
+            peeringConfig:
+              $ref: '#/schemas/ManagedZonePeeringConfig'
+              description: The presence of this field indicates that DNS Peering is
+                enabled for this zone. The value of this field contains the network
+                to peer with.
+            privateVisibilityConfig:
+              $ref: '#/schemas/ManagedZonePrivateVisibilityConfig'
+              description: For privately visible zones, the set of Virtual Private
+                Cloud resources that the zone is visible from.
+            visibility:
+              description: "The zone's visibility: public zones are exposed to the\
+                \ Internet, while private zones are visible only to Virtual Private\
+                \ Cloud resources."
+              enum:
+              - private
+              - public
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+          type: object
+        ManagedZoneDnsSecConfig:
+          id: ManagedZoneDnsSecConfig
+          properties:
+            defaultKeySpecs:
+              description: Specifies parameters that will be used for generating initial
+                DnsKeys for this ManagedZone. Output only while state is not OFF.
+              items:
+                $ref: '#/schemas/DnsKeySpec'
+              type: array
+            kind:
+              default: dns#managedZoneDnsSecConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZoneDnsSecConfig".'
+              type: string
+            nonExistence:
+              description: Specifies the mechanism used to provide authenticated denial-of-existence
+                responses. Output only while state is not OFF.
+              enum:
+              - nsec
+              - nsec3
+              enumDescriptions:
+              - ''
+              - ''
+              type: string
+            state:
+              description: Specifies whether DNSSEC is enabled, and what mode it is
+                in.
+              enum:
+              - off
+              - on
+              - transfer
+              enumDescriptions:
+              - ''
+              - ''
+              - ''
+              type: string
+          type: object
+        ManagedZoneForwardingConfig:
+          id: ManagedZoneForwardingConfig
+          properties:
+            kind:
+              default: dns#managedZoneForwardingConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZoneForwardingConfig".'
+              type: string
+            targetNameServers:
+              description: List of target name servers to forward to. Cloud DNS will
+                select the best available name server if more than one target is given.
+              items:
+                $ref: '#/schemas/ManagedZoneForwardingConfigNameServerTarget'
+              type: array
+          type: object
+        ManagedZoneForwardingConfigNameServerTarget:
+          id: ManagedZoneForwardingConfigNameServerTarget
+          properties:
+            ipv4Address:
+              description: IPv4 address of a target name server.
+              type: string
+            kind:
+              default: dns#managedZoneForwardingConfigNameServerTarget
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZoneForwardingConfigNameServerTarget".'
+              type: string
+          type: object
+        ManagedZonePeeringConfig:
+          id: ManagedZonePeeringConfig
+          properties:
+            kind:
+              default: dns#managedZonePeeringConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePeeringConfig".'
+              type: string
+            targetNetwork:
+              $ref: '#/schemas/ManagedZonePeeringConfigTargetNetwork'
+              description: The network with which to peer.
+          type: object
+        ManagedZonePeeringConfigTargetNetwork:
+          id: ManagedZonePeeringConfigTargetNetwork
+          properties:
+            deactivateTime:
+              description: If this zone has been deactivated due to a problem with
+                the network it targeted, the time at which it was deactivated. The
+                zone can be deactivated if, for instance, the network it targeted
+                was deleted. If the targeted network is still present, this will be
+                the empty string. This is in RFC3339 text format. Output only.
+              type: string
+            kind:
+              default: dns#managedZonePeeringConfigTargetNetwork
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePeeringConfigTargetNetwork".'
+              type: string
+            networkUrl:
+              description: The fully qualified URL of the VPC network to forward queries
+                to. This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+              type: string
+          type: object
+        ManagedZonePrivateVisibilityConfig:
+          id: ManagedZonePrivateVisibilityConfig
+          properties:
+            kind:
+              default: dns#managedZonePrivateVisibilityConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePrivateVisibilityConfig".'
+              type: string
+            networks:
+              description: The list of VPC networks that can see this zone.
+              items:
+                $ref: '#/schemas/ManagedZonePrivateVisibilityConfigNetwork'
+              type: array
+          type: object
+        ManagedZonePrivateVisibilityConfigNetwork:
+          id: ManagedZonePrivateVisibilityConfigNetwork
+          properties:
+            kind:
+              default: dns#managedZonePrivateVisibilityConfigNetwork
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#managedZonePrivateVisibilityConfigNetwork".'
+              type: string
+            networkUrl:
+              description: The fully qualified URL of the VPC network to bind to.
+                This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/dns-v1beta2/types/managedZones?alt=json
+  title: Google Cloud DNS API

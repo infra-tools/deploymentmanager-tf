@@ -1,0 +1,707 @@
+type_info:
+  documentationLink: https://cloud.google.com/functions
+  kind: deploymentmanager#typeInfo
+  name: projects.locations.functions
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          availableMemoryMb:
+            description: |-
+              The amount of memory in MB available for a function.
+              Defaults to 256MB.
+            format: int32
+            type: integer
+          entryPoint:
+            description: |-
+              The name of the function (as defined in source code) that will be
+              executed. Defaults to the resource name suffix, if not specified. For
+              backward compatibility, if function with given name is not found, then the
+              system will try to use function named "function".
+              For Node.js this is name of a function exported by the module specified
+              in `source_location`.
+            type: string
+          environmentVariables:
+            additionalProperties:
+              type: string
+            description: Environment variables that shall be available during function
+              execution.
+            type: object
+          eventTrigger:
+            $ref: '#/schemas/EventTrigger'
+            description: A source that fires events in response to a condition in
+              another service.
+          httpsTrigger:
+            $ref: '#/schemas/HTTPSTrigger'
+            description: An HTTPS endpoint type of source that can be triggered via
+              URL.
+          labels:
+            additionalProperties:
+              type: string
+            description: Labels associated with this Cloud Function.
+            type: object
+          latestOperation:
+            description: |-
+              Output only. Name of the most recent operation modifying the function. If
+              the function status is `DEPLOYING` or `DELETING`, then it points to the
+              active operation.
+            type: string
+          location:
+            description: |-
+              The project and location in which the function should be created, specified
+              in the format `projects/*/locations/*`
+            location: path
+            pattern: ^projects/[^/]+/locations/[^/]+$
+            required: true
+            type: string
+          maxInstances:
+            description: |-
+              The limit on the maximum number of function instances that may coexist at a
+              given time.
+            format: int32
+            type: integer
+          name:
+            description: |-
+              A user-defined name of the function. Function names must be unique
+              globally and match pattern `projects/*/locations/*/functions/*`
+            type: string
+          network:
+            description: |-
+              The VPC Network that this cloud function can connect to. It can be
+              either the fully-qualified URI, or the short name of the network resource.
+              If the short network name is used, the network must belong to the same
+              project. Otherwise, it must belong to a project within the same
+              organization. The format of this field is either
+              `projects/{project}/global/networks/{network}` or `{network}`, where
+              {project} is a project id where the network is defined, and {network} is
+              the short name of the network.
+
+              This field is mutually exclusive with `vpc_connector` and will be replaced
+              by it.
+
+              See [the VPC documentation](https://cloud.google.com/compute/docs/vpc) for
+              more information on connecting Cloud projects.
+
+              This feature is currently in alpha, available only for whitelisted users.
+            type: string
+          runtime:
+            description: |-
+              Required. The runtime in which the function is going to run. Choices:
+
+              * `nodejs6`: Node.js 6
+              * `nodejs8`: Node.js 8
+              * `nodejs10`: Node.js 10
+              * `python37`: Python 3.7
+              * `go111`: Go 1.11
+            type: string
+          serviceAccount:
+            description: |-
+              The email of the function's service account. If empty, defaults to
+              {project_id}@appspot.gserviceaccount.com.
+            type: string
+          sourceArchiveUrl:
+            description: |-
+              The Google Cloud Storage URL, starting with gs://, pointing to the zip
+              archive which contains the function.
+            type: string
+          sourceRepository:
+            $ref: '#/schemas/SourceRepository'
+            description: The hosted repository where the function is defined.
+          sourceRepositoryUrl:
+            description: |-
+              The URL pointing to the hosted repository where the function is defined.
+              There are supported Cloud Source Repository URLs in the following
+              formats:
+
+              To refer to a specific commit:
+              `https://source.developers.google.com/projects/*/repos/*/revisions/*/paths/*`
+              To refer to a moveable alias (branch):
+              `https://source.developers.google.com/projects/*/repos/*/moveable-aliases/*/paths/*`
+              In particular, to refer to HEAD use `master` moveable alias.
+              To refer to a specific fixed alias (tag):
+              `https://source.developers.google.com/projects/*/repos/*/fixed-aliases/*/paths/*`
+
+              You may omit `paths/*` if you want to use the main directory.
+            type: string
+          sourceUploadUrl:
+            description: |-
+              The Google Cloud Storage signed URL used for source uploading, generated
+              by google.cloud.functions.v1beta2.GenerateUploadUrl
+            type: string
+          timeout:
+            description: |-
+              The function execution timeout. Execution is considered failed and
+              can be terminated if the function is not completed at the end of the
+              timeout period. Defaults to 60 seconds.
+            format: google-duration
+            type: string
+          versionId:
+            description: |-
+              Output only.
+              The version identifier of the Cloud Function. Each deployment attempt
+              results in a new version of a function being created.
+            format: int64
+            type: string
+          vpcConnector:
+            description: |-
+              The VPC Network Connector that this cloud function can connect to. It can
+              be either the fully-qualified URI, or the short name of the network
+              connector resource. The format of this field is
+              `projects/*/locations/*/connectors/*`
+
+              This field is mutually exclusive with `network` field and will eventually
+              replace it.
+
+              See [the VPC documentation](https://cloud.google.com/compute/docs/vpc) for
+              more information on connecting Cloud projects.
+
+              This feature is currently in alpha, available only for whitelisted users.
+            type: string
+        type: object
+      methodName: create
+      schemas:
+        CloudFunction:
+          description: |-
+            Describes a Cloud Function that contains user computation executed in
+            response to an event. It encapsulate function and triggers configurations.
+          id: CloudFunction
+          properties:
+            availableMemoryMb:
+              description: |-
+                The amount of memory in MB available for a function.
+                Defaults to 256MB.
+              format: int32
+              type: integer
+            entryPoint:
+              description: |-
+                The name of the function (as defined in source code) that will be
+                executed. Defaults to the resource name suffix, if not specified. For
+                backward compatibility, if function with given name is not found, then the
+                system will try to use function named "function".
+                For Node.js this is name of a function exported by the module specified
+                in `source_location`.
+              type: string
+            environmentVariables:
+              additionalProperties:
+                type: string
+              description: Environment variables that shall be available during function
+                execution.
+              type: object
+            eventTrigger:
+              $ref: '#/schemas/EventTrigger'
+              description: A source that fires events in response to a condition in
+                another service.
+            httpsTrigger:
+              $ref: '#/schemas/HTTPSTrigger'
+              description: An HTTPS endpoint type of source that can be triggered
+                via URL.
+            labels:
+              additionalProperties:
+                type: string
+              description: Labels associated with this Cloud Function.
+              type: object
+            latestOperation:
+              description: |-
+                Output only. Name of the most recent operation modifying the function. If
+                the function status is `DEPLOYING` or `DELETING`, then it points to the
+                active operation.
+              type: string
+            maxInstances:
+              description: |-
+                The limit on the maximum number of function instances that may coexist at a
+                given time.
+              format: int32
+              type: integer
+            name:
+              description: |-
+                A user-defined name of the function. Function names must be unique
+                globally and match pattern `projects/*/locations/*/functions/*`
+              type: string
+            network:
+              description: |-
+                The VPC Network that this cloud function can connect to. It can be
+                either the fully-qualified URI, or the short name of the network resource.
+                If the short network name is used, the network must belong to the same
+                project. Otherwise, it must belong to a project within the same
+                organization. The format of this field is either
+                `projects/{project}/global/networks/{network}` or `{network}`, where
+                {project} is a project id where the network is defined, and {network} is
+                the short name of the network.
+
+                This field is mutually exclusive with `vpc_connector` and will be replaced
+                by it.
+
+                See [the VPC documentation](https://cloud.google.com/compute/docs/vpc) for
+                more information on connecting Cloud projects.
+
+                This feature is currently in alpha, available only for whitelisted users.
+              type: string
+            runtime:
+              description: |-
+                Required. The runtime in which the function is going to run. Choices:
+
+                * `nodejs6`: Node.js 6
+                * `nodejs8`: Node.js 8
+                * `nodejs10`: Node.js 10
+                * `python37`: Python 3.7
+                * `go111`: Go 1.11
+              type: string
+            serviceAccount:
+              description: |-
+                The email of the function's service account. If empty, defaults to
+                {project_id}@appspot.gserviceaccount.com.
+              type: string
+            sourceArchiveUrl:
+              description: |-
+                The Google Cloud Storage URL, starting with gs://, pointing to the zip
+                archive which contains the function.
+              type: string
+            sourceRepository:
+              $ref: '#/schemas/SourceRepository'
+              description: The hosted repository where the function is defined.
+            sourceRepositoryUrl:
+              description: |-
+                The URL pointing to the hosted repository where the function is defined.
+                There are supported Cloud Source Repository URLs in the following
+                formats:
+
+                To refer to a specific commit:
+                `https://source.developers.google.com/projects/*/repos/*/revisions/*/paths/*`
+                To refer to a moveable alias (branch):
+                `https://source.developers.google.com/projects/*/repos/*/moveable-aliases/*/paths/*`
+                In particular, to refer to HEAD use `master` moveable alias.
+                To refer to a specific fixed alias (tag):
+                `https://source.developers.google.com/projects/*/repos/*/fixed-aliases/*/paths/*`
+
+                You may omit `paths/*` if you want to use the main directory.
+              type: string
+            sourceUploadUrl:
+              description: |-
+                The Google Cloud Storage signed URL used for source uploading, generated
+                by google.cloud.functions.v1beta2.GenerateUploadUrl
+              type: string
+            timeout:
+              description: |-
+                The function execution timeout. Execution is considered failed and
+                can be terminated if the function is not completed at the end of the
+                timeout period. Defaults to 60 seconds.
+              format: google-duration
+              type: string
+            versionId:
+              description: |-
+                Output only.
+                The version identifier of the Cloud Function. Each deployment attempt
+                results in a new version of a function being created.
+              format: int64
+              type: string
+            vpcConnector:
+              description: |-
+                The VPC Network Connector that this cloud function can connect to. It can
+                be either the fully-qualified URI, or the short name of the network
+                connector resource. The format of this field is
+                `projects/*/locations/*/connectors/*`
+
+                This field is mutually exclusive with `network` field and will eventually
+                replace it.
+
+                See [the VPC documentation](https://cloud.google.com/compute/docs/vpc) for
+                more information on connecting Cloud projects.
+
+                This feature is currently in alpha, available only for whitelisted users.
+              type: string
+          type: object
+        EventTrigger:
+          description: |-
+            Describes EventTrigger, used to request events be sent from another
+            service.
+          id: EventTrigger
+          properties:
+            eventType:
+              description: |-
+                `event_type` names contain the service that is sending an event and the
+                kind of event that was fired. Must be of the form
+                `providers/*/eventTypes/*` e.g. Directly handle a Message published to
+                Google Cloud Pub/Sub `providers/cloud.pubsub/eventTypes/topic.publish`.
+
+                Handle an object changing in Google Cloud Storage:
+                `providers/cloud.storage/eventTypes/object.change`
+
+                Handle a write to the Firebase Realtime Database:
+                `providers/google.firebase.database/eventTypes/ref.write`
+              type: string
+            failurePolicy:
+              $ref: '#/schemas/FailurePolicy'
+              description: Specifies policy for failed executions.
+            resource:
+              description: |-
+                Which instance of the source's service should send events. E.g. for Pub/Sub
+                this would be a Pub/Sub topic at `projects/*/topics/*`. For Google Cloud
+                Storage this would be a bucket at `projects/*/buckets/*`. For any source
+                that only supports one instance per-project, this should be the name of the
+                project (`projects/*`)
+              type: string
+            service:
+              description: |-
+                The hostname of the service that should be observed.
+
+                If no string is provided, the default service implementing the API will
+                be used. For example, `storage.googleapis.com` is the default for all
+                event types in the `google.storage` namespace.
+              type: string
+          type: object
+        FailurePolicy:
+          description: |-
+            Describes the policy in case of function's execution failure.
+            If empty, then defaults to ignoring failures (i.e. not retrying them).
+          id: FailurePolicy
+          properties:
+            retry:
+              $ref: '#/schemas/Retry'
+              description: If specified, then the function will be retried in case
+                of a failure.
+          type: object
+        HTTPSTrigger:
+          description: Describes HTTPSTrigger, could be used to connect web hooks
+            to function.
+          id: HTTPSTrigger
+          properties: {}
+          type: object
+        Retry:
+          description: |-
+            Describes the retry policy in case of function's execution failure.
+            A function execution will be retried on any failure.
+            A failed execution will be retried up to 7 days with an exponential backoff
+            (capped at 10 seconds).
+            Retried execution is charged as any other execution.
+          id: Retry
+          properties: {}
+          type: object
+        SourceRepository:
+          description: Describes the location of the function source in a remote repository.
+          id: SourceRepository
+          properties:
+            branch:
+              description: The name of the branch from which the function should be
+                fetched.
+              type: string
+            deployedRevision:
+              description: |-
+                Output only. The id of the revision that was resolved at the moment of
+                function creation or update. For example when a user deployed from a
+                branch, it will be the revision id of the latest change on this branch at
+                that time. If user deployed from revision then this value will be always
+                equal to the revision specified by the user.
+              type: string
+            repositoryUrl:
+              description: |-
+                URL to the hosted repository where the function is defined. Only paths in
+                https://source.developers.google.com domain are supported. The path should
+                contain the name of the repository.
+              type: string
+            revision:
+              description: |-
+                The id of the revision that captures the state of the repository from
+                which the function should be fetched.
+              type: string
+            sourcePath:
+              description: |-
+                The path within the repository where the function is defined. The path
+                should point to the directory where Cloud Functions files are located. Use
+                "/" if the function is defined directly in the root directory of a
+                repository.
+              type: string
+            tag:
+              description: |-
+                The name of the tag that captures the state of the repository from
+                which the function should be fetched.
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/CloudFunction'
+      methodName: get
+      schemas:
+        CloudFunction:
+          description: |-
+            Describes a Cloud Function that contains user computation executed in
+            response to an event. It encapsulate function and triggers configurations.
+          id: CloudFunction
+          properties:
+            availableMemoryMb:
+              description: |-
+                The amount of memory in MB available for a function.
+                Defaults to 256MB.
+              format: int32
+              type: integer
+            entryPoint:
+              description: |-
+                The name of the function (as defined in source code) that will be
+                executed. Defaults to the resource name suffix, if not specified. For
+                backward compatibility, if function with given name is not found, then the
+                system will try to use function named "function".
+                For Node.js this is name of a function exported by the module specified
+                in `source_location`.
+              type: string
+            environmentVariables:
+              additionalProperties:
+                type: string
+              description: Environment variables that shall be available during function
+                execution.
+              type: object
+            eventTrigger:
+              $ref: '#/schemas/EventTrigger'
+              description: A source that fires events in response to a condition in
+                another service.
+            httpsTrigger:
+              $ref: '#/schemas/HTTPSTrigger'
+              description: An HTTPS endpoint type of source that can be triggered
+                via URL.
+            labels:
+              additionalProperties:
+                type: string
+              description: Labels associated with this Cloud Function.
+              type: object
+            latestOperation:
+              description: |-
+                Output only. Name of the most recent operation modifying the function. If
+                the function status is `DEPLOYING` or `DELETING`, then it points to the
+                active operation.
+              type: string
+            maxInstances:
+              description: |-
+                The limit on the maximum number of function instances that may coexist at a
+                given time.
+              format: int32
+              type: integer
+            name:
+              description: |-
+                A user-defined name of the function. Function names must be unique
+                globally and match pattern `projects/*/locations/*/functions/*`
+              type: string
+            network:
+              description: |-
+                The VPC Network that this cloud function can connect to. It can be
+                either the fully-qualified URI, or the short name of the network resource.
+                If the short network name is used, the network must belong to the same
+                project. Otherwise, it must belong to a project within the same
+                organization. The format of this field is either
+                `projects/{project}/global/networks/{network}` or `{network}`, where
+                {project} is a project id where the network is defined, and {network} is
+                the short name of the network.
+
+                This field is mutually exclusive with `vpc_connector` and will be replaced
+                by it.
+
+                See [the VPC documentation](https://cloud.google.com/compute/docs/vpc) for
+                more information on connecting Cloud projects.
+
+                This feature is currently in alpha, available only for whitelisted users.
+              type: string
+            runtime:
+              description: |-
+                Required. The runtime in which the function is going to run. Choices:
+
+                * `nodejs6`: Node.js 6
+                * `nodejs8`: Node.js 8
+                * `nodejs10`: Node.js 10
+                * `python37`: Python 3.7
+                * `go111`: Go 1.11
+              type: string
+            serviceAccount:
+              description: |-
+                The email of the function's service account. If empty, defaults to
+                {project_id}@appspot.gserviceaccount.com.
+              type: string
+            sourceArchiveUrl:
+              description: |-
+                The Google Cloud Storage URL, starting with gs://, pointing to the zip
+                archive which contains the function.
+              type: string
+            sourceRepository:
+              $ref: '#/schemas/SourceRepository'
+              description: The hosted repository where the function is defined.
+            sourceRepositoryUrl:
+              description: |-
+                The URL pointing to the hosted repository where the function is defined.
+                There are supported Cloud Source Repository URLs in the following
+                formats:
+
+                To refer to a specific commit:
+                `https://source.developers.google.com/projects/*/repos/*/revisions/*/paths/*`
+                To refer to a moveable alias (branch):
+                `https://source.developers.google.com/projects/*/repos/*/moveable-aliases/*/paths/*`
+                In particular, to refer to HEAD use `master` moveable alias.
+                To refer to a specific fixed alias (tag):
+                `https://source.developers.google.com/projects/*/repos/*/fixed-aliases/*/paths/*`
+
+                You may omit `paths/*` if you want to use the main directory.
+              type: string
+            sourceUploadUrl:
+              description: |-
+                The Google Cloud Storage signed URL used for source uploading, generated
+                by google.cloud.functions.v1beta2.GenerateUploadUrl
+              type: string
+            status:
+              description: Output only. Status of the function deployment.
+              enum:
+              - STATUS_UNSPECIFIED
+              - READY
+              - FAILED
+              - DEPLOYING
+              - DELETING
+              enumDescriptions:
+              - Status not specified.
+              - Successfully deployed.
+              - |-
+                Not deployed correctly - behavior is undefined. The item should be updated
+                or deleted to move it out of this state.
+              - Creation or update in progress.
+              - Deletion in progress.
+              type: string
+            timeout:
+              description: |-
+                The function execution timeout. Execution is considered failed and
+                can be terminated if the function is not completed at the end of the
+                timeout period. Defaults to 60 seconds.
+              format: google-duration
+              type: string
+            updateTime:
+              description: Output only. The last update timestamp of a Cloud Function.
+              format: google-datetime
+              type: string
+            versionId:
+              description: |-
+                Output only.
+                The version identifier of the Cloud Function. Each deployment attempt
+                results in a new version of a function being created.
+              format: int64
+              type: string
+            vpcConnector:
+              description: |-
+                The VPC Network Connector that this cloud function can connect to. It can
+                be either the fully-qualified URI, or the short name of the network
+                connector resource. The format of this field is
+                `projects/*/locations/*/connectors/*`
+
+                This field is mutually exclusive with `network` field and will eventually
+                replace it.
+
+                See [the VPC documentation](https://cloud.google.com/compute/docs/vpc) for
+                more information on connecting Cloud projects.
+
+                This feature is currently in alpha, available only for whitelisted users.
+              type: string
+          type: object
+        EventTrigger:
+          description: |-
+            Describes EventTrigger, used to request events be sent from another
+            service.
+          id: EventTrigger
+          properties:
+            eventType:
+              description: |-
+                `event_type` names contain the service that is sending an event and the
+                kind of event that was fired. Must be of the form
+                `providers/*/eventTypes/*` e.g. Directly handle a Message published to
+                Google Cloud Pub/Sub `providers/cloud.pubsub/eventTypes/topic.publish`.
+
+                Handle an object changing in Google Cloud Storage:
+                `providers/cloud.storage/eventTypes/object.change`
+
+                Handle a write to the Firebase Realtime Database:
+                `providers/google.firebase.database/eventTypes/ref.write`
+              type: string
+            failurePolicy:
+              $ref: '#/schemas/FailurePolicy'
+              description: Specifies policy for failed executions.
+            resource:
+              description: |-
+                Which instance of the source's service should send events. E.g. for Pub/Sub
+                this would be a Pub/Sub topic at `projects/*/topics/*`. For Google Cloud
+                Storage this would be a bucket at `projects/*/buckets/*`. For any source
+                that only supports one instance per-project, this should be the name of the
+                project (`projects/*`)
+              type: string
+            service:
+              description: |-
+                The hostname of the service that should be observed.
+
+                If no string is provided, the default service implementing the API will
+                be used. For example, `storage.googleapis.com` is the default for all
+                event types in the `google.storage` namespace.
+              type: string
+          type: object
+        FailurePolicy:
+          description: |-
+            Describes the policy in case of function's execution failure.
+            If empty, then defaults to ignoring failures (i.e. not retrying them).
+          id: FailurePolicy
+          properties:
+            retry:
+              $ref: '#/schemas/Retry'
+              description: If specified, then the function will be retried in case
+                of a failure.
+          type: object
+        HTTPSTrigger:
+          description: Describes HTTPSTrigger, could be used to connect web hooks
+            to function.
+          id: HTTPSTrigger
+          properties:
+            url:
+              description: Output only. The deployed url for the function.
+              type: string
+          type: object
+        Retry:
+          description: |-
+            Describes the retry policy in case of function's execution failure.
+            A function execution will be retried on any failure.
+            A failed execution will be retried up to 7 days with an exponential backoff
+            (capped at 10 seconds).
+            Retried execution is charged as any other execution.
+          id: Retry
+          properties: {}
+          type: object
+        SourceRepository:
+          description: Describes the location of the function source in a remote repository.
+          id: SourceRepository
+          properties:
+            branch:
+              description: The name of the branch from which the function should be
+                fetched.
+              type: string
+            deployedRevision:
+              description: |-
+                Output only. The id of the revision that was resolved at the moment of
+                function creation or update. For example when a user deployed from a
+                branch, it will be the revision id of the latest change on this branch at
+                that time. If user deployed from revision then this value will be always
+                equal to the revision specified by the user.
+              type: string
+            repositoryUrl:
+              description: |-
+                URL to the hosted repository where the function is defined. Only paths in
+                https://source.developers.google.com domain are supported. The path should
+                contain the name of the repository.
+              type: string
+            revision:
+              description: |-
+                The id of the revision that captures the state of the repository from
+                which the function should be fetched.
+              type: string
+            sourcePath:
+              description: |-
+                The path within the repository where the function is defined. The path
+                should point to the directory where Cloud Functions files are located. Use
+                "/" if the function is defined directly in the root directory of a
+                repository.
+              type: string
+            tag:
+              description: |-
+                The name of the tag that captures the state of the repository from
+                which the function should be fetched.
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/cloudfunctions-v1beta2/types/projects.locations.functions?alt=json
+  title: Cloud Functions API

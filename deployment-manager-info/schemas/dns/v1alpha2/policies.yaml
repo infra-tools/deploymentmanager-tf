@@ -1,0 +1,242 @@
+type_info:
+  documentationLink: https://developers.google.com/cloud-dns
+  kind: deploymentmanager#typeInfo
+  name: policies
+  schema:
+    input:
+      $schema: http://json-schema.org/draft-03/schema#
+      create:
+        properties:
+          alternativeNameServerConfig:
+            $ref: '#/schemas/PolicyAlternativeNameServerConfig'
+            description: Sets an alternative name server for the associated networks.
+              When specified, all DNS queries are forwarded to a name server that
+              you choose. Names such as .internal are not available when an alternative
+              name server is specified.
+          clientOperationId:
+            description: For mutating operation requests only. An optional identifier
+              specified by the client. Must be unique for operation resources in the
+              Operations collection.
+            location: query
+            type: string
+          description:
+            description: A mutable string of at most 1024 characters associated with
+              this resource for the user's convenience. Has no effect on the policy's
+              function.
+            type: string
+          enableInboundForwarding:
+            description: Allows networks bound to this policy to receive DNS queries
+              sent by VMs or applications over VPN connections. When enabled, a virtual
+              IP address will be allocated from each of the sub-networks that are
+              bound to this policy.
+            type: boolean
+          enableLogging:
+            description: Controls whether logging is enabled for the networks bound
+              to this policy. Defaults to no logging if not set.
+            type: boolean
+          id:
+            description: Unique identifier for the resource; defined by the server
+              (output only).
+            format: uint64
+            type: string
+          kind:
+            default: dns#policy
+            description: 'Identifies what kind of resource this is. Value: the fixed
+              string "dns#policy".'
+            type: string
+          name:
+            description: User assigned name for this policy.
+            type: string
+          networks:
+            description: List of network names specifying networks to which this policy
+              is applied.
+            items:
+              $ref: '#/schemas/PolicyNetwork'
+            type: array
+        type: object
+      methodName: create
+      schemas:
+        Policy:
+          description: A policy is a collection of DNS rules applied to one or more
+            Virtual Private Cloud resources.
+          id: Policy
+          properties:
+            alternativeNameServerConfig:
+              $ref: '#/schemas/PolicyAlternativeNameServerConfig'
+              description: Sets an alternative name server for the associated networks.
+                When specified, all DNS queries are forwarded to a name server that
+                you choose. Names such as .internal are not available when an alternative
+                name server is specified.
+            description:
+              description: A mutable string of at most 1024 characters associated
+                with this resource for the user's convenience. Has no effect on the
+                policy's function.
+              type: string
+            enableInboundForwarding:
+              description: Allows networks bound to this policy to receive DNS queries
+                sent by VMs or applications over VPN connections. When enabled, a
+                virtual IP address will be allocated from each of the sub-networks
+                that are bound to this policy.
+              type: boolean
+            enableLogging:
+              description: Controls whether logging is enabled for the networks bound
+                to this policy. Defaults to no logging if not set.
+              type: boolean
+            id:
+              description: Unique identifier for the resource; defined by the server
+                (output only).
+              format: uint64
+              type: string
+            kind:
+              default: dns#policy
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policy".'
+              type: string
+            name:
+              description: User assigned name for this policy.
+              type: string
+            networks:
+              description: List of network names specifying networks to which this
+                policy is applied.
+              items:
+                $ref: '#/schemas/PolicyNetwork'
+              type: array
+          type: object
+        PolicyAlternativeNameServerConfig:
+          id: PolicyAlternativeNameServerConfig
+          properties:
+            kind:
+              default: dns#policyAlternativeNameServerConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policyAlternativeNameServerConfig".'
+              type: string
+            targetNameServers:
+              description: Sets an alternative name server for the associated networks.
+                When specified, all DNS queries are forwarded to a name server that
+                you choose. Names such as .internal are not available when an alternative
+                name server is specified.
+              items:
+                $ref: '#/schemas/PolicyAlternativeNameServerConfigTargetNameServer'
+              type: array
+          type: object
+        PolicyAlternativeNameServerConfigTargetNameServer:
+          id: PolicyAlternativeNameServerConfigTargetNameServer
+          properties:
+            ipv4Address:
+              description: IPv4 address to forward to.
+              type: string
+            kind:
+              default: dns#policyAlternativeNameServerConfigTargetNameServer
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policyAlternativeNameServerConfigTargetNameServer".'
+              type: string
+          type: object
+        PolicyNetwork:
+          id: PolicyNetwork
+          properties:
+            kind:
+              default: dns#policyNetwork
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policyNetwork".'
+              type: string
+            networkUrl:
+              description: The fully qualified URL of the VPC network to bind to.
+                This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+              type: string
+          type: object
+    output:
+      $schema: http://json-schema.org/draft-03/schema#
+      mainSchema:
+        $ref: '#/schemas/Policy'
+      methodName: get
+      schemas:
+        Policy:
+          description: A policy is a collection of DNS rules applied to one or more
+            Virtual Private Cloud resources.
+          id: Policy
+          properties:
+            alternativeNameServerConfig:
+              $ref: '#/schemas/PolicyAlternativeNameServerConfig'
+              description: Sets an alternative name server for the associated networks.
+                When specified, all DNS queries are forwarded to a name server that
+                you choose. Names such as .internal are not available when an alternative
+                name server is specified.
+            description:
+              description: A mutable string of at most 1024 characters associated
+                with this resource for the user's convenience. Has no effect on the
+                policy's function.
+              type: string
+            enableInboundForwarding:
+              description: Allows networks bound to this policy to receive DNS queries
+                sent by VMs or applications over VPN connections. When enabled, a
+                virtual IP address will be allocated from each of the sub-networks
+                that are bound to this policy.
+              type: boolean
+            enableLogging:
+              description: Controls whether logging is enabled for the networks bound
+                to this policy. Defaults to no logging if not set.
+              type: boolean
+            id:
+              description: Unique identifier for the resource; defined by the server
+                (output only).
+              format: uint64
+              type: string
+            kind:
+              default: dns#policy
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policy".'
+              type: string
+            name:
+              description: User assigned name for this policy.
+              type: string
+            networks:
+              description: List of network names specifying networks to which this
+                policy is applied.
+              items:
+                $ref: '#/schemas/PolicyNetwork'
+              type: array
+          type: object
+        PolicyAlternativeNameServerConfig:
+          id: PolicyAlternativeNameServerConfig
+          properties:
+            kind:
+              default: dns#policyAlternativeNameServerConfig
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policyAlternativeNameServerConfig".'
+              type: string
+            targetNameServers:
+              description: Sets an alternative name server for the associated networks.
+                When specified, all DNS queries are forwarded to a name server that
+                you choose. Names such as .internal are not available when an alternative
+                name server is specified.
+              items:
+                $ref: '#/schemas/PolicyAlternativeNameServerConfigTargetNameServer'
+              type: array
+          type: object
+        PolicyAlternativeNameServerConfigTargetNameServer:
+          id: PolicyAlternativeNameServerConfigTargetNameServer
+          properties:
+            ipv4Address:
+              description: IPv4 address to forward to.
+              type: string
+            kind:
+              default: dns#policyAlternativeNameServerConfigTargetNameServer
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policyAlternativeNameServerConfigTargetNameServer".'
+              type: string
+          type: object
+        PolicyNetwork:
+          id: PolicyNetwork
+          properties:
+            kind:
+              default: dns#policyNetwork
+              description: 'Identifies what kind of resource this is. Value: the fixed
+                string "dns#policyNetwork".'
+              type: string
+            networkUrl:
+              description: The fully qualified URL of the VPC network to bind to.
+                This should be formatted like https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+              type: string
+          type: object
+  selfLink: https://www.googleapis.com/deploymentmanager/v2beta/projects/gcp-types/global/typeProviders/dns-v1alpha2/types/policies?alt=json
+  title: Google Cloud DNS API
