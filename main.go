@@ -17,11 +17,13 @@ resources:
 - name: test-vm
   type: compute.v1.instance
   properties:
+    name: test
+    canIpForward: false
+    deletionProtection: true
     networkInterfaces:
     - name: Interface 0
       network: https://www.googleapis.com/compute/v1/projects/test/global/networks/test-vpc
       subnetwork: https://www.googleapis.com/compute/v1/projects/test/regions/northamerica-northeast1/subnetworks/shared-services-subnet
-    canIpForward: true
     metadata:
       items:
       - key: bitnami-base-password
@@ -56,7 +58,7 @@ func main() {
 
 	properties := t.ResouceList[0].Properties
 	properties.(map[interface{}]interface{})["type"] = tempType
-	properties.(map[interface{}]interface{})["name"] = t.ResouceList[0].Name
+	properties.(map[interface{}]interface{})["typeName"] = t.ResouceList[0].Name
 
 	d, err := yaml.Marshal(&t.ResouceList[0].Properties)
 
