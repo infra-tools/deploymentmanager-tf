@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"fmt"
 	"log"
 	"strings"
@@ -24,7 +25,7 @@ type Resource struct {
 
 func main() {
 	var loader yamloader.Yamloader
-	loader.LoadFile("./yaml-samples/data-sample.yaml")
+	loader.LoadFile(os.Args[1])
 	data := loader.GetFileContent()
 
 	t := Top{}
