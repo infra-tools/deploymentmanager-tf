@@ -4,35 +4,13 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	//
 	"github.com/hashicorp/hcl2/gohcl"
 	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/juliosueiras/deploymentmanager-tf/schemas"
+	"github.com/juliosueiras/deploymentmanager-tf/yamloader"
 	"gopkg.in/yaml.v2"
 	"reflect"
 )
-
-var data = `
-resources:
-- name: test-vm
-  type: compute.v1.instance
-  properties:
-    name: test
-    canIpForward: false
-    deletionProtection: true
-    networkInterfaces:
-    - name: Interface 0
-      network: https://www.googleapis.com/compute/v1/projects/test/global/networks/test-vpc
-      subnetwork: https://www.googleapis.com/compute/v1/projects/test/regions/northamerica-northeast1/subnetworks/shared-services-subnet
-    metadata:
-      items:
-      - key: bitnami-base-password
-        value: redacted
-      - key: google-monitoring-enable
-        value: '0'
-      - key: google-logging-enable
-        value: '0'
-`
 
 type Top struct {
 	ResouceList []Resource `yaml:"resources"`
@@ -45,6 +23,10 @@ type Resource struct {
 }
 
 func main() {
+	var loader yamloader.Yamloader
+	loader.LoadFile("./yaml-samples/data-sample.yaml")
+	data := loader.GetFileContent()
+
 	t := Top{}
 	err := yaml.Unmarshal([]byte(data), &t)
 	if err != nil {
