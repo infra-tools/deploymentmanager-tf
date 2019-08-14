@@ -7,5 +7,3 @@ require (
 module github.com/juliosueiras/deploymentmanager-tf
 
 replace github.com/hashicorp/hcl2 => github.com/juliosueiras/hcl2 v0.0.0-20190812010338-4ba39a20a37c
-
-replace github.com/juliosueiras/deploymentmanager-tf/yamloader => ./yamloader
