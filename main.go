@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"errors"
 	"github.com/hashicorp/hcl2/gohcl"
 	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/juliosueiras/deploymentmanager-tf/schemas"
 	"github.com/juliosueiras/deploymentmanager-tf/yamloader"
+	"github.com/spf13/cobra" 
 	"gopkg.in/yaml.v2"
 	"reflect"
 )
@@ -23,9 +25,39 @@ type Resource struct {
 	Properties interface{} `yaml:"properties"`
 }
 
+func failAndExit(e error) {
+	fmt.Println(e)
+	os.Exit(1)
+}
+
+var rootCmd = &cobra.Command{
+	Use: "deploymentmanager-tf",
+	Short: "deploymentmanager-tf short",
+	Long: "deploymentmanager-tf long",
+	Run: func(c *cobra.Command, args []string) {
+		path, err := c.Flags().GetString("path")
+		if err != nil {
+			failAndExit(err)
+		}
+
+		if path == "" {
+			failAndExit(errors.New("No path provided"))
+		}
+
+		loadFile(path)
+	},
+}
+
 func main() {
+	rootCmd.Flags().String("path", "", "The file to be loaded")
+	if err := rootCmd.Execute(); err != nil {
+		failAndExit(err)
+	}
+}
+
+func loadFile(path string) {
 	var loader yamloader.Yamloader
-	loader.LoadFile(os.Args[1])
+	loader.LoadFile(path)
 	data := loader.GetFileContent()
 
 	t := Top{}
