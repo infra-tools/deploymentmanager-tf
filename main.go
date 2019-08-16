@@ -36,9 +36,9 @@ func main() {
 	}
 }
 
-func loadFile(path string) {
+func loadFile(file string) {
 	var loader yamloader.Yamloader
-	loader.LoadFile(path)
+	loader.LoadFile(file)
 	data := loader.GetFileContent()
 
 	t := Top{}

@@ -20,18 +20,18 @@ func Setup(f fileLoader) *cobra.Command {
 		Short: "A YAML-to-Terraform converter",
 		Long: "A YAML-to-Terraform converter created to facilitate the usage of Google Cloud Platform",
 		Run: func(c *cobra.Command, args []string) {
-			path, err := c.Flags().GetString("path")
+			file, err := c.Flags().GetString("file")
 			if err != nil {
 				failAndExit(err)
 			}
 
-			if path == "" {
-				failAndExit(errors.New("No path provided"))
+			if file == "" {
+				failAndExit(errors.New("No file provided"))
 			}
 
-			f(path)
+			f(file)
 		},
 	}
-	c.Flags().String("path", "", "The file to be loaded")
+	c.Flags().String("file", "", "The file to be loaded")
 	return c
 }
