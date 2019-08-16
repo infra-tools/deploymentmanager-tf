@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/juliosueiras/deploymentmanager-tf/schemas"
 	"github.com/juliosueiras/deploymentmanager-tf/yamloader"
+	"github.com/juliosueiras/deploymentmanager-tf/cobracmder"
 	"gopkg.in/yaml.v2"
 	"reflect"
 )
@@ -23,9 +24,21 @@ type Resource struct {
 	Properties interface{} `yaml:"properties"`
 }
 
+func failAndExit(e error) {
+	fmt.Println(e)
+	os.Exit(1)
+}
+
 func main() {
+	rootCmd := cobracmder.Setup(loadFile)
+	if err := rootCmd.Execute(); err != nil {
+		failAndExit(err)
+	}
+}
+
+func loadFile(file string) {
 	var loader yamloader.Yamloader
-	loader.LoadFile(os.Args[1])
+	loader.LoadFile(file)
 	data := loader.GetFileContent()
 
 	t := Top{}
