@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"errors"
 	"github.com/hashicorp/hcl2/gohcl"
 	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/juliosueiras/deploymentmanager-tf/schemas"
 	"github.com/juliosueiras/deploymentmanager-tf/yamloader"
-	"github.com/spf13/cobra" 
+	"github.com/juliosueiras/deploymentmanager-tf/cobracmder"
 	"gopkg.in/yaml.v2"
 	"reflect"
 )
@@ -30,26 +29,8 @@ func failAndExit(e error) {
 	os.Exit(1)
 }
 
-var rootCmd = &cobra.Command{
-	Use: "deploymentmanager-tf",
-	Short: "deploymentmanager-tf short",
-	Long: "deploymentmanager-tf long",
-	Run: func(c *cobra.Command, args []string) {
-		path, err := c.Flags().GetString("path")
-		if err != nil {
-			failAndExit(err)
-		}
-
-		if path == "" {
-			failAndExit(errors.New("No path provided"))
-		}
-
-		loadFile(path)
-	},
-}
-
 func main() {
-	rootCmd.Flags().String("path", "", "The file to be loaded")
+	rootCmd := cobracmder.Setup(loadFile)
 	if err := rootCmd.Execute(); err != nil {
 		failAndExit(err)
 	}
