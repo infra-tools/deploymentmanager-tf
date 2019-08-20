@@ -1,17 +1,17 @@
 package main
 
 import (
-	"os"
 	"fmt"
-	"log"
-	"strings"
 	"github.com/hashicorp/hcl2/gohcl"
 	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/juliosueiras/deploymentmanager-tf/schemas"
 	"github.com/juliosueiras/deploymentmanager-tf/yamloader"
 	"github.com/juliosueiras/deploymentmanager-tf/cobracmder"
 	"gopkg.in/yaml.v2"
+	"log"
+	"os"
 	"reflect"
+	"strings"
 )
 
 type Top struct {
@@ -47,30 +47,33 @@ func loadFile(file string) {
 		log.Fatalf("error: %v", err)
 	}
 
-	mainType := strings.Split(t.ResouceList[0].Type, ".")[0]
-	tempType := schemas.BaseTypes[mainType][t.ResouceList[0].Type].Label
-
-	structType := reflect.New(reflect.ValueOf(schemas.BaseTypes[mainType][t.ResouceList[0].Type].Type).Elem().Type()).Interface()
-
-	properties := t.ResouceList[0].Properties
-	properties.(map[interface{}]interface{})["type"] = tempType
-	properties.(map[interface{}]interface{})["typeName"] = t.ResouceList[0].Name
-
-	d, err := yaml.Marshal(&t.ResouceList[0].Properties)
-
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-
-	err2 := yaml.Unmarshal(d, structType)
-
-	if err2 != nil {
-		log.Fatalf("error: %v", err2)
-	}
 	f := hclwrite.NewEmptyFile()
-	test2 := gohcl.EncodeAsBlock(structType, "resource")
 
-	f.Body().AppendBlock(test2)
+	for _, v := range t.ResouceList {
+		mainType := strings.Split(v.Type, ".")[0]
+		tempType := schemas.BaseTypes[mainType][v.Type].Label
+
+		structType := reflect.New(reflect.ValueOf(schemas.BaseTypes[mainType][v.Type].Type).Elem().Type()).Interface()
+
+		properties := v.Properties
+		properties.(map[interface{}]interface{})["type"] = tempType
+		properties.(map[interface{}]interface{})["typeName"] = v.Name
+
+		d, err := yaml.Marshal(&v.Properties)
+
+		if err != nil {
+			log.Fatalf("error: %v", err)
+		}
+
+		err2 := yaml.Unmarshal(d, structType)
+
+		if err2 != nil {
+			log.Fatalf("error: %v", err2)
+		}
+		test2 := gohcl.EncodeAsBlock(structType, "resource")
+
+		f.Body().AppendBlock(test2)
+	}
 
 	fmt.Print(string(f.Bytes()))
 }
