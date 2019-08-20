@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"github.com/hashicorp/hcl2/gohcl"
 	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/juliosueiras/deploymentmanager-tf/schemas"
@@ -36,7 +37,7 @@ func main() {
 	}
 }
 
-func loadFile(file string) {
+func loadFile(file string, output string) {
 	var loader yamloader.Yamloader
 	loader.LoadFile(file)
 	data := loader.GetFileContent()
@@ -65,14 +66,19 @@ func loadFile(file string) {
 			log.Fatalf("error: %v", err)
 		}
 
-		err2 := yaml.Unmarshal(d, structType)
+		err = yaml.Unmarshal(d, structType)
 
-		if err2 != nil {
-			log.Fatalf("error: %v", err2)
+		if err != nil {
+			log.Fatalf("error: %v", err)
 		}
 		test2 := gohcl.EncodeAsBlock(structType, "resource")
 
 		f.Body().AppendBlock(test2)
+	}
+
+	err = ioutil.WriteFile(output, f.Bytes(), 0644)
+	if err != nil {
+		failAndExit(err)
 	}
 
 	fmt.Print(string(f.Bytes()))
