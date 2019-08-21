@@ -1,0 +1,37 @@
+resources:
+- name: test-vm
+  type: compute.v1.instance
+  properties:
+    name: test
+    canIpForward: false
+    deletionProtection: true
+    networkInterfaces:
+    - name: Interface 0
+      network: https://www.googleapis.com/compute/v1/projects/test/global/networks/test-vpc
+      subnetwork: https://www.googleapis.com/compute/v1/projects/test/regions/northamerica-northeast1/subnetworks/shared-services-subnet
+    metadata:
+      items:
+      - key: bitnami-base-password
+        value: redacted
+      - key: google-monitoring-enable
+        value: '0'
+      - key: google-logging-enable
+        value: '0'
+- name: test-vm-no-2
+  type: compute.v1.instance
+  properties:
+    name: test-props-2
+    canIpForward: false
+    deletionProtection: true
+    networkInterfaces:
+    - name: Interface 0
+      network: https://www.googleapis.com/compute/v1/projects/test/global/networks/test-vpc
+      subnetwork: https://www.googleapis.com/compute/v1/projects/test/regions/northamerica-northeast1/subnetworks/shared-services-subnet
+    metadata:
+      items:
+      - key: bitnami-base-password
+        value: redacted
+      - key: google-monitoring-enable
+        value: '0'
+      - key: google-logging-enable
+        value: '0'

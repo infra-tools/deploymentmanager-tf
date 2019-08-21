@@ -12,7 +12,7 @@ func failAndExit(e error) {
 	os.Exit(1)
 }
 
-type fileLoader func(string)
+type fileLoader func(string, string)
 
 func Setup(f fileLoader) *cobra.Command {
 	c := &cobra.Command {
@@ -26,12 +26,23 @@ func Setup(f fileLoader) *cobra.Command {
 			}
 
 			if file == "" {
-				failAndExit(errors.New("No file provided"))
+				failAndExit(errors.New("No file specified"))
 			}
 
-			f(file)
+			output, err := c.Flags().GetString("output")
+			fmt.Println(output)
+			if err != nil {
+				failAndExit(err)
+			}
+
+			if output == "" {
+				failAndExit(errors.New("No output location specified"))
+			}
+
+			f(file, output)
 		},
 	}
 	c.Flags().String("file", "", "The file to be loaded")
+	c.Flags().String("output", "", "The write location of the new file")
 	return c
 }
