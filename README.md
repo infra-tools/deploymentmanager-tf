@@ -26,4 +26,4 @@ A Conversion tool from Deployment Manager to Terraform
 
 ## Authors
 - [juliosueiras](https://github.com/juliosueiras)
-- [mccallry](https://github.com/juliosueiras)
+- [mccallry](https://github.com/mccallry)
